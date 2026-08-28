@@ -360,6 +360,30 @@ function initialiseSlowCarousel(options) {
         nextButton.disabled = track.scrollLeft >= maximumScroll - 1;
     }
 
+    function updateActiveServiceCard() {
+        if (options.trackSelector !== ".services-grid") {
+            return;
+        }
+
+        const trackCenter = track.getBoundingClientRect().left + track.clientWidth / 2;
+        let closestCard = null;
+        let closestDistance = Infinity;
+
+        track.querySelectorAll(options.cardSelector).forEach(function (card) {
+            const cardRect = card.getBoundingClientRect();
+            const distance = Math.abs(cardRect.left + cardRect.width / 2 - trackCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestCard = card;
+            }
+        });
+
+        track.querySelectorAll(options.cardSelector).forEach(function (card) {
+            card.classList.toggle("is-active", card === closestCard);
+        });
+    }
+
     function pauseAfterInteraction(duration) {
         manualPauseUntil = performance.now() + (duration || 2400);
     }
@@ -412,6 +436,9 @@ function initialiseSlowCarousel(options) {
     track.addEventListener("scroll", updateArrowState, {
         passive:true
     });
+    track.addEventListener("scroll", updateActiveServiceCard, {
+        passive:true
+    });
     carousel.addEventListener("mouseenter", function () {
         isHovered = true;
     });
@@ -445,8 +472,10 @@ function initialiseSlowCarousel(options) {
         passive:true
     });
     window.addEventListener("resize", updateArrowState);
+    window.addEventListener("resize", updateActiveServiceCard);
 
     updateArrowState();
+    updateActiveServiceCard();
 
     if (!reduceMotion) {
         window.requestAnimationFrame(autoScroll);
