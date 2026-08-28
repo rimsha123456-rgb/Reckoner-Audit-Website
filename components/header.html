@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reckoner Audit Header</title>
+
+    <style>
+        .hero-header,
+        .hero-header * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #header-container .hero-header {
+            position: absolute;
+            z-index: 20;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 0;
+            background: transparent;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #header-container .hero-header.is-pinned {
+            position: fixed;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        #header-container .navbar-bg {
+            width: 100%;
+            background: #FCFCFE;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+        }
+
+        #header-container .navbar {
+            position: relative;
+            width: min(100%, var(--site-content-width, 1560px));
+            margin: 0 auto;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 18px 42px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            display: block;
+            height: 46px;
+            width: auto;
+            transform: translateY(-9.6px);
+        }
+
+        .brand-mark {
+            position: relative;
+            width: 48px;
+            height: 52px;
+        }
+
+        .brand-mark::before {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 3px;
+            width: 24px;
+            height: 44px;
+            border-left: 6px solid #000000;
+            border-radius: 50%;
+            transform: skewX(-8deg);
+        }
+
+        .brand-stripe {
+            position: absolute;
+            bottom: 1px;
+            width: 8px;
+            height: 39px;
+            background: #ff3c3c;
+            transform: skewX(27deg);
+        }
+
+        .brand-stripe:nth-child(1) {
+            left: 22px;
+            height: 41px;
+        }
+
+        .brand-stripe:nth-child(2) {
+            left: 32px;
+            height: 30px;
+        }
+
+        .brand-stripe:nth-child(3) {
+            left: 42px;
+            height: 19px;
+        }
+
+        .brand-subtitle {
+            margin-top: 3px;
+            color: #ff3c3c;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #050505;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ff3c3c;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li:not(.nav-mobile-contact)::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -10px;
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #EB1B3B, #FF9D3C);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s cubic-bezier(.22, 1, .36, 1);
+            pointer-events: none;
+        }
+
+        /* Keep a single gradient indicator visible. An open dropdown takes
+           priority, followed by the hovered/focused item, then the page's
+           persistent active section. */
+        .nav-menu:has(> li.open) > li.open:not(.nav-mobile-contact)::before,
+        .nav-menu:not(:has(> li.open)):has(> li:hover) > li:hover:not(.nav-mobile-contact)::before,
+        .nav-menu:not(:has(> li.open)):not(:has(> li:hover)):has(> li:focus-within) > li:focus-within:not(.nav-mobile-contact)::before,
+        .nav-menu:not(:has(> li.open)):not(:has(> li:hover)):not(:has(> li:focus-within)) > li.nav-active::before {
+            transform: scaleX(1);
+        }
+
+        .nav-menu > li.nav-active > a {
+            color: #EB1B3B;
+        }
+
+        .has-dropdown.nav-active .nav-primary-link,
+        .has-dropdown.nav-active .dropdown-trigger {
+            color: #EB1B3B;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-split-trigger {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-split-trigger .nav-primary-link {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-split-trigger .dropdown-trigger {
+            gap: 0;
+            padding: 8px 4px 8px 8px;
+        }
+
+        .has-dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: -10px;
+            right: -10px;
+            height: 64px;
+        }
+
+        .dropdown-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 0;
+            background: transparent;
+            color: #050505;
+            font: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.25s ease;
+        }
+
+        .dropdown-trigger:hover,
+        .has-dropdown.open > .dropdown-trigger,
+        .has-dropdown:focus-within > .dropdown-trigger {
+            color: #EB1B3B;
+        }
+
+        .nav-chevron {
+            width: 7px;
+            height: 7px;
+            margin-top: -3px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+            transition: transform 0.3s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .has-dropdown.open .nav-chevron,
+        .has-dropdown:hover .nav-chevron,
+        .has-dropdown:focus-within .nav-chevron {
+            transform: translateY(3px) rotate(225deg);
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            z-index: 30;
+            top: 112px;
+            left: 0;
+            width: 100%;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(17, 17, 17, 0.08);
+            border-top: 0;
+            border-radius: 0 0 28px 28px;
+            background: #FCFCFE;
+            box-shadow: 0 30px 70px rgba(20, 8, 5, 0.16);
+            color: #111111;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(14px) scale(0.985);
+            transform-origin: top center;
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease,
+                transform 0.35s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .has-dropdown:hover > .dropdown-menu,
+        .has-dropdown:focus-within > .dropdown-menu,
+        .has-dropdown.open > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown-pointer {
+            position: fixed;
+            z-index: 31;
+            top: 93px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #EB1B3B, #FF9D3C);
+            border-radius: 3px;
+            box-shadow: 0 4px 10px rgba(235, 27, 59, 0.28);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(-50%) rotate(45deg) scale(0.5);
+            transform-origin: center;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .dropdown-pointer.is-visible {
+            opacity: 1;
+            transform: translateX(-50%) rotate(45deg) scale(1);
+        }
+
+        .dropdown-heading {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+
+        .dropdown-heading span {
+            position: relative;
+            padding-bottom: 12px;
+            color: #F55C3C;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .dropdown-heading span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #EB1B3B, #FF9D3C);
+        }
+
+        .dropdown-heading h3 {
+            margin: 0;
+            color: #111111;
+            font-size: 25px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .dropdown-heading p {
+            max-width: 560px;
+            margin: 0;
+            color: rgba(17, 17, 17, 0.6);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .dropdown-inner {
+            width: min(100%, var(--site-content-width, 1560px));
+            margin: 0 auto;
+            padding: 32px 42px 36px;
+        }
+
+        .dropdown-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .dropdown-category {
+            padding: 0 32px;
+        }
+
+        .dropdown-category:first-child {
+            padding-left: 0;
+        }
+
+        .dropdown-category:last-child {
+            padding-right: 0;
+        }
+
+        .dropdown-category:not(:first-child) {
+            border-left: 1px solid rgba(17, 17, 17, 0.08);
+        }
+
+        .dropdown-category-heading {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .dropdown-category-heading::after {
+            content: "";
+            position: absolute;
+            left: 44px;
+            bottom: 0;
+            width: 22px;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #EB1B3B, #FF9D3C);
+        }
+
+        .category-icon {
+            width: 34px;
+            height: 34px;
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 140, 60, 0.14);
+            color: #EB1B3B;
+        }
+
+        .category-icon svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .dropdown-category-heading strong {
+            color: #111111;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .dropdown-rows {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown-row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 4px;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+            color: #111111;
+            text-decoration: none;
+            transition: background 300ms ease-out;
+        }
+
+        .dropdown-rows .dropdown-row:last-child {
+            border-bottom: 0;
+        }
+
+        .dropdown-row:hover,
+        .dropdown-row:focus-visible {
+            background: linear-gradient(90deg, rgba(255, 157, 60, 0.08), rgba(235, 27, 59, 0.04));
+        }
+
+        .row-thumb {
+            position: relative;
+            z-index: 1;
+            width: 60px;
+            height: 60px;
+            flex: none;
+            display: block;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #eee;
+            transform: translateY(0) scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 157, 60, 0);
+            transition: transform 300ms ease-out, box-shadow 300ms ease-out;
+        }
+
+        .dropdown-row:hover .row-thumb,
+        .dropdown-row:focus-visible .row-thumb {
+            transform: translateY(-3px) scale(1.25);
+            box-shadow:
+                0 12px 20px rgba(17, 17, 17, 0.16),
+                0 0 0 3px rgba(255, 157, 60, 0.22);
+        }
+
+        .row-thumb img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .row-text {
+            min-width: 0;
+        }
+
+        .row-text strong {
+            display: block;
+            margin-bottom: 3px;
+            color: #111111;
+            font-size: 14.5px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .row-text small {
+            display: block;
+            color: rgba(17, 17, 17, 0.6);
+            font-size: 12.5px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .row-arrow {
+            flex: none;
+            margin-left: auto;
+            padding-left: 10px;
+            color: #EB1B3B;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-row:hover .row-arrow,
+        .dropdown-row:focus-visible .row-arrow {
+            transform: translateX(3px);
+        }
+
+        .dropdown-view-all {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 18px;
+            padding: 12px 20px;
+            border: 1.5px solid #EB1B3B;
+            border-radius: 999px;
+            color: #EB1B3B;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .dropdown-view-all:hover,
+        .dropdown-view-all:focus-visible {
+            background: linear-gradient(90deg, #EB1B3B, #FF9D3C);
+            border-color: transparent;
+            color: #ffffff;
+        }
+
+        .contact-button {
+            min-width: 150px;
+            min-height: var(--site-button-height, 44px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 0 20px;
+            border-radius: 28px;
+            color: #ffffff;
+            font-size: 15px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #2b0f08 0%, #000000 100%);
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-mobile-contact {
+            display: none;
+        }
+
+        .arrow {
+            font-size: 0;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .arrow::before {
+            content: "\2192";
+            font-size: 25px;
+        }
+
+        .menu-toggle {
+            display: none;
+            border: 0;
+            background: transparent;
+            font-size: 0;
+            cursor: pointer;
+        }
+
+        .menu-toggle::before {
+            content: "\2630";
+            font-size: 30px;
+        }
+
+        .menu-toggle[aria-expanded="true"]::before {
+            content: "\2715";
+        }
+
+        @media screen and (max-width: 1120px) {
+            .nav-menu {
+                gap: 22px;
+            }
+
+            .nav-menu a {
+                font-size: 15px;
+            }
+
+            #header-container .navbar {
+                padding: 18px 28px;
+            }
+        }
+
+        @media screen and (max-width: 1120px) {
+            #header-container .navbar {
+                width: min(100%, var(--site-content-width, 1560px));
+                position: relative;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .dropdown-pointer {
+                display: none;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: calc(100% + 12px);
+                left: 0;
+                right: 0;
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 16px;
+                border-radius: 20px;
+                background: rgba(245, 245, 245, 0.98);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+                max-height: calc(100vh - 150px);
+                overflow-y: auto;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-menu > li:not(.nav-mobile-contact)::before {
+                left: 0;
+                right: auto;
+                top: 8px;
+                bottom: 8px;
+                width: 3px;
+                height: auto;
+                transform: scaleY(0);
+            }
+
+            .nav-menu > li:not(.nav-mobile-contact):hover::before,
+            .nav-menu > li:not(.nav-mobile-contact):focus-within::before,
+            .nav-menu > li.nav-active::before {
+                transform: scaleY(1);
+            }
+
+            .nav-menu a {
+                display: block;
+                width: 100%;
+                padding: 12px 10px;
+            }
+
+            .dropdown-trigger {
+                width: 100%;
+                justify-content: space-between;
+                padding: 12px 10px;
+            }
+
+            .nav-split-trigger {
+                display: flex;
+                width: 100%;
+            }
+
+            .nav-split-trigger .nav-primary-link {
+                flex: 1;
+                width: auto;
+            }
+
+            .nav-split-trigger .dropdown-trigger {
+                width: 44px;
+                justify-content: center;
+                padding: 12px 10px;
+            }
+
+            .has-dropdown::after {
+                display: none;
+            }
+
+            .has-dropdown:hover .nav-chevron,
+            .has-dropdown:focus-within .nav-chevron {
+                transform: rotate(45deg);
+            }
+
+            .has-dropdown.open .nav-chevron {
+                transform: translateY(3px) rotate(225deg);
+            }
+
+            .dropdown-menu {
+                position: static;
+                display: none;
+                width: 100%;
+                margin: 3px 0 10px;
+                padding: 15px 0 0;
+                overflow: visible;
+                border-radius: 18px;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: none;
+            }
+
+            .has-dropdown.open > .dropdown-menu {
+                display: block;
+                transform: none;
+            }
+
+            .dropdown-inner {
+                padding: 0 15px 18px;
+            }
+
+            .dropdown-heading {
+                align-items: flex-start;
+                gap: 5px;
+                margin-bottom: 16px;
+            }
+
+            .dropdown-heading h3 {
+                font-size: 20px;
+            }
+
+            .dropdown-heading p {
+                max-width: none;
+                text-align: left;
+            }
+
+            .dropdown-categories {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .dropdown-category {
+                padding: 0 !important;
+                border-left: 0 !important;
+            }
+
+            .dropdown-category:not(:first-child) {
+                margin-top: 18px;
+                padding-top: 18px !important;
+                border-top: 1px solid rgba(17, 17, 17, 0.1) !important;
+            }
+
+            .row-thumb {
+                width: 50px;
+                height: 50px;
+            }
+
+            .row-text strong {
+                font-size: 14px;
+            }
+
+            .dropdown-view-all {
+                margin-top: 14px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .contact-button {
+                display: none;
+            }
+
+            .nav-mobile-contact {
+                display: block;
+            }
+
+            .nav-mobile-contact a {
+                margin-top: 8px;
+                border-radius: 14px;
+                background: linear-gradient(90deg, #2b0f08 0%, #000000 100%);
+                color: #ffffff;
+                text-align: center;
+            }
+        }
+
+        @media screen and (max-width: 520px) {
+            #header-container .navbar {
+                min-height: 74px;
+                padding: 13px 18px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-subtitle {
+                font-size: 12px;
+            }
+
+            .brand-mark {
+                width: 42px;
+                height: 46px;
+                transform: scale(0.9);
+                transform-origin: left center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="hero-header">
+      <div class="navbar-bg">
+        <div class="dropdown-pointer" aria-hidden="true"></div>
+        <nav class="navbar">
+            <a href="index.html#home" class="brand">
+                    <img src="../images/logo.png" alt="Logo">
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+                ☰
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="index.html#home">Home</a></li>
+                <li class="nav-item has-dropdown">
+                    <div class="nav-split-trigger">
+                        <a class="nav-primary-link" href="about_us.html">About Us</a>
+                        <button class="dropdown-trigger" type="button" aria-label="Open About Us menu" aria-expanded="false">
+                            <span class="nav-chevron" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu--about">
+                        <div class="dropdown-inner">
+                            <div class="dropdown-heading">
+                                <span>Discover Reckoner</span>
+                                <h3>Get to know Reckoner</h3>
+                                <p>Built on trust, expertise and lasting value.</p>
+                            </div>
+                            <div class="dropdown-rows">
+                                <a class="dropdown-row" href="about_us.html#about-reckoner">
+                                    <span class="row-thumb"><img src="../images/nav/about-reckoner.jpg" alt=""></span>
+                                    <span class="row-text"><strong>About Reckoner</strong><small>Who we are</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="about_us.html#what-we-offer">
+                                    <span class="row-thumb"><img src="../images/nav/our-services.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Our Services</strong><small>How we can help</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="about_us.html#our-team">
+                                    <span class="row-thumb"><img src="../images/team/muhammad-zeeshan-khan.png" alt=""></span>
+                                    <span class="row-text"><strong>Our Staff</strong><small>Meet our specialists</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="about_us.html#ceo-message">
+                                    <span class="row-thumb"><img src="../images/nav/ceo-message-sharp.png" alt=""></span>
+                                    <span class="row-text"><strong>CEO Message</strong><small>Our vision and values</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item has-dropdown nav-item--sectors">
+                    <div class="nav-split-trigger">
+                        <a class="nav-primary-link" href="sectors.html">Sectors</a>
+                        <button class="dropdown-trigger" type="button" aria-label="Open Sectors menu" aria-expanded="false">
+                            <span class="nav-chevron" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu--sectors">
+                        <div class="dropdown-inner">
+                            <div class="dropdown-heading">
+                                <span>Sector Expertise</span>
+                                <h3>Industries we support</h3>
+                                <p>Explore our sector-focused audit and advisory expertise.</p>
+                            </div>
+                            <div class="dropdown-categories">
+                                <div class="dropdown-category">
+                                    <div class="dropdown-category-heading">
+                                        <span class="category-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        </span>
+                                        <strong>Commercial</strong>
+                                    </div>
+                                    <div class="dropdown-rows">
+                                        <a class="dropdown-row" href="manufacturing.html">
+                                            <span class="row-thumb"><img src="../images/nav/manufacturing.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Manufacturing</strong><small>Audit &amp; assurance for makers</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="financial-institutions.html">
+                                            <span class="row-thumb"><img src="../images/nav/financial-institutions.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Financial Institutions</strong><small>Assurance for regulated firms</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="ecommerce-sector.html">
+                                            <span class="row-thumb"><img src="../images/nav/ecommerce.jpg" alt=""></span>
+                                            <span class="row-text"><strong>E-Commerce</strong><small>Accounting for online sellers</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="property.html">
+                                            <span class="row-thumb"><img src="../images/nav/property.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Property</strong><small>Reporting for property portfolios</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="hospitality.html">
+                                            <span class="row-thumb"><img src="../images/nav/hospitality.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Hospitality</strong><small>Accounting for hotels &amp; venues</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-category">
+                                    <div class="dropdown-category-heading">
+                                        <span class="category-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M2.5 20c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"></path><circle cx="17.5" cy="9" r="2.4"></circle><path d="M15.7 14.2c2.6.5 4.3 2.5 4.3 5.8"></path></svg>
+                                        </span>
+                                        <strong>Specialist</strong>
+                                    </div>
+                                    <div class="dropdown-rows">
+                                        <a class="dropdown-row" href="education.html">
+                                            <span class="row-thumb"><img src="../images/nav/education.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Education</strong><small>Financial oversight for schools</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="charity & not for profit.html">
+                                            <span class="row-thumb"><img src="../images/nav/charity.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Charity &amp; Not for Profit</strong><small>Governance for charities</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="healthcare.html">
+                                            <span class="row-thumb"><img src="../images/nav/healthcare.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Healthcare</strong><small>Compliance for care providers</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="pharmaceuticals.html">
+                                            <span class="row-thumb"><img src="../images/nav/pharmaceuticals.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Pharmaceuticals</strong><small>Assurance for life sciences</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-category">
+                                    <div class="dropdown-category-heading">
+                                        <span class="category-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.6-5 4.4 1.5 6.5L12 16.6 6 20l1.5-6.5-5-4.4 6.6-.6 2.9-6z"></path></svg>
+                                        </span>
+                                        <strong>Featured</strong>
+                                    </div>
+                                    <div class="dropdown-rows">
+                                        <a class="dropdown-row" href="education.html">
+                                            <span class="row-thumb"><img src="../images/nav/education.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Education</strong><small>Supporting schools &amp; trusts</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="charity & not for profit.html">
+                                            <span class="row-thumb"><img src="../images/nav/charity.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Charity &amp; Not for Profit</strong><small>Helping organisations make a bigger impact</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="dropdown-row" href="financial-institutions.html">
+                                            <span class="row-thumb"><img src="../images/nav/financial-institutions.jpg" alt=""></span>
+                                            <span class="row-text"><strong>Financial Institutions</strong><small>Insight for a regulated world</small></span>
+                                            <span class="row-arrow" aria-hidden="true">→</span>
+                                        </a>
+                                    </div>
+                                    <a href="sectors.html" class="dropdown-view-all">View all sectors <span aria-hidden="true">→</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item has-dropdown">
+                    <div class="nav-split-trigger">
+                        <a class="nav-primary-link" href="services.html">Services</a>
+                        <button class="dropdown-trigger" type="button" aria-label="Open Services menu" aria-expanded="false">
+                            <span class="nav-chevron" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu--services">
+                        <div class="dropdown-inner">
+                            <div class="dropdown-heading">
+                                <span>Professional Services</span>
+                                <h3>Services built around you</h3>
+                                <p>Clear advice for every stage of your business.</p>
+                            </div>
+                            <div class="dropdown-rows">
+                                <a class="dropdown-row" href="ecommerce-accounting.html">
+                                    <span class="row-thumb"><img src="../images/nav/ecommerce-accounting.jpg" alt=""></span>
+                                    <span class="row-text"><strong>E-commerce Accounting</strong><small>Bookkeeping for online sellers</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="audit-assurance.html">
+                                    <span class="row-thumb"><img src="../images/nav/audit-assurance.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Audit &amp; Assurance</strong><small>Independent, evidence-based reporting</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="business-services.html">
+                                    <span class="row-thumb"><img src="../images/nav/business-services.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Business Services</strong><small>Support for growing companies</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="corporate-tax-vat.html">
+                                    <span class="row-thumb"><img src="../images/nav/corporate-tax-vat.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Corporate Tax &amp; VAT</strong><small>Efficient tax planning &amp; compliance</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="individual-taxation.html">
+                                    <span class="row-thumb"><img src="../images/nav/individual-taxation.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Individual Taxation</strong><small>Personal tax made simple</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item has-dropdown">
+                    <button class="dropdown-trigger" type="button" aria-expanded="false">
+                        Tools &amp; Resources <span class="nav-chevron" aria-hidden="true"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu--tax">
+                        <div class="dropdown-inner">
+                            <div class="dropdown-heading">
+                                <span>Tools &amp; Resources</span>
+                                <h3>Everything you need, in one place</h3>
+                                <p>Practical tools and resources to support better financial decisions.</p>
+                            </div>
+                            <div class="dropdown-rows">
+                                <a class="dropdown-row" href="Tax-Hub.html">
+                                    <span class="row-thumb"><img src="../images/nav/tax-hub.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Tax Hub</strong><small>All tax resources in one place</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="Tax Calculator.html">
+                                    <span class="row-thumb"><img src="../images/nav/tax-calculator-sharp.png" alt=""></span>
+                                    <span class="row-text"><strong>Financial Calculators</strong><small>Quick calculations and estimates</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <a class="dropdown-row" href="insights.html">
+                                    <span class="row-thumb"><img src="../images/nav/business-services.jpg" alt=""></span>
+                                    <span class="row-text"><strong>Business Guides</strong><small>Helpful insights and resources</small></span>
+                                    <span class="row-arrow" aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="insights.html">Insights</a></li>
+                <li class="nav-mobile-contact"><a href="contact_us.html">Contact Us</a></li>
+            </ul>
+
+            <a href="contact_us.html" class="contact-button">
+                Contact Us
+                <span class="arrow">→</span>
+            </a>
+
+        </nav>
+      </div>
+    </header>
+
+</body>
+</html>

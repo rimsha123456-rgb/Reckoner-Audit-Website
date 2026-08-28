@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UK Salary, PAYE &amp; MTD for Income Tax Tools | Reckoner Audit</title>
+<meta name="description" content="Free UK take home pay and PAYE calculator for 2024/25, 2025/26 and 2026/27, plus a Making Tax Digital for Income Tax checker to see whether a client is mandated and from when.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./CSS/style.css">
+<link rel="stylesheet" href="./CSS/service-hub.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How is take home pay calculated in the UK?","acceptedAnswer":{"@type":"Answer","text":"Take home pay is your gross salary less Income Tax, National Insurance, any pension contribution and any student loan repayment. Income Tax uses your personal allowance and the tax bands for where you live, National Insurance is charged on earnings above the primary threshold, and student loan is a percentage of earnings above your plan threshold."}},
+    {"@type":"Question","name":"Are these tax figures up to date?","acceptedAnswer":{"@type":"Answer","text":"The tools use the UK rates and thresholds announced for the 2024/25, 2025/26 and 2026/27 tax years, cross checked against HMRC, gov.scot and the Student Loans Company. The Income Tax bands, personal allowance and National Insurance thresholds are frozen to 2030/31. Figures should still be reviewed each tax year and after each Budget."}},
+    {"@type":"Question","name":"Do I need to use Making Tax Digital for Income Tax?","acceptedAnswer":{"@type":"Answer","text":"Sole traders and landlords are brought into Making Tax Digital for Income Tax in phases: from 6 April 2026 for qualifying income over 50,000 pounds, from 6 April 2027 for over 30,000 pounds, and from 6 April 2028 for over 20,000 pounds. Partnerships and LLPs are outside the current phases."}},
+    {"@type":"Question","name":"What counts as qualifying income for Making Tax Digital?","acceptedAnswer":{"@type":"Answer","text":"Qualifying income is the combined gross income, before expenses, from self employment and property. It does not include employment income taxed under PAYE, pensions, savings interest, dividends or a partnership profit share."}},
+    {"@type":"Question","name":"How are dividends taxed in 2026/27?","acceptedAnswer":{"@type":"Answer","text":"After the 500 pound dividend allowance, dividends are taxed at 10.75 percent in the basic rate band, 35.75 percent in the higher rate band and 39.35 percent in the additional rate band for 2026/27. The basic and higher rates each rose by 2 percentage points from 6 April 2026. Dividend rates are the same across the UK, including Scotland."}},
+    {"@type":"Question","name":"How much tax does a sole trader pay?","acceptedAnswer":{"@type":"Answer","text":"A sole trader pays Income Tax on profits above the personal allowance at the rates for where they live, plus Class 4 National Insurance at 6 percent on profits between 12,570 and 50,270 pounds and 2 percent above that. Class 2 National Insurance is now voluntary for most."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  /* ---- Brand (sampled from the logo) ---- */
+  --rk-black:#141216;
+  --rk-red:#EC1B3B;
+  --rk-red-ink:#EB1B3B;
+  --rk-coral:#F7583F;
+  --rk-orange:#FF9D3C;
+  --rk-grad-bright:linear-gradient(120deg,#EC1B3B 0%,#F7583F 52%,#FF9D3C 100%);
+  --rk-grad:linear-gradient(120deg,#EB1B3B 0%,#F55C3C 52%,#FF9D3C 100%);
+  --rk-grad-rev:linear-gradient(300deg,#EB1B3B 0%,#F55C3C 52%,#FF9D3C 100%);
+
+  /* ---- Light working surface ---- */
+  --rk-bg:#FAF6F3;
+  --rk-card:#FFFFFF;
+  --rk-line:#ECE5DF;
+  --rk-line-2:#F3EDE8;
+  --rk-soft:#F5EFEA;
+  --rk-text:#1A171C;
+  --rk-muted:#6E6771;
+  --rk-dim:#675F6B;
+
+  /* ---- Payslip segments ---- */
+  --rk-take:#FF9D3C;
+  --rk-tax:#EC1B3B;
+  --rk-ni:#33313A;
+  --rk-pension:#5B7290;
+  --rk-loan:#E6B325;
+
+  /* ---- Status ---- */
+  --rk-action:#D81E37;
+  --rk-good:#0F7A42;
+  --rk-neutral:#5B7290;
+
+  --rk-radius:17px;
+  --rk-radius-sm:11px;
+  --rk-shadow:0 1px 2px rgba(26,15,8,.05), 0 14px 36px rgba(26,15,8,.07);
+  --rk-shadow-sm:0 1px 2px rgba(26,15,8,.06), 0 6px 18px rgba(26,15,8,.05);
+  --rk-font-display:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --rk-font:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+.rk-app *{box-sizing:border-box}
+
+.rk-app{
+  position:relative;
+  font-family:var(--rk-font);
+  color:var(--rk-text);
+  background:
+    radial-gradient(900px 500px at 100% 0%, rgba(255,157,60,.10), transparent 60%),
+    radial-gradient(700px 500px at 0% 8%, rgba(236,27,59,.05), transparent 55%),
+    var(--rk-bg);
+  line-height:1.55;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.rk-app h1,.rk-app h2,.rk-app h3,.rk-app h4{font-family:var(--rk-font-display);color:var(--rk-text);line-height:1.14;margin:0;letter-spacing:-.02em}
+.rk-app p{margin:0 0 1rem}
+.rk-app a{color:var(--rk-red-ink);text-decoration:none}
+.rk-app a:hover{color:#C0122C;text-decoration:underline}
+.rk-wrap{width:min(calc(100% - 40px),var(--site-content-width,1560px));margin:0 auto;position:relative;z-index:2}
+.rk-tab-nums{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* ---------- Calculator hero: same light overlay as the rest of the site ---------- */
+.rk-calc-hero{background-position:right center;background-size:cover}
+.rk-app .rk-hero-cta{
+  display:inline-flex;align-items:center;gap:16px;margin-top:34px;
+  padding:0 26px;min-width:150px;justify-content:center;
+  height:var(--site-button-height,44px);border-radius:28px;
+  background:linear-gradient(90deg,#2b0f08 0%,#000000 100%);
+  color:#fff;font-family:var(--rk-font-display,inherit);font-weight:700;font-size:.95rem;
+  box-shadow:0 12px 28px rgba(0,0,0,.32);transition:transform .2s ease,box-shadow .2s ease;
+}
+.rk-app .rk-hero-cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.4);color:#fff;text-decoration:none}
+.rk-app .rk-hero-cta .rk-cta-arrow{font-size:1.1rem;line-height:1}
+
+/* ---------- Reveal ---------- */
+.rk-rise{opacity:0;transform:translateY(16px);animation:rk-rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes rk-rise{to{opacity:1;transform:none}}
+
+/* ---------- Main ---------- */
+.rk-main{padding:44px 0 70px}
+
+/* ---------- Tabs ---------- */
+.rk-tabs{position:relative;display:inline-flex;background:#fff;border:1px solid var(--rk-line);border-radius:999px;padding:5px;margin-bottom:26px;box-shadow:var(--rk-shadow)}
+.rk-tab{position:relative;z-index:1;border:0;background:none;cursor:pointer;font-family:var(--rk-font-display);font-weight:600;font-size:.98rem;color:var(--rk-muted);padding:11px 24px;border-radius:999px;transition:color .25s ease;white-space:nowrap}
+.rk-tab[aria-selected="true"]{color:#fff}
+.rk-tab-ind{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--rk-grad);box-shadow:0 5px 16px rgba(236,27,59,.32);transition:transform .4s cubic-bezier(.34,1.4,.4,1),width .4s cubic-bezier(.34,1.4,.4,1);z-index:0}
+
+.rk-panel{display:none}
+.rk-panel.rk-active{display:block}
+.rk-panel.rk-active .rk-anim-panel{animation:rk-panel-in .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes rk-panel-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- Grid + cards ---------- */
+.rk-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:24px;align-items:start}
+.rk-card{position:relative;background:var(--rk-card);border:1px solid var(--rk-line);border-radius:var(--rk-radius);box-shadow:var(--rk-shadow)}
+.rk-card-pad{padding:28px 28px 32px}
+.rk-card-head{display:flex;align-items:center;gap:13px;margin-bottom:5px}
+.rk-card-head h2{font-size:1.28rem}
+.rk-kicker{width:38px;height:38px;border-radius:11px;background:var(--rk-grad);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 6px 16px rgba(236,27,59,.24)}
+.rk-kicker svg{display:block}
+.rk-card-sub{color:var(--rk-muted);font-size:.92rem;margin-bottom:24px}
+.rk-results-col{position:sticky;top:100px}
+
+/* ---------- Form ---------- */
+.rk-field{margin-bottom:18px}
+.rk-field:last-child{margin-bottom:0}
+.rk-label{display:block;font-weight:700;font-size:.85rem;color:var(--rk-text);margin-bottom:8px}
+.rk-hint{color:var(--rk-dim);font-weight:500;font-size:.79rem;margin-top:6px;line-height:1.45}
+.rk-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.rk-input,.rk-select{width:100%;font-family:inherit;font-size:.98rem;color:var(--rk-text);background:#fff;border:1.5px solid var(--rk-line);border-radius:var(--rk-radius-sm);padding:12px 13px;transition:border-color .18s ease,box-shadow .18s ease;-webkit-appearance:none;appearance:none}
+.rk-input::placeholder{color:var(--rk-dim)}
+.rk-input:focus,.rk-select:focus{outline:none;border-color:var(--rk-coral);box-shadow:0 0 0 4px rgba(247,88,63,.16)}
+.rk-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236E6771' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.rk-money{position:relative}
+.rk-money .rk-input{padding-left:26px}
+.rk-money:before{content:"\00a3";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--rk-muted);font-weight:600;z-index:1}
+.rk-combo{display:grid;grid-template-columns:1.4fr 1fr;gap:0}
+.rk-combo .rk-money .rk-input{border-top-right-radius:0;border-bottom-right-radius:0}
+.rk-combo>.rk-select{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0}
+
+.rk-check{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border:1.5px solid var(--rk-line);border-radius:var(--rk-radius-sm);cursor:pointer;background:#fff;transition:border-color .18s,background .18s}
+.rk-check:hover{border-color:var(--rk-coral);background:#FFFaf7}
+.rk-check input{margin-top:2px;width:17px;height:17px;accent-color:var(--rk-red);flex:0 0 auto}
+.rk-check-txt{font-size:.87rem}
+.rk-check-txt b{display:block;color:var(--rk-text);font-weight:600}
+.rk-check-txt span{color:var(--rk-dim);font-size:.79rem}
+.rk-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.rk-seg-title{font-family:var(--rk-font-display);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rk-red-ink);margin:26px 0 15px;padding-top:20px;border-top:1px solid var(--rk-line-2);display:flex;align-items:center;gap:10px}
+.rk-seg-title:first-of-type{margin-top:4px;padding-top:0;border-top:0}
+.rk-seg-title:before{content:"";width:14px;height:2px;border-radius:2px;background:var(--rk-grad)}
+
+.rk-cond{display:none}
+.rk-cond.rk-show{display:block;animation:rk-panel-in .3s ease}
+
+/* ---------- Results ---------- */
+.rk-take-hero{position:relative;border-radius:var(--rk-radius);padding:26px 28px;overflow:hidden;color:#fff;background:linear-gradient(120deg,#EB1B3B,#F55C3C 52%,#FF9D3C);background-size:200% 200%;animation:rk-flow 9s ease infinite;box-shadow:0 14px 34px rgba(236,27,59,.28)}
+@keyframes rk-flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.rk-take-hero:after{content:"";position:absolute;top:-45%;right:-8%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.32),transparent 62%)}
+.rk-take-hero>*{position:relative;z-index:1}
+.rk-take-label{font-family:var(--rk-font-display);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.9);font-weight:600}
+.rk-take-big{font-family:var(--rk-font-display);font-size:2.7rem;font-weight:700;letter-spacing:-.03em;margin:4px 0 2px;line-height:1;color:#fff;text-shadow:0 2px 14px rgba(120,10,20,.25)}
+.rk-take-per{color:rgba(255,255,255,.88);font-size:.9rem}
+.rk-take-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.24)}
+.rk-take-split div span{display:block;color:rgba(255,255,255,.82);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.rk-take-split div b{font-family:var(--rk-font-display);font-size:1.35rem;font-weight:700;letter-spacing:-.01em;color:#fff}
+
+.rk-bar{display:flex;height:16px;border-radius:999px;overflow:hidden;margin:24px 0 14px;background:var(--rk-soft);gap:2px}
+.rk-bar i{display:block;height:100%;border-radius:999px;width:0;transition:width .65s cubic-bezier(.34,1.1,.4,1),opacity .4s ease;position:relative;overflow:hidden}
+.rk-bar i:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.4) 50%,transparent 80%);transform:translateX(-120%);animation:rk-sheen 3.4s ease-in-out infinite}
+.rk-legend{display:flex;flex-wrap:wrap;gap:12px 20px;margin-bottom:4px}
+.rk-legend div{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--rk-muted)}
+.rk-legend i{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.rk-legend b{color:var(--rk-text);font-weight:700}
+@keyframes rk-sheen{0%,60%{transform:translateX(-120%)}100%{transform:translateX(220%)}}
+
+.rk-table{width:100%;border-collapse:collapse;margin-top:22px;font-size:.9rem}
+.rk-table th{text-align:right;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--rk-dim);font-weight:700;padding:0 0 11px;border-bottom:1px solid var(--rk-line)}
+.rk-table th:first-child{text-align:left}
+.rk-table td{padding:11px 0;border-bottom:1px solid var(--rk-line-2);text-align:right;font-variant-numeric:tabular-nums;color:var(--rk-text)}
+.rk-table td:first-child{text-align:left;color:var(--rk-text);font-weight:600}
+.rk-table tr.rk-tr-sub td{color:var(--rk-muted);font-weight:500}
+.rk-table tr.rk-tr-sub td:first-child{color:var(--rk-muted);font-weight:500;padding-left:14px}
+.rk-table tr.rk-tr-total td{font-family:var(--rk-font-display);font-weight:700;color:var(--rk-text);font-size:1rem;border-bottom:0;padding-top:14px}
+.rk-table tr.rk-tr-total td:first-child{color:var(--rk-text)}
+.rk-rate-note{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.rk-chip{background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:999px;padding:7px 14px;font-size:.8rem;color:var(--rk-text);font-weight:600}
+.rk-chip b{color:var(--rk-red-ink);font-family:var(--rk-font-display)}
+
+/* ---------- MTD ---------- */
+.rk-status{position:relative;border-radius:var(--rk-radius);padding:24px 26px;border:1px solid var(--rk-line);overflow:hidden;background:#fff}
+.rk-status:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.rk-status .rk-status-tag{font-family:var(--rk-font-display);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:8px;margin-bottom:10px}
+.rk-status h3{font-size:1.32rem;margin-bottom:9px}
+.rk-status p{font-size:.92rem;margin-bottom:0;color:var(--rk-muted)}
+.rk-status-dot{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block}
+.rk-st-action{background:linear-gradient(120deg,rgba(236,27,59,.07),rgba(255,157,60,.05))}
+.rk-st-action:before{background:var(--rk-grad)}
+.rk-st-action .rk-status-tag,.rk-st-action h3{color:var(--rk-action)}
+.rk-st-good{background:rgba(30,158,90,.06)}
+.rk-st-good:before{background:var(--rk-good)}
+.rk-st-good .rk-status-tag,.rk-st-good h3{color:var(--rk-good)}
+.rk-st-neutral{background:var(--rk-soft)}
+.rk-st-neutral:before{background:var(--rk-neutral)}
+.rk-st-neutral .rk-status-tag,.rk-st-neutral h3{color:var(--rk-text)}
+
+.rk-qbox{display:flex;justify-content:space-between;align-items:baseline;background:var(--rk-soft);border:1px solid var(--rk-line-2);border-radius:var(--rk-radius-sm);padding:15px 17px;margin-top:18px}
+.rk-qbox span{color:var(--rk-muted);font-size:.86rem;font-weight:600}
+.rk-qbox b{font-family:var(--rk-font-display);color:var(--rk-text);font-size:1.55rem;font-weight:700;font-variant-numeric:tabular-nums}
+
+.rk-timeline{margin-top:24px}
+.rk-timeline h4{font-size:1rem;margin-bottom:14px}
+.rk-tl-row{display:grid;grid-template-columns:126px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--rk-line-2);align-items:start}
+.rk-tl-row:last-child{border-bottom:0}
+.rk-tl-date{font-family:var(--rk-font-display);font-weight:700;color:var(--rk-text);font-size:.92rem}
+.rk-tl-date span{display:block;color:var(--rk-dim);font-weight:500;font-size:.77rem;font-family:var(--rk-font)}
+.rk-tl-body{font-size:.9rem;color:var(--rk-muted)}
+.rk-tl-body b{color:var(--rk-text)}
+.rk-tl-row.rk-tl-hit .rk-tl-date{color:var(--rk-red-ink)}
+.rk-tl-row.rk-tl-hit{background:linear-gradient(90deg,rgba(236,27,59,.06),transparent);border-radius:10px;padding-left:12px;margin-left:-12px}
+
+.rk-info{background:#fff;border:1px solid var(--rk-line);border-radius:var(--rk-radius);padding:28px 30px;margin-top:26px;box-shadow:var(--rk-shadow-sm)}
+.rk-info h3{font-size:1.16rem;margin-bottom:15px}
+.rk-info h4{font-size:.95rem;margin:20px 0 8px;color:var(--rk-red-ink);font-family:var(--rk-font-display)}
+.rk-info p{font-size:.91rem;margin-bottom:12px;color:var(--rk-muted)}
+.rk-info p:last-child{margin-bottom:0}
+.rk-info b{color:var(--rk-text)}
+
+/* ---------- Disclaimer ---------- */
+.rk-disclaimer{margin:38px 0 0;padding:20px 24px;background:#fff;border:1px solid var(--rk-line);border-left:4px solid var(--rk-coral);border-radius:var(--rk-radius-sm);font-size:.83rem;color:var(--rk-muted);box-shadow:var(--rk-shadow-sm)}
+.rk-disclaimer b{color:var(--rk-text)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:900px){
+  .rk-grid{grid-template-columns:1fr}
+  .rk-results-col{position:static}
+}
+@media (max-width:560px){
+  .rk-row,.rk-check-grid,.rk-take-split{grid-template-columns:1fr}
+  .rk-take-big{font-size:2.2rem}
+  .rk-card-pad{padding:22px 18px 26px}
+  .rk-tl-row{grid-template-columns:1fr;gap:4px}
+  .rk-faq{padding:28px 20px}
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  .rk-app *{animation:none!important;transition:none!important}
+  .rk-rise{opacity:1!important;transform:none!important}
+}
+.rk-app :focus-visible{outline:3px solid var(--rk-coral);outline-offset:2px;border-radius:6px}
+
+/* screen reader only */
+.rk-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* tab list scroll on small screens */
+.rk-tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+.rk-tabs::-webkit-scrollbar{display:none}
+
+/* action buttons */
+.rk-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.rk-action-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-weight:600;font-size:.85rem;color:var(--rk-text);background:#fff;border:1.5px solid var(--rk-line);border-radius:999px;padding:9px 16px;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.rk-action-btn:hover{border-color:var(--rk-coral);background:#FFFAF7}
+.rk-action-btn[aria-pressed="true"]{background:var(--rk-soft);border-color:var(--rk-coral);color:var(--rk-red-ink)}
+.rk-action-btn.rk-copied{color:var(--rk-good);border-color:var(--rk-good)}
+.rk-action-btn svg{display:block}
+
+/* contextual prompt */
+.rk-prompt{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(120deg,rgba(236,27,59,.06),rgba(255,157,60,.05));border:1px solid var(--rk-line);border-left:4px solid var(--rk-coral);border-radius:var(--rk-radius-sm);padding:14px 16px;margin-bottom:20px;font-size:.87rem;color:var(--rk-text);animation:rk-panel-in .3s ease}
+.rk-prompt b{color:var(--rk-text)}
+.rk-prompt a{font-weight:700;white-space:nowrap}
+.rk-prompt .rk-p-ic{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--rk-grad);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(194,21,50,.2)}
+
+/* empty state */
+.rk-empty{text-align:center;padding:34px 12px;color:var(--rk-muted);font-size:.92rem}
+.rk-empty svg{color:var(--rk-dim);margin-bottom:10px}
+
+/* compare */
+.rk-compare{margin-top:16px}
+.rk-compare-inner{background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:var(--rk-radius-sm);padding:18px 18px 10px;animation:rk-panel-in .3s ease}
+.rk-compare-inner h4{font-size:.98rem;margin-bottom:3px}
+.rk-compare-inner p{font-size:.8rem;color:var(--rk-muted);margin-bottom:14px}
+.rk-ctable{width:100%;border-collapse:collapse;font-size:.87rem}
+.rk-ctable th,.rk-ctable td{padding:9px 6px;text-align:right;font-variant-numeric:tabular-nums}
+.rk-ctable th:first-child,.rk-ctable td:first-child{text-align:left;color:var(--rk-muted);font-weight:600}
+.rk-ctable thead th{font-family:var(--rk-font-display);color:var(--rk-text);border-bottom:2px solid var(--rk-line);font-size:.82rem}
+.rk-ctable thead th.rk-cur{color:var(--rk-red-ink)}
+.rk-ctable tbody td{border-bottom:1px solid var(--rk-line-2);color:var(--rk-text);font-weight:600}
+.rk-ctable tbody tr:last-child td{border-bottom:0}
+
+/* small note box */
+.rk-note{display:flex;gap:11px;align-items:flex-start;background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:var(--rk-radius-sm);padding:14px 16px;margin-top:18px;font-size:.85rem;color:var(--rk-muted);line-height:1.55}
+.rk-note b{color:var(--rk-text)}
+.rk-note .rk-n-ic{flex:0 0 auto;color:var(--rk-red-ink);margin-top:1px}
+
+/* pension pot */
+.rk-pot .rk-pot-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.rk-pot-ic{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--rk-grad);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(194,21,50,.18)}
+.rk-pot-head h3{font-size:1.02rem}
+.rk-pot-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--rk-line-2);font-size:.92rem;color:var(--rk-muted)}
+.rk-pot-row b{color:var(--rk-text);font-family:var(--rk-font-display);font-weight:600;font-variant-numeric:tabular-nums}
+.rk-pot-row.rk-pot-total{border-bottom:0;padding-bottom:2px;color:var(--rk-text)}
+.rk-pot-row.rk-pot-total b{color:var(--rk-red-ink);font-size:1.16rem}
+.rk-pot-note{font-size:.8rem;color:var(--rk-muted);margin-top:11px;line-height:1.5}
+
+/* reviewed line */
+.rk-reviewed{margin:26px 0 0;display:flex;align-items:center;gap:9px;font-size:.8rem;color:var(--rk-muted)}
+.rk-reviewed svg{flex:0 0 auto;color:var(--rk-good)}
+.rk-reviewed b{color:var(--rk-text);font-weight:700}
+
+/* FAQ */
+.rk-faq{margin:46px 0 0;background:var(--rk-card);border:1px solid var(--rk-line);border-radius:var(--rk-radius);padding:44px 40px;box-shadow:var(--rk-shadow-sm)}
+.rk-faq-head{text-align:center;margin-bottom:30px}
+.rk-faq-head .rk-eyebrow2{display:inline-block;font-family:var(--rk-font-display);font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--rk-red-ink);margin-bottom:10px}
+.rk-faq-head h2{font-size:1.7rem}
+.rk-faq-list{display:grid;gap:12px;width:100%;margin:0}
+.rk-faq-item{background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:var(--rk-radius-sm);overflow:hidden}
+.rk-faq-q{width:100%;text-align:left;background:none;border:0;cursor:pointer;font-family:var(--rk-font-display);font-weight:600;font-size:1rem;color:var(--rk-text);padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.rk-faq-plus{flex:0 0 auto;width:22px;height:22px;position:relative}
+.rk-faq-plus:before,.rk-faq-plus:after{content:"";position:absolute;top:50%;left:50%;width:12px;height:2px;background:var(--rk-red-ink);border-radius:2px;transform:translate(-50%,-50%)}
+.rk-faq-plus:after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .25s ease}
+.rk-faq-q[aria-expanded="true"] .rk-faq-plus:after{transform:translate(-50%,-50%) rotate(0)}
+.rk-faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.rk-faq-a-inner{padding:0 20px 18px;font-size:.92rem;color:var(--rk-muted);line-height:1.6}
+.rk-faq-a-inner b{color:var(--rk-text)}
+
+/* print only header */
+.rk-print-head{display:none}
+@media print{
+  #header-container,.hub-hero,.rk-tabs,#footer-container,.rk-faq,.rk-actions,.rk-disclaimer,.rk-reviewed,.rk-prompt{display:none!important}
+  body,.rk-app{background:#fff!important}
+  .rk-main{padding:0!important}
+  .rk-grid{display:block!important}
+  .rk-results-col{position:static!important}
+  .rk-card,.rk-take-hero{box-shadow:none!important;border:1px solid #ccc!important;break-inside:avoid;margin-bottom:14px}
+  .rk-take-hero,.rk-take-hero *{color:#141216!important}
+  .rk-take-hero{background:#fff!important;border:2px solid #EB1B3B!important;animation:none!important}
+  .rk-bar i:after{display:none}
+  .rk-panel:not(.rk-active){display:none!important}
+  .rk-print-head{display:flex!important;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #EB1B3B}
+  .rk-print-head b{font-family:var(--rk-font-display);font-size:1.05rem;color:#141216}
+  .rk-print-head span{font-size:.78rem;color:#555}
+}
+</style>
+</head>
+<body>
+
+<div id="header-container"></div>
+
+<div class="rk-app">
+
+<section class="hub-hero rk-calc-hero" style="background-image:url('images/financial-reporting.png')">
+  <div class="hub-hero__backdrop"></div>
+  <div class="hub-shell hub-hero__content">
+    <h1>See Where a Salary Goes, and <span>Who Needs Making Tax Digital</span></h1>
+    <p class="hub-hero__lead">Work out take home pay after Income Tax, National Insurance, pension and student loan for the 2024/25, 2025/26 and 2026/27 tax years, then check whether a client is brought into Making Tax Digital for Income Tax and from when.</p>
+    <a href="#panel-salary" class="rk-hero-cta">Calculate Your Take-Home Pay <span class="rk-cta-arrow">&rarr;</span></a>
+  </div>
+</section>
+
+<main class="rk-main">
+  <div class="rk-wrap">
+
+    <div class="rk-print-head"><b>Reckoner Audit &middot; take home summary</b><span id="rk-print-date"></span></div>
+
+    <div class="rk-tabs" role="tablist" aria-label="Choose a tool">
+      <button class="rk-tab" id="tab-salary" role="tab" aria-selected="true" tabindex="0" aria-controls="panel-salary">Salary &amp; PAYE</button>
+      <button class="rk-tab" id="tab-dividend" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-dividend">Salary &amp; Dividends</button>
+      <button class="rk-tab" id="tab-sole" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-sole">Sole Trader</button>
+      <button class="rk-tab" id="tab-mtd" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-mtd">MTD Checker</button>
+    </div>
+    <div id="rk-live" class="rk-sr" aria-live="polite"></div>
+
+    <!-- ============ PANEL 1 : SALARY & PAYE ============ -->
+    <section class="rk-panel rk-active" id="panel-salary" role="tabpanel" aria-labelledby="tab-salary">
+      <div class="rk-grid rk-anim-panel">
+
+        <!-- INPUTS -->
+        <div class="rk-card">
+          <div class="rk-card-pad">
+            <div class="rk-card-head">
+              <span class="rk-kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+              <h2>Your details</h2>
+            </div>
+            <p class="rk-card-sub">Enter a salary and adjust the options. Results update as you type.</p>
+            <form id="rk-sal-form" autocomplete="off">
+
+              <div class="rk-seg-title">Salary</div>
+              <div class="rk-field">
+                <label class="rk-label" for="sal-amount">Gross salary</label>
+                <div class="rk-combo">
+                  <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="sal-amount" value="35000" min="0" step="100"></div>
+                  <select class="rk-select" id="sal-period" aria-label="Salary period">
+                    <option value="year" selected>per year</option>
+                    <option value="month">per month</option>
+                    <option value="week">per week</option>
+                    <option value="day">per day</option>
+                    <option value="hour">per hour</option>
+                  </select>
+                </div>
+              </div>
+              <div class="rk-cond" id="sal-hoursblock">
+                <div class="rk-row">
+                  <div class="rk-field"><label class="rk-label" for="sal-hpw">Hours per week</label><input class="rk-input" type="number" inputmode="decimal" id="sal-hpw" value="37.5" min="1" step="0.5"></div>
+                  <div class="rk-field"><label class="rk-label" for="sal-wpy">Weeks per year</label><input class="rk-input" type="number" inputmode="decimal" id="sal-wpy" value="52" min="1" step="1"></div>
+                </div>
+              </div>
+              <div class="rk-cond" id="sal-daysblock">
+                <div class="rk-row">
+                  <div class="rk-field"><label class="rk-label" for="sal-dpw">Days per week</label><input class="rk-input" type="number" inputmode="decimal" id="sal-dpw" value="5" min="1" step="0.5"></div>
+                  <div class="rk-field"><label class="rk-label" for="sal-wpy2">Weeks per year</label><input class="rk-input" type="number" inputmode="decimal" id="sal-wpy2" value="52" min="1" step="1"></div>
+                </div>
+              </div>
+
+              <div class="rk-row">
+                <div class="rk-field">
+                  <label class="rk-label" for="sal-year">Tax year</label>
+                  <select class="rk-select" id="sal-year">
+                    <option value="2026/27" selected>2026/27</option>
+                    <option value="2025/26">2025/26</option>
+                    <option value="2024/25">2024/25</option>
+                  </select>
+                </div>
+                <div class="rk-field">
+                  <label class="rk-label" for="sal-region">Where you live</label>
+                  <select class="rk-select" id="sal-region">
+                    <option value="ruk" selected>England, Wales or N. Ireland</option>
+                    <option value="scotland">Scotland</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="rk-seg-title">Pension contribution</div>
+              <div class="rk-field">
+                <label class="rk-label" for="pen-amount">Your contribution</label>
+                <div class="rk-combo">
+                  <input class="rk-input" type="number" inputmode="decimal" id="pen-amount" value="0" min="0" step="0.5" style="border-top-right-radius:0;border-bottom-right-radius:0">
+                  <select class="rk-select" id="pen-unit" aria-label="Pension unit" style="border-top-left-radius:0;border-bottom-left-radius:0;border-left:0">
+                    <option value="pct" selected>% of salary</option>
+                    <option value="gbp">&pound; per year</option>
+                  </select>
+                </div>
+                <select class="rk-select" id="pen-type" style="margin-top:10px">
+                  <option value="salsac" selected>Salary sacrifice</option>
+                  <option value="netpay">Net pay arrangement</option>
+                  <option value="ras">Relief at source</option>
+                </select>
+                <div class="rk-hint" id="pen-hint">Salary sacrifice reduces gross pay before Income Tax and National Insurance.</div>
+              </div>
+              <div class="rk-field">
+                <label class="rk-label" for="emp-amount">Employer contribution</label>
+                <div class="rk-combo">
+                  <input class="rk-input" type="number" inputmode="decimal" id="emp-amount" value="0" min="0" step="0.5" style="border-top-right-radius:0;border-bottom-right-radius:0">
+                  <select class="rk-select" id="emp-unit" aria-label="Employer contribution unit" style="border-top-left-radius:0;border-bottom-left-radius:0;border-left:0">
+                    <option value="pct" selected>% of salary</option>
+                    <option value="gbp">&pound; per year</option>
+                  </select>
+                </div>
+                <div class="rk-hint">Paid on top of your salary, straight into your pension. It does not change your take home pay or tax.</div>
+              </div>
+
+              <div class="rk-seg-title">Deductions &amp; allowances</div>
+              <div class="rk-field">
+                <label class="rk-label" for="sal-loan">Student loan</label>
+                <select class="rk-select" id="sal-loan">
+                  <option value="none" selected>No student loan</option>
+                  <option value="plan1">Plan 1</option>
+                  <option value="plan2">Plan 2</option>
+                  <option value="plan4">Plan 4 (Scotland)</option>
+                  <option value="plan5">Plan 5</option>
+                </select>
+                <label class="rk-check" style="margin-top:10px">
+                  <input type="checkbox" id="sal-pg">
+                  <span class="rk-check-txt"><b>Postgraduate loan</b><span>Repaid at 6% and can run alongside a plan above</span></span>
+                </label>
+              </div>
+
+              <div class="rk-field">
+                <label class="rk-label" for="sal-nic">National Insurance category</label>
+                <select class="rk-select" id="sal-nic">
+                  <option value="A" selected>A - standard rate</option>
+                  <option value="B">B - reduced rate</option>
+                  <option value="C">C - over State Pension age (no NI)</option>
+                  <option value="J">J - deferred (2% only)</option>
+                </select>
+                <div class="rk-hint">Most employees are category A. Letters used only to reduce employer NI are treated as category A for take home pay.</div>
+              </div>
+
+              <div class="rk-check-grid">
+                <label class="rk-check">
+                  <input type="checkbox" id="sal-spa">
+                  <span class="rk-check-txt"><b>Over State Pension age</b><span>Removes employee NI</span></span>
+                </label>
+                <label class="rk-check">
+                  <input type="checkbox" id="sal-blind">
+                  <span class="rk-check-txt"><b>Blind Person's Allowance</b><span>Adds to tax free allowance</span></span>
+                </label>
+              </div>
+              <label class="rk-check" style="margin-top:10px">
+                <input type="checkbox" id="sal-marriage">
+                <span class="rk-check-txt"><b>Marriage Allowance received</b><span>Partner has transferred part of their allowance to you (basic rate only)</span></span>
+              </label>
+
+              <div class="rk-seg-title">Other (optional)</div>
+              <div class="rk-row">
+                <div class="rk-field">
+                  <label class="rk-label" for="sal-taxcode">Tax code</label>
+                  <input class="rk-input" type="text" id="sal-taxcode" placeholder="e.g. 1257L" style="text-transform:uppercase">
+                  <div class="rk-hint">Overrides the standard allowance. Leave blank to use the default.</div>
+                </div>
+                <div class="rk-field">
+                  <label class="rk-label" for="sal-bonus">Bonus or other pay</label>
+                  <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="sal-bonus" value="0" min="0" step="100"></div>
+                  <div class="rk-hint">Added to gross for the year.</div>
+                </div>
+              </div>
+              <div class="rk-field">
+                <label class="rk-label" for="sal-rental">Rental profit (property income after costs)</label>
+                <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="sal-rental" value="0" min="0" step="100"></div>
+                <div class="rk-hint">Added to taxable income for Income Tax only. Not subject to National Insurance.</div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="rk-results-col">
+          <div class="rk-take-hero">
+            <div class="rk-take-label">Take home pay</div>
+            <div class="rk-take-big rk-tab-nums" id="res-take-year" data-val="0">&pound;0</div>
+            <div class="rk-take-per">per year</div>
+            <div class="rk-take-split">
+              <div><span>Per month</span><b class="rk-tab-nums" id="res-take-month" data-val="0">&pound;0</b></div>
+              <div><span>Per week</span><b class="rk-tab-nums" id="res-take-week" data-val="0">&pound;0</b></div>
+            </div>
+          </div>
+
+          <div id="sal-prompt"></div>
+
+          <div class="rk-card" style="margin-top:20px" id="sal-result-card">
+            <div class="rk-card-pad">
+              <div class="rk-legend" id="res-legend"></div>
+              <div class="rk-bar" id="res-bar" aria-hidden="true"></div>
+
+              <table class="rk-table">
+                <thead>
+                  <tr><th>Payslip summary</th><th>Yearly</th><th>Monthly</th><th>Weekly</th></tr>
+                </thead>
+                <tbody id="res-tbody"></tbody>
+              </table>
+
+              <div class="rk-rate-note" id="res-rates"></div>
+            </div>
+          </div>
+
+          <div class="rk-card rk-pot" id="sal-pot" style="margin-top:20px;display:none">
+            <div class="rk-card-pad">
+              <div class="rk-pot-head">
+                <span class="rk-pot-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span>
+                <h3>Into your pension</h3>
+              </div>
+              <div class="rk-pot-rows">
+                <div class="rk-pot-row" id="pot-you-row"><span>Your contribution</span><b class="rk-tab-nums" id="pot-you">&pound;0</b></div>
+                <div class="rk-pot-row" id="pot-emp-row"><span>Employer contribution</span><b class="rk-tab-nums" id="pot-emp">&pound;0</b></div>
+                <div class="rk-pot-row rk-pot-total" id="pot-total-row"><span>Total each year</span><b class="rk-tab-nums" id="pot-total">&pound;0</b></div>
+              </div>
+              <div class="rk-pot-note" id="pot-note"></div>
+            </div>
+          </div>
+
+          <div class="rk-actions">
+            <button type="button" class="rk-action-btn" id="sal-compare-btn" aria-pressed="false">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h6M3 12h6M3 18h6M15 4v16M12 7l3-3 3 3M12 17l3 3 3-3"/></svg>Compare tax years</button>
+            <button type="button" class="rk-action-btn" id="sal-copy-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Copy link</button>
+            <button type="button" class="rk-action-btn" id="sal-print-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Print</button>
+          </div>
+          <div id="sal-compare" class="rk-compare"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ PANEL 2 : MTD CHECKER ============ -->
+    <section class="rk-panel" id="panel-mtd" role="tabpanel" aria-labelledby="tab-mtd">
+      <div class="rk-grid rk-anim-panel">
+
+        <!-- INPUTS -->
+        <div class="rk-card">
+          <div class="rk-card-pad">
+            <div class="rk-card-head">
+              <span class="rk-kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+              <h2>Client details</h2>
+            </div>
+            <p class="rk-card-sub">Enter the client's gross qualifying income to see whether Making Tax Digital for Income Tax applies and from which date.</p>
+            <form id="rk-mtd-form" autocomplete="off">
+
+              <div class="rk-field">
+                <label class="rk-label">How is the income earned?</label>
+                <label class="rk-check" style="margin-bottom:10px">
+                  <input type="radio" name="mtd-type" value="individual" checked style="accent-color:var(--rk-red)">
+                  <span class="rk-check-txt"><b>Sole trader and / or landlord</b><span>Income earned by an individual in their own name</span></span>
+                </label>
+                <label class="rk-check">
+                  <input type="radio" name="mtd-type" value="partnership" style="accent-color:var(--rk-red)">
+                  <span class="rk-check-txt"><b>Partnership or LLP</b><span>Income earned through a partnership share</span></span>
+                </label>
+              </div>
+
+              <div class="rk-cond rk-show" id="mtd-income-block">
+                <div class="rk-seg-title">Gross qualifying income</div>
+                <p class="rk-hint" style="margin:-8px 0 16px">Use gross turnover before any expenses. These are the only two income types that count towards the threshold.</p>
+
+                <div class="rk-field">
+                  <label class="rk-label" for="mtd-se">Self employment income (turnover)</label>
+                  <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="mtd-se" value="45000" min="0" step="500"></div>
+                  <div class="rk-hint">Total sales from all sole trades, before costs.</div>
+                </div>
+
+                <div class="rk-field">
+                  <label class="rk-label" for="mtd-prop">Property income (gross rents)</label>
+                  <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="mtd-prop" value="0" min="0" step="500"></div>
+                  <div class="rk-hint">Your share of gross UK and overseas rental income, before costs.</div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="rk-results-col">
+          <div id="mtd-status"></div>
+
+          <div class="rk-card" id="mtd-detail-card" style="margin-top:20px">
+            <div class="rk-card-pad">
+              <div class="rk-qbox">
+                <span>Combined qualifying income</span>
+                <b class="rk-tab-nums" id="mtd-qtotal" data-val="0">&pound;0</b>
+              </div>
+              <div class="rk-timeline">
+                <h4>When each threshold applies</h4>
+                <div id="mtd-timeline"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPLAINER -->
+      <div class="rk-info rk-anim-panel">
+        <h3>How the Making Tax Digital for Income Tax check works</h3>
+        <p>Making Tax Digital for Income Tax is being introduced in phases from 6 April 2026. Once mandated, a sole trader or landlord must keep digital records, send HMRC a quarterly update for each business, and submit a final declaration in place of the old Self Assessment return, all using compatible software.</p>
+
+        <h4>What counts as qualifying income</h4>
+        <p>The threshold is tested against combined <b>gross</b> income (before expenses) from self employment and property only. Income from employment taxed under PAYE, pensions, savings interest, dividends and partnership profit shares does not count. Where income comes from both a qualifying source and a non qualifying source, only the qualifying part is measured.</p>
+
+        <h4>Which year HMRC looks at</h4>
+        <p>HMRC checks the qualifying income reported on the Self Assessment return due on 31 January before each start date. The 2024/25 return sets the April 2026 position, the 2025/26 return sets April 2027, and the 2026/27 return sets April 2028. If a business traded for less than a full year, the figure is annualised. HMRC writes to confirm when a taxpayer must join.</p>
+
+        <h4>Staying in and exemptions</h4>
+        <p>Once in the regime, a taxpayer stays in until qualifying income has been below the relevant threshold for three consecutive years, or the qualifying income sources cease. Partnerships and LLPs are outside the current phases and cannot yet sign up. Some taxpayers are exempt, for example those who are digitally excluded. Taxpayers below the thresholds can still choose to sign up voluntarily.</p>
+
+        <p style="margin-top:4px"><b>This is an indicative guide.</b> Confirm the position using HMRC's own tool, <a href="https://www.gov.uk/guidance/check-if-and-when-you-need-to-use-making-tax-digital-for-income-tax" target="_blank" rel="noopener">Check if and when you need to use Making Tax Digital for Income Tax</a>, and take professional advice on borderline or complex cases.</p>
+      </div>
+    </section>
+
+    <!-- ============ PANEL 3 : SALARY & DIVIDENDS ============ -->
+    <section class="rk-panel" id="panel-dividend" role="tabpanel" aria-labelledby="tab-dividend">
+      <div class="rk-grid rk-anim-panel">
+        <div class="rk-card">
+          <div class="rk-card-pad">
+            <div class="rk-card-head">
+              <span class="rk-kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9A2.5 2.5 0 0 0 10 10.5V16M8.5 16h5M8.5 12.5h4"/></svg></span>
+              <h2>Salary and dividends</h2>
+            </div>
+            <p class="rk-card-sub">For company directors taking a salary plus dividends. Shows the personal tax due and net income.</p>
+            <form id="rk-div-form" autocomplete="off">
+              <div class="rk-row">
+                <div class="rk-field"><label class="rk-label" for="div-year">Tax year</label>
+                  <select class="rk-select" id="div-year"><option value="2026/27" selected>2026/27</option><option value="2025/26">2025/26</option><option value="2024/25">2024/25</option></select></div>
+                <div class="rk-field"><label class="rk-label" for="div-region">Where you live</label>
+                  <select class="rk-select" id="div-region"><option value="ruk" selected>England, Wales or N. Ireland</option><option value="scotland">Scotland</option></select></div>
+              </div>
+              <div class="rk-field"><label class="rk-label" for="div-salary">Director's salary</label>
+                <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="div-salary" value="12570" min="0" step="100"></div>
+                <div class="rk-hint">A common tax efficient level is 12,570. Employee National Insurance starts above this.</div></div>
+              <div class="rk-field"><label class="rk-label" for="div-dividends">Dividends for the year</label>
+                <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="div-dividends" value="40000" min="0" step="500"></div>
+                <div class="rk-hint">Paid from company profit after Corporation Tax.</div></div>
+            </form>
+          </div>
+        </div>
+        <div class="rk-results-col">
+          <div class="rk-take-hero">
+            <div class="rk-take-label">Net income after personal tax</div>
+            <div class="rk-take-big rk-tab-nums" id="div-net" data-val="0">&pound;0</div>
+            <div class="rk-take-per">salary plus dividends, per year</div>
+            <div class="rk-take-split">
+              <div><span>Personal tax</span><b class="rk-tab-nums" id="div-totaltax" data-val="0">&pound;0</b></div>
+              <div><span>Effective rate</span><b id="div-effrate">0%</b></div>
+            </div>
+          </div>
+          <div class="rk-card" style="margin-top:20px">
+            <div class="rk-card-pad">
+              <table class="rk-table"><thead><tr><th>Personal tax breakdown</th><th>Yearly</th></tr></thead><tbody id="div-tbody"></tbody></table>
+              <div class="rk-note"><span class="rk-n-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span><span id="div-note"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PANEL 4 : SOLE TRADER ============ -->
+    <section class="rk-panel" id="panel-sole" role="tabpanel" aria-labelledby="tab-sole">
+      <div class="rk-grid rk-anim-panel">
+        <div class="rk-card">
+          <div class="rk-card-pad">
+            <div class="rk-card-head">
+              <span class="rk-kicker"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7M3 12h18"/></svg></span>
+              <h2>Sole trader</h2>
+            </div>
+            <p class="rk-card-sub">Income Tax and Class 4 National Insurance on your self employment profit.</p>
+            <form id="rk-sole-form" autocomplete="off">
+              <div class="rk-row">
+                <div class="rk-field"><label class="rk-label" for="sole-year">Tax year</label>
+                  <select class="rk-select" id="sole-year"><option value="2026/27" selected>2026/27</option><option value="2025/26">2025/26</option><option value="2024/25">2024/25</option></select></div>
+                <div class="rk-field"><label class="rk-label" for="sole-region">Where you live</label>
+                  <select class="rk-select" id="sole-region"><option value="ruk" selected>England, Wales or N. Ireland</option><option value="scotland">Scotland</option></select></div>
+              </div>
+              <div class="rk-field"><label class="rk-label" for="sole-profit">Taxable profit</label>
+                <div class="rk-money"><input class="rk-input" type="number" inputmode="decimal" id="sole-profit" value="45000" min="0" step="500"></div>
+                <div class="rk-hint">Turnover less allowable expenses for the year.</div></div>
+              <div class="rk-field"><label class="rk-label" for="sole-loan">Student loan</label>
+                <select class="rk-select" id="sole-loan"><option value="none" selected>No student loan</option><option value="plan1">Plan 1</option><option value="plan2">Plan 2</option><option value="plan4">Plan 4 (Scotland)</option><option value="plan5">Plan 5</option></select></div>
+            </form>
+          </div>
+        </div>
+        <div class="rk-results-col">
+          <div class="rk-take-hero">
+            <div class="rk-take-label">Profit after tax</div>
+            <div class="rk-take-big rk-tab-nums" id="sole-net" data-val="0">&pound;0</div>
+            <div class="rk-take-per">per year</div>
+            <div class="rk-take-split">
+              <div><span>Tax and Class 4 NI</span><b class="rk-tab-nums" id="sole-totaltax" data-val="0">&pound;0</b></div>
+              <div><span>Effective rate</span><b id="sole-effrate">0%</b></div>
+            </div>
+          </div>
+          <div class="rk-card" style="margin-top:20px">
+            <div class="rk-card-pad">
+              <table class="rk-table"><thead><tr><th>Breakdown</th><th>Yearly</th></tr></thead><tbody id="sole-tbody"></tbody></table>
+              <div class="rk-note"><span class="rk-n-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span><span>Class 2 National Insurance is voluntary for 2025/26 and 2026/27. Most sole traders with profits above the small profits threshold receive a National Insurance credit without paying it, so it is not included here.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rk-reviewed">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span><b>Rates reviewed July 2026.</b> Sources: HMRC, gov.scot and the Student Loans Company. Income Tax bands, the personal allowance and National Insurance thresholds are frozen to 2030/31.</span>
+    </div>
+
+    <!-- ============ DISCLAIMER ============ -->
+    <div class="rk-disclaimer">
+      <b>Please note.</b> These tools give estimates for guidance only and are not personal tax advice. Figures reflect UK rates and thresholds announced for the 2024/25, 2025/26 and 2026/27 tax years and should be reviewed each tax year. National Insurance is estimated on an annual basis, so a single payslip run through real time PAYE may differ. Scottish Income Tax rates apply to earned and property income only, while savings and dividend income is always taxed at the rates for the rest of the UK. For advice on a specific situation, please <a href="#contact">contact Reckoner Audit</a>.
+    </div>
+
+    <section class="rk-faq" aria-label="Frequently asked questions">
+      <div class="rk-faq-head">
+        <span class="rk-eyebrow2">Good to know</span>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="rk-faq-list">
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>How is take home pay calculated in the UK?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">Take home pay is your gross salary less Income Tax, National Insurance, any pension contribution and any student loan repayment. Income Tax uses your personal allowance and the tax bands for where you live, National Insurance is charged on earnings above the primary threshold, and student loan is a percentage of earnings above your plan threshold.</div></div>
+        </div>
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>Are these tax figures up to date?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">The tools use the UK rates and thresholds announced for the 2024/25, 2025/26 and 2026/27 tax years, cross checked against HMRC, gov.scot and the Student Loans Company. The Income Tax bands, personal allowance and National Insurance thresholds are frozen to 2030/31. Figures should still be reviewed each tax year and after each Budget.</div></div>
+        </div>
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>Do I need to use Making Tax Digital for Income Tax?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">Sole traders and landlords are brought in over three phases: from 6 April 2026 for qualifying income over &pound;50,000, from 6 April 2027 for over &pound;30,000, and from 6 April 2028 for over &pound;20,000. Partnerships and LLPs are outside the current phases. Use the checker above to see the position for a given client.</div></div>
+        </div>
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>What counts as qualifying income for Making Tax Digital?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">Qualifying income is the combined gross income, before expenses, from self employment and property. It does not include employment income taxed under PAYE, pensions, savings interest, dividends or a partnership profit share.</div></div>
+        </div>
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>How are dividends taxed in 2026/27?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">After the &pound;500 dividend allowance, dividends are taxed at 10.75% in the basic rate band, 35.75% in the higher rate band and 39.35% in the additional rate band for 2026/27. The basic and higher rates each rose by 2 percentage points from 6 April 2026. Dividend rates are the same across the UK, including Scotland.</div></div>
+        </div>
+        <div class="rk-faq-item">
+          <button class="rk-faq-q" aria-expanded="false"><span>How much tax does a sole trader pay?</span><span class="rk-faq-plus" aria-hidden="true"></span></button>
+          <div class="rk-faq-a"><div class="rk-faq-a-inner">A sole trader pays Income Tax on profit above the personal allowance at the rates for where they live, plus Class 4 National Insurance at 6% on profit between &pound;12,570 and &pound;50,270 and 2% above that. Class 2 National Insurance is now voluntary for most. The sole trader tab works this out.</div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+</div><!-- /.rk-app -->
+
+<div id="footer-container"></div>
+
+<script>
+"use strict";
+/* ==========================================================================
+   RATES CONFIGURATION  (identical, validated figures)
+   --------------------------------------------------------------------------
+   Income Tax bands are WIDTHS of TAXABLE income (income after the personal
+   allowance). The additional / top band is carved out on a TOTAL income basis
+   at £125,140 so the personal allowance taper is handled correctly.
+   Sources: HMRC; gov.scot Scottish Income Tax 2024/25 to 2026/27; HMRC Class 1
+   NIC thresholds; Student Loans Company / GOV.UK SL3 tables. rUK bands, the
+   personal allowance and NIC thresholds are frozen to 2030/31.
+   ========================================================================== */
+const RATES = {
+  common: {
+    personalAllowance: 12570,
+    paTaperStart: 100000,
+    marriageAllowance: 1260,
+    ni: { pt: 12570, uel: 50270, main: 0.08, upper: 0.02 },
+    additionalThreshold: 125140,
+    dividendAllowance: 500,                                   // frozen 2024/25 to 2026/27
+    class4: { lower: 12570, upper: 50270, main: 0.06, upperRate: 0.02 } // self employed NIC, all three years
+  },
+  "2024/25": {
+    divRates: { ord: 0.0875, upper: 0.3375, add: 0.3935 },
+    blindAllowance: 3070,
+    ruk: [ { w: 37700, r: 0.20 }, { w: Infinity, r: 0.40 } ], rukAddRate: 0.45,
+    scot: [ { w: 2306, r: 0.19 }, { w: 11685, r: 0.20 }, { w: 17101, r: 0.21 }, { w: 31338, r: 0.42 }, { w: Infinity, r: 0.45 } ], scotTopRate: 0.48,
+    studentLoan: { plan1: 24990, plan2: 27295, plan4: 31395, plan5: 25000, pg: 21000 }
+  },
+  "2025/26": {
+    divRates: { ord: 0.0875, upper: 0.3375, add: 0.3935 },
+    blindAllowance: 3130,
+    ruk: [ { w: 37700, r: 0.20 }, { w: Infinity, r: 0.40 } ], rukAddRate: 0.45,
+    scot: [ { w: 2827, r: 0.19 }, { w: 12094, r: 0.20 }, { w: 16171, r: 0.21 }, { w: 31338, r: 0.42 }, { w: Infinity, r: 0.45 } ], scotTopRate: 0.48,
+    studentLoan: { plan1: 26065, plan2: 28470, plan4: 32745, plan5: 25000, pg: 21000 }
+  },
+  "2026/27": {
+    divRates: { ord: 0.1075, upper: 0.3575, add: 0.3935 },
+    blindAllowance: 3130,   // 2026/27 Blind Person's Allowance not confirmed at build time; update when published
+    ruk: [ { w: 37700, r: 0.20 }, { w: Infinity, r: 0.40 } ], rukAddRate: 0.45,
+    scot: [ { w: 3967, r: 0.19 }, { w: 12989, r: 0.20 }, { w: 14136, r: 0.21 }, { w: 31338, r: 0.42 }, { w: Infinity, r: 0.45 } ], scotTopRate: 0.48,
+    studentLoan: { plan1: 26900, plan2: 29385, plan4: 33795, plan5: 25000, pg: 21000 }
+  }
+};
+const SL_RATE = 0.09, PG_RATE = 0.06;
+
+/* ==========================================================================
+   CALCULATION ENGINE (pure functions)
+   ========================================================================== */
+function taperedPA(totalIncome){
+  const c = RATES.common;
+  if (totalIncome <= c.paTaperStart) return c.personalAllowance;
+  return Math.max(0, c.personalAllowance - (totalIncome - c.paTaperStart) / 2);
+}
+function bandTax(amount, bands){
+  let tax = 0, rem = amount;
+  for (const b of bands){
+    if (rem <= 0) break;
+    const slice = Math.min(rem, b.w);
+    tax += slice * b.r;
+    rem -= slice;
+  }
+  return tax;
+}
+function incomeTax(y, opts){
+  const yr = RATES[y], c = RATES.common;
+  const total = Math.max(0, opts.totalIncome);
+  const allowance = Math.max(0, opts.allowance);
+  const ext = opts.bandExtension || 0;
+  const taxable = Math.max(0, total - allowance);
+  const topThreshold = c.additionalThreshold + ext;
+  const topPortion = Math.max(0, total - topThreshold);
+  const belowTop = Math.max(0, taxable - topPortion);
+  if (opts.region === "scotland"){
+    const scot = yr.scot.map(b => ({ w: b.w, r: b.r }));
+    if (ext > 0) scot[1] = { w: scot[1].w + ext, r: scot[1].r };
+    return bandTax(belowTop, scot) + topPortion * yr.scotTopRate;
+  } else {
+    const ruk = yr.ruk.map(b => ({ w: b.w, r: b.r }));
+    if (ext > 0) ruk[0] = { w: ruk[0].w + ext, r: ruk[0].r };
+    return bandTax(belowTop, ruk) + topPortion * yr.rukAddRate;
+  }
+}
+function nationalInsurance(y, gross, category, overSPA){
+  const n = RATES.common.ni;
+  if (overSPA || category === "C") return 0;
+  let mainRate = n.main, upperRate = n.upper;
+  if (category === "B") mainRate = 0.0185;
+  if (category === "J" || category === "Z") mainRate = n.upper;
+  let ni = 0;
+  if (gross > n.uel){
+    ni += (n.uel - n.pt) * mainRate;
+    ni += (gross - n.uel) * upperRate;
+  } else if (gross > n.pt){
+    ni += (gross - n.pt) * mainRate;
+  }
+  return Math.max(0, ni);
+}
+function studentLoan(y, gross, plan, hasPG){
+  const t = RATES[y].studentLoan;
+  let repay = 0;
+  if (plan && plan !== "none" && t[plan] != null && gross > t[plan]) repay += (gross - t[plan]) * SL_RATE;
+  if (hasPG && gross > t.pg) repay += (gross - t.pg) * PG_RATE;
+  return repay;
+}
+
+// Class 4 National Insurance (self employed, annual)
+function class4NIC(y, profit){
+  const c = RATES.common.class4;
+  let ni = 0;
+  if (profit > c.upper){ ni += (c.upper - c.lower) * c.main; ni += (profit - c.upper) * c.upperRate; }
+  else if (profit > c.lower){ ni += (profit - c.lower) * c.main; }
+  return Math.max(0, ni);
+}
+
+// Tax on dividends stacked on top of other income. UK dividend rates apply everywhere,
+// including Scotland. Uses the standard personal allowance for banding; indicative where
+// total income exceeds £100,000 (allowance taper).
+function dividendTax(y, salary, dividends, pa){
+  const r = RATES[y].divRates;
+  const dAllow = RATES.common.dividendAllowance;
+  const remPA = Math.max(0, pa - salary);      // personal allowance left after salary
+  let rem = Math.max(0, dividends - remPA);    // dividends beyond the personal allowance
+  let pos = Math.max(0, salary - pa);          // taxable position where dividends begin
+  let tax = 0;
+  const usedAllow = Math.min(rem, dAllow); pos += usedAllow; rem -= usedAllow; // £500 at 0%, uses band space
+  const edges = [ { top: 37700, rate: r.ord }, { top: 112570, rate: r.upper }, { top: Infinity, rate: r.add } ];
+  for (const e of edges){
+    if (rem <= 0) break;
+    if (pos >= e.top) continue;
+    const amt = Math.min(rem, e.top - pos);
+    tax += amt * e.rate; pos += amt; rem -= amt;
+  }
+  return tax;
+}
+
+// Director salary + dividends: personal tax and net income
+function dividendCalc(input){
+  const y = input.year;
+  const pa = taperedPA(input.salary + input.dividends);
+  const salaryTax = input.salary > 0 ? incomeTax(y, { totalIncome: input.salary, region: input.region, allowance: pa }) : 0;
+  const ni = nationalInsurance(y, input.salary, "A", false);
+  const divTax = dividendTax(y, input.salary, input.dividends, pa);
+  const totalTax = salaryTax + ni + divTax;
+  const gross = input.salary + input.dividends;
+  return { salaryTax, ni, divTax, totalTax, net: gross - totalTax,
+           effectiveRate: gross > 0 ? (totalTax / gross) * 100 : 0 };
+}
+
+// Sole trader: Income Tax + Class 4 NIC (+ optional student loan) on profit
+function soleTraderCalc(input){
+  const y = input.year;
+  const pa = taperedPA(input.profit);
+  const it = input.profit > 0 ? incomeTax(y, { totalIncome: input.profit, region: input.region, allowance: pa }) : 0;
+  const c4 = class4NIC(y, input.profit);
+  const loan = studentLoan(y, input.profit, input.loan, false);
+  const totalTax = it + c4 + loan;
+  return { incomeTax: it, class4: c4, loan, totalTax, net: input.profit - totalTax,
+           effectiveRate: input.profit > 0 ? (totalTax / input.profit) * 100 : 0 };
+}
+
+function parseTaxCode(raw){
+  if (!raw) return null;
+  const code = raw.toString().trim().toUpperCase().replace(/\s+/g, "");
+  if (code === "NT") return { flat: "NT" };
+  if (code === "BR") return { flat: "BR" };
+  if (code === "D0") return { flat: "D0" };
+  if (code === "D1") return { flat: "D1" };
+  if (code === "0T" || code === "0TX" || code === "0TM1") return { allowance: 0 };
+  let m = code.match(/^K(\d+)/);
+  if (m) return { allowance: -(parseInt(m[1], 10) * 10) };
+  m = code.match(/^(\d+)[LMNT]/);
+  if (m) return { allowance: parseInt(m[1], 10) * 10 };
+  return null;
+}
+function calcSalary(input, skipMarginal){
+  const y = input.year;
+  let annual = input.amount;
+  if (input.period === "month") annual = input.amount * 12;
+  else if (input.period === "week") annual = input.amount * 52;
+  else if (input.period === "day") annual = input.amount * (input.daysPerWeek || 5) * (input.weeksPerYear || 52);
+  else if (input.period === "hour") annual = input.amount * (input.hoursPerWeek || 37.5) * (input.weeksPerYear || 52);
+  annual += (input.bonus || 0);
+
+  let grossContribution = 0;
+  if (input.penAmount > 0){
+    grossContribution = input.penUnit === "pct" ? annual * (input.penAmount / 100) : input.penAmount;
+  }
+  let salarySacrifice = 0, netPayContribution = 0, rasNetPaid = 0, bandExtension = 0;
+  if (input.penType === "salsac") salarySacrifice = Math.min(grossContribution, annual);
+  else if (input.penType === "netpay") netPayContribution = grossContribution;
+  else if (input.penType === "ras"){ rasNetPaid = grossContribution; bandExtension = grossContribution / (1 - 0.20); }
+
+  const grossForNI = Math.max(0, annual - salarySacrifice);
+  const employmentTaxable = Math.max(0, annual - salarySacrifice - netPayContribution);
+  const totalIncomeForTax = employmentTaxable + (input.rental || 0);
+
+  const tc = parseTaxCode(input.taxCode);
+  let allowance, flatRule = null;
+  if (tc && tc.flat){ flatRule = tc.flat; allowance = taperedPA(totalIncomeForTax); }
+  else if (tc && typeof tc.allowance === "number"){ allowance = tc.allowance; }
+  else {
+    allowance = taperedPA(totalIncomeForTax);
+    if (input.blind) allowance += RATES[y].blindAllowance;
+    if (input.marriage) allowance += RATES.common.marriageAllowance;
+  }
+
+  let tax;
+  if (flatRule === "NT") tax = 0;
+  else if (flatRule === "BR") tax = totalIncomeForTax * 0.20;
+  else if (flatRule === "D0") tax = totalIncomeForTax * 0.40;
+  else if (flatRule === "D1") tax = totalIncomeForTax * 0.45;
+  else tax = incomeTax(y, { totalIncome: totalIncomeForTax, region: input.region, allowance: allowance, bandExtension: bandExtension });
+
+  const ni = nationalInsurance(y, grossForNI, input.nic, input.overSPA);
+  const loan = studentLoan(y, grossForNI, input.loan, input.pg);
+  const pensionFromPay = salarySacrifice + netPayContribution + rasNetPaid;
+  const takeHome = annual - tax - ni - loan - pensionFromPay;
+
+  // Amount landing in the pension pot (employee side gross of basic-rate relief, plus employer)
+  let employerContribution = 0;
+  if (input.empAmount > 0){
+    employerContribution = input.empUnit === "pct" ? annual * (input.empAmount / 100) : input.empAmount;
+  }
+  let employeePot = 0;
+  if (input.penType === "salsac") employeePot = salarySacrifice;
+  else if (input.penType === "netpay") employeePot = netPayContribution;
+  else if (input.penType === "ras") employeePot = rasNetPaid / (1 - 0.20); // net paid plus 20% basic relief added by the provider
+  const totalPot = employeePot + employerContribution;
+
+  let marginal = null;
+  if (input.period === "year" && !skipMarginal){
+    const bump = 100;
+    const r2 = quickTaxNI(y, input, bump);
+    marginal = ((r2.tax + r2.ni - tax - ni) / bump) * 100;
+  }
+
+  return {
+    annual, grossForNI, employmentTaxable, totalIncomeForTax,
+    allowance: (flatRule ? 0 : allowance),
+    tax, ni, loan, pensionFromPay, grossContribution, takeHome,
+    employeePot, employerContribution, totalPot,
+    effectiveRate: annual > 0 ? ((tax + ni) / annual) * 100 : 0,
+    marginal
+  };
+}
+function quickTaxNI(y, input, delta){
+  const clone = JSON.parse(JSON.stringify(input));
+  clone.amount = input.amount + delta;
+  const r = calcSalary(clone, true);
+  return { tax: r.tax, ni: r.ni };
+}
+
+/* ==========================================================================
+   MTD FOR INCOME TAX CHECK
+   ========================================================================== */
+const MTD_PHASES = [
+  { start: "6 April 2026", threshold: 50000, testYear: "2024/25", due: "31 January 2026" },
+  { start: "6 April 2027", threshold: 30000, testYear: "2025/26", due: "31 January 2027" },
+  { start: "6 April 2028", threshold: 20000, testYear: "2026/27", due: "31 January 2028" }
+];
+function checkMTD(type, selfEmp, property){
+  const qualifying = Math.max(0, selfEmp) + Math.max(0, property);
+  if (type === "partnership") return { qualifying, outOfScope: true };
+  let mandated = null;
+  for (const p of MTD_PHASES){ if (qualifying > p.threshold){ mandated = p; break; } }
+  return { qualifying, outOfScope: false, mandated };
+}
+
+/* ==========================================================================
+   FORMATTING + ANIMATION HELPERS
+   ========================================================================== */
+const gbp0 = n => "£" + Math.round(n).toLocaleString("en-GB");
+const pct1 = n => n.toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
+const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function animateNumber(el, to){
+  const from = parseFloat(el.getAttribute("data-val")) || 0;
+  el.setAttribute("data-val", to);
+  if (REDUCE || Math.abs(to - from) < 1){ el.textContent = gbp0(to); return; }
+  const dur = 520, t0 = performance.now();
+  function step(t){
+    const p = Math.min(1, (t - t0) / dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = gbp0(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ==========================================================================
+   UI WIRING
+   ========================================================================== */
+const $ = id => document.getElementById(id);
+
+// ---- Tabs: sliding indicator, roving focus, arrow keys ----
+const tablist = document.querySelector(".rk-tabs");
+const tabs = [$("tab-salary"), $("tab-dividend"), $("tab-sole"), $("tab-mtd")];
+const panels = { "tab-salary": "panel-salary", "tab-dividend": "panel-dividend", "tab-sole": "panel-sole", "tab-mtd": "panel-mtd" };
+const indicator = document.createElement("span");
+indicator.className = "rk-tab-ind";
+tablist.appendChild(indicator);
+function moveIndicator(tab){
+  indicator.style.width = tab.offsetWidth + "px";
+  indicator.style.transform = "translateX(" + (tab.offsetLeft - 5) + "px)";
+}
+function selectTab(tab, focus){
+  tabs.forEach(t => { t.setAttribute("aria-selected", "false"); t.tabIndex = -1; });
+  tab.setAttribute("aria-selected", "true"); tab.tabIndex = 0;
+  Object.values(panels).forEach(pid => $(pid).classList.remove("rk-active"));
+  $(panels[tab.id]).classList.add("rk-active");
+  moveIndicator(tab);
+  if (focus) tab.focus();
+}
+tabs.forEach((tab, i) => {
+  tab.addEventListener("click", () => selectTab(tab));
+  tab.addEventListener("keydown", e => {
+    let ni = null;
+    if (e.key === "ArrowRight") ni = (i + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") ni = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === "Home") ni = 0;
+    else if (e.key === "End") ni = tabs.length - 1;
+    if (ni !== null){ e.preventDefault(); selectTab(tabs[ni], true); }
+  });
+});
+
+// ---- Persistent bar segments ----
+const BAR = [
+  { k: "take", label: "Take home", c: "--rk-take" },
+  { k: "tax", label: "Income Tax", c: "--rk-tax" },
+  { k: "ni", label: "National Insurance", c: "--rk-ni" },
+  { k: "pension", label: "Pension", c: "--rk-pension" },
+  { k: "loan", label: "Student loan", c: "--rk-loan" }
+];
+const barEl = $("res-bar");
+barEl.innerHTML = BAR.map(s => `<i data-k="${s.k}" style="background:var(${s.c})"></i>`).join("");
+
+// ---- Salary form ----
+function updateConditionals(){
+  const period = $("sal-period").value;
+  $("sal-hoursblock").classList.toggle("rk-show", period === "hour");
+  $("sal-daysblock").classList.toggle("rk-show", period === "day");
+  const hints = {
+    salsac: "Salary sacrifice reduces gross pay before Income Tax and National Insurance.",
+    netpay: "A net pay arrangement is taken from pay before Income Tax but after National Insurance.",
+    ras: "Relief at source is paid from take home pay. Basic rate relief is added by the provider and higher rate relief widens the basic rate band."
+  };
+  $("pen-hint").textContent = hints[$("pen-type").value];
+}
+function readSalaryInput(){
+  const nonNeg = id => Math.max(0, parseFloat($(id).value) || 0);
+  let penAmount = nonNeg("pen-amount");
+  if ($("pen-unit").value === "pct") penAmount = Math.min(penAmount, 100);   // cap percentage
+  return {
+    amount: nonNeg("sal-amount"),
+    period: $("sal-period").value,
+    hoursPerWeek: parseFloat($("sal-hpw").value) || 37.5,
+    daysPerWeek: parseFloat($("sal-dpw").value) || 5,
+    weeksPerYear: parseFloat($("sal-period").value === "hour" ? $("sal-wpy").value : $("sal-wpy2").value) || 52,
+    year: $("sal-year").value,
+    region: $("sal-region").value,
+    penAmount: penAmount,
+    penUnit: $("pen-unit").value,
+    penType: $("pen-type").value,
+    empAmount: nonNeg("emp-amount"),
+    empUnit: $("emp-unit").value,
+    loan: $("sal-loan").value,
+    pg: $("sal-pg").checked,
+    nic: $("sal-nic").value,
+    overSPA: $("sal-spa").checked,
+    blind: $("sal-blind").checked,
+    marriage: $("sal-marriage").checked,
+    taxCode: $("sal-taxcode").value,
+    bonus: nonNeg("sal-bonus"),
+    rental: nonNeg("sal-rental")
+  };
+}
+function renderSalary(){
+  updateConditionals();
+  const input = readSalaryInput();
+  const r = calcSalary(input);
+
+  animateNumber($("res-take-year"), r.takeHome);
+  animateNumber($("res-take-month"), r.takeHome / 12);
+  animateNumber($("res-take-week"), r.takeHome / 52);
+
+  // Announce the headline figure for screen readers
+  $("rk-live").textContent = input.amount > 0
+    ? "Take home pay " + gbp0(r.takeHome) + " per year, " + gbp0(r.takeHome / 12) + " per month."
+    : "Enter a salary to see your take home pay.";
+
+  // Empty state: no salary entered yet
+  if (input.amount <= 0){
+    BAR.forEach(s => { const el = barEl.querySelector('i[data-k="' + s.k + '"]'); el.style.width = "0%"; el.style.opacity = "0"; });
+    $("res-legend").innerHTML = "";
+    $("res-tbody").innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--rk-muted);padding:22px 0">Enter a salary above to see the breakdown.</td></tr>';
+    $("res-rates").innerHTML = "";
+    $("sal-prompt").innerHTML = "";
+    $("sal-pot").style.display = "none";
+    if ($("sal-compare-btn").getAttribute("aria-pressed") === "true") $("sal-compare").innerHTML = "";
+    return;
+  }
+
+  const segVals = { take: Math.max(0, r.takeHome), tax: r.tax, ni: r.ni, pension: r.pensionFromPay, loan: r.loan };
+  const denom = Object.values(segVals).reduce((a, b) => a + Math.max(0, b), 0) || 1;
+  BAR.forEach(s => {
+    const el = barEl.querySelector('i[data-k="' + s.k + '"]');
+    const v = Math.max(0, segVals[s.k]);
+    el.style.width = (v / denom * 100) + "%";
+    el.style.opacity = v > 0.5 ? "1" : "0";
+  });
+  $("res-legend").innerHTML = BAR.filter(s => segVals[s.k] > 0.5).map(s =>
+    `<div><i style="background:var(${s.c})"></i><span>${s.label}</span> <b>${gbp0(segVals[s.k])}</b></div>`).join("");
+
+  const row = (label, val, cls) =>
+    `<tr class="${cls || ""}"><td>${label}</td><td>${gbp0(val)}</td><td>${gbp0(val / 12)}</td><td>${gbp0(val / 52)}</td></tr>`;
+  let html = "";
+  html += row("Gross pay", r.annual);
+  if (r.pensionFromPay > 0.5) html += row("Pension contribution", -r.pensionFromPay, "rk-tr-sub");
+  if (r.allowance > 0.5) html += row("Personal allowance", r.allowance, "rk-tr-sub");
+  html += row("Income Tax", -r.tax);
+  html += row("National Insurance", -r.ni);
+  if (r.loan > 0.5) html += row("Student loan", -r.loan);
+  html += row("Take home pay", r.takeHome, "rk-tr-total");
+  $("res-tbody").innerHTML = html;
+
+  let chips = `<div class="rk-chip">Effective tax and NI <b>${pct1(r.effectiveRate)}</b></div>`;
+  if (r.marginal != null) chips += `<div class="rk-chip">Marginal rate <b>${pct1(r.marginal)}</b></div>`;
+  $("res-rates").innerHTML = chips;
+
+  // Pension pot summary
+  if (r.totalPot > 0.5){
+    $("sal-pot").style.display = "";
+    const showYou = r.employeePot > 0.5, showEmp = r.employerContribution > 0.5;
+    $("pot-you-row").style.display = showYou ? "" : "none";
+    $("pot-you").textContent = gbp0(r.employeePot);
+    $("pot-emp-row").style.display = showEmp ? "" : "none";
+    $("pot-emp").textContent = gbp0(r.employerContribution);
+    $("pot-total-row").style.display = (showYou && showEmp) ? "" : "none";
+    $("pot-total").textContent = gbp0(r.totalPot);
+    let note = gbp0(r.totalPot / 12) + " each month";
+    if (r.annual > 0) note += ", around " + pct1(r.totalPot / r.annual * 100) + " of gross pay";
+    note += ".";
+    if (input.penType === "ras" && r.employeePot - r.pensionFromPay > 0.5)
+      note += " Includes " + gbp0(r.employeePot - r.pensionFromPay) + " of basic rate tax relief added by your provider.";
+    $("pot-note").textContent = note;
+  } else {
+    $("sal-pot").style.display = "none";
+  }
+
+  // Contextual prompt: the 60% effective band where the personal allowance is withdrawn
+  if (r.totalIncomeForTax > 100000 && r.totalIncomeForTax < 125140){
+    $("sal-prompt").innerHTML = '<div class="rk-prompt"><span class="rk-p-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span>Income between £100,000 and £125,140 carries an effective <b>60%</b> rate, because the personal allowance is withdrawn. A pension contribution can restore some of it. <a href="#contact">Talk to Reckoner</a></span></div>';
+  } else {
+    $("sal-prompt").innerHTML = "";
+  }
+
+  // Keep the year comparison in step if it is open
+  if ($("sal-compare-btn").getAttribute("aria-pressed") === "true") renderCompare(input);
+}
+
+// ---- MTD form ----
+function renderMTD(){
+  const type = document.querySelector('input[name="mtd-type"]:checked').value;
+  const se = parseFloat($("mtd-se").value) || 0;
+  const prop = parseFloat($("mtd-prop").value) || 0;
+  $("mtd-income-block").classList.toggle("rk-show", type === "individual");
+
+  const res = checkMTD(type, se, prop);
+  animateNumber($("mtd-qtotal"), res.qualifying);
+
+  const statusEl = $("mtd-status");
+  const detailCard = $("mtd-detail-card");
+
+  if (res.outOfScope){
+    statusEl.innerHTML = `
+      <div class="rk-status rk-st-neutral">
+        <div class="rk-status-tag"><span class="rk-status-dot"></span>Outside the current phases</div>
+        <h3>Not yet in Making Tax Digital</h3>
+        <p>Partnership and LLP income is not part of the phases starting in 2026, 2027 or 2028, and partnerships cannot sign up voluntarily at present. Partners with their own separate sole trade or property income are assessed individually on that income. HMRC will set out a timeline for partnerships at a later date.</p>
+      </div>`;
+    detailCard.style.display = "none";
+    return;
+  }
+  detailCard.style.display = "";
+
+  if (res.mandated){
+    const m = res.mandated;
+    statusEl.innerHTML = `
+      <div class="rk-status rk-st-action">
+        <div class="rk-status-tag"><span class="rk-status-dot"></span>Action needed</div>
+        <h3>Mandated from ${m.start}</h3>
+        <p>Combined qualifying income of ${gbp0(res.qualifying)} is above the ${gbp0(m.threshold)} threshold. Based on the ${m.testYear} return (due ${m.due}), this client must keep digital records, file quarterly updates and submit a final declaration through compatible software from ${m.start}.</p>
+      </div>`;
+  } else {
+    statusEl.innerHTML = `
+      <div class="rk-status rk-st-good">
+        <div class="rk-status-tag"><span class="rk-status-dot"></span>Not mandated yet</div>
+        <h3>Continue with Self Assessment</h3>
+        <p>Combined qualifying income of ${gbp0(res.qualifying)} is at or below the lowest £20,000 threshold, so this client is not brought into Making Tax Digital under the current phases. They can keep filing a Self Assessment return, or sign up voluntarily. Keep reviewing each year, as the figure is tested annually.</p>
+      </div>`;
+  }
+
+  $("mtd-timeline").innerHTML = MTD_PHASES.map(p => {
+    const hit = !res.outOfScope && res.qualifying > p.threshold;
+    return `
+      <div class="rk-tl-row ${hit ? "rk-tl-hit" : ""}">
+        <div class="rk-tl-date">${p.start}<span>${p.testYear} return</span></div>
+        <div class="rk-tl-body">Qualifying income over <b>${gbp0(p.threshold)}</b>.
+          ${hit ? "<b>This client is over this threshold.</b>" : "This client is at or below this threshold."}</div>
+      </div>`;
+  }).join("");
+}
+
+// ---- Salary + dividends form ----
+function readDividend(){
+  return {
+    year: $("div-year").value,
+    region: $("div-region").value,
+    salary: Math.max(0, parseFloat($("div-salary").value) || 0),
+    dividends: Math.max(0, parseFloat($("div-dividends").value) || 0)
+  };
+}
+function renderDividend(){
+  const inp = readDividend();
+  const r = dividendCalc(inp);
+  animateNumber($("div-net"), r.net);
+  animateNumber($("div-totaltax"), r.totalTax);
+  $("div-effrate").textContent = pct1(r.effectiveRate);
+
+  const row = (l, v, cls) => `<tr class="${cls || ""}"><td>${l}</td><td>${gbp0(v)}</td></tr>`;
+  let h = "";
+  h += row("Salary", inp.salary);
+  h += row("Dividends", inp.dividends);
+  if (r.salaryTax > 0.5) h += row("Income Tax on salary", -r.salaryTax, "rk-tr-sub");
+  if (r.ni > 0.5) h += row("Employee National Insurance", -r.ni, "rk-tr-sub");
+  h += row("Dividend tax", -r.divTax, "rk-tr-sub");
+  h += row("Net income", r.net, "rk-tr-total");
+  $("div-tbody").innerHTML = h;
+
+  const rateText = inp.year === "2026/27" ? "10.75%, 35.75% and 39.35%" : "8.75%, 33.75% and 39.35%";
+  $("div-note").innerHTML = "Dividends use the £500 allowance, then the " + inp.year + " rates of " + rateText +
+    " depending on the band. This is personal tax only: Corporation Tax and employer National Insurance are separate company costs. Dividend rates are the same across the UK.";
+}
+
+// ---- Sole trader form ----
+function readSole(){
+  return {
+    year: $("sole-year").value,
+    region: $("sole-region").value,
+    profit: Math.max(0, parseFloat($("sole-profit").value) || 0),
+    loan: $("sole-loan").value
+  };
+}
+function renderSole(){
+  const inp = readSole();
+  const r = soleTraderCalc(inp);
+  animateNumber($("sole-net"), r.net);
+  animateNumber($("sole-totaltax"), r.totalTax);
+  $("sole-effrate").textContent = pct1(r.effectiveRate);
+
+  const row = (l, v, cls) => `<tr class="${cls || ""}"><td>${l}</td><td>${gbp0(v)}</td></tr>`;
+  let h = "";
+  h += row("Taxable profit", inp.profit);
+  h += row("Income Tax", -r.incomeTax, "rk-tr-sub");
+  h += row("Class 4 National Insurance", -r.class4, "rk-tr-sub");
+  if (r.loan > 0.5) h += row("Student loan", -r.loan, "rk-tr-sub");
+  h += row("Profit after tax", r.net, "rk-tr-total");
+  $("sole-tbody").innerHTML = h;
+}
+
+// ---- Compare a salary across the three tax years ----
+function renderCompare(input){
+  const years = ["2024/25", "2025/26", "2026/27"];
+  const results = years.map(y => calcSalary(Object.assign({}, input, { year: y }), true));
+  const rows = [
+    { label: "Take home", get: r => r.takeHome },
+    { label: "Income Tax", get: r => r.tax },
+    { label: "National Insurance", get: r => r.ni }
+  ];
+  const head = '<tr><th>Same salary</th>' + years.map(y => '<th class="' + (y === input.year ? "rk-cur" : "") + '">' + y + '</th>').join("") + '</tr>';
+  const body = rows.map(rw => '<tr><td>' + rw.label + '</td>' + results.map(r => '<td>' + gbp0(rw.get(r)) + '</td>').join("") + '</tr>').join("");
+  $("sal-compare").innerHTML = '<div class="rk-compare-inner"><h4>This salary across the tax years</h4>' +
+    '<p>Thresholds are frozen to 2030/31, so the same salary is taxed a little more over time.</p>' +
+    '<table class="rk-ctable"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
+}
+
+// ---- Share by link and print ----
+const SAL_KEYS = ["sal-amount","sal-period","sal-year","sal-region","pen-amount","pen-unit","pen-type","emp-amount","emp-unit","sal-loan","sal-nic","sal-taxcode","sal-bonus","sal-rental"];
+const SAL_CHECKS = ["sal-pg","sal-spa","sal-blind","sal-marriage"];
+function currentSalaryParams(){
+  const u = new URLSearchParams();
+  SAL_KEYS.forEach(id => { const v = $(id).value; if (v !== "") u.set(id, v); });
+  SAL_CHECKS.forEach(id => { if ($(id).checked) u.set(id, "1"); });
+  return u.toString();
+}
+function loadFromURL(){
+  const u = new URLSearchParams(location.search);
+  if (!Array.from(u.keys()).length) return;
+  SAL_KEYS.forEach(id => { if (u.has(id)) $(id).value = u.get(id); });
+  SAL_CHECKS.forEach(id => { $(id).checked = u.get(id) === "1"; });
+}
+function copyLink(){
+  const url = location.origin + location.pathname + "?" + currentSalaryParams();
+  const b = $("sal-copy-btn");
+  const done = () => {
+    b.classList.add("rk-copied"); b.lastChild.textContent = "Link copied";
+    setTimeout(() => { b.classList.remove("rk-copied"); b.lastChild.textContent = "Copy link"; }, 1600);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(() => window.prompt("Copy this link", url));
+  } else { window.prompt("Copy this link", url); }
+}
+function printSummary(){
+  $("rk-print-date").textContent = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  window.print();
+}
+
+// ---- Built in self test (console only, for maintainers) ----
+function selfTest(){
+  const t = (n, got, exp) => { if (Math.abs(got - exp) > 0.6) console.warn("[Reckoner self test] " + n + ": got " + got + ", expected " + exp); };
+  const base = { amount: 0, period: "year", year: "2025/26", region: "ruk", penAmount: 0, penUnit: "pct", penType: "salsac",
+    loan: "none", pg: false, nic: "A", overSPA: false, blind: false, marriage: false, taxCode: "", bonus: 0, rental: 0,
+    hoursPerWeek: 37.5, daysPerWeek: 5, weeksPerYear: 52 };
+  let r = calcSalary(Object.assign({}, base, { amount: 50270 }), true); t("Income Tax 50270", r.tax, 7540); t("NI 50270", r.ni, 3016);
+  r = calcSalary(Object.assign({}, base, { amount: 50000, region: "scotland" }), true); t("Scottish IT 50000", r.tax, 9013.80);
+  r = dividendCalc({ year: "2026/27", region: "ruk", salary: 12570, dividends: 37430 }); t("Dividend tax 26/27", r.divTax, 3969.98);
+  r = soleTraderCalc({ year: "2025/26", region: "ruk", profit: 45000, loan: "none" }); t("Class 4 45000", r.class4, (45000 - 12570) * 0.06);
+  const m = checkMTD("individual", 45000, 0);
+  if (!m.mandated || m.mandated.start !== "6 April 2027") console.warn("[Reckoner self test] MTD routing unexpected");
+  console.log("[Reckoner self test] complete");
+}
+
+// ---- Live updates ----
+["input", "change"].forEach(ev => {
+  $("rk-sal-form").addEventListener(ev, renderSalary);
+  $("rk-mtd-form").addEventListener(ev, renderMTD);
+  $("rk-div-form").addEventListener(ev, renderDividend);
+  $("rk-sole-form").addEventListener(ev, renderSole);
+});
+
+// ---- Buttons ----
+$("sal-compare-btn").addEventListener("click", () => {
+  const btn = $("sal-compare-btn");
+  const on = btn.getAttribute("aria-pressed") !== "true";
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  if (on) renderCompare(readSalaryInput()); else $("sal-compare").innerHTML = "";
+});
+$("sal-copy-btn").addEventListener("click", copyLink);
+$("sal-print-btn").addEventListener("click", printSummary);
+
+// ---- FAQ accordion ----
+document.querySelectorAll(".rk-faq-q").forEach(q => q.addEventListener("click", () => {
+  const open = q.getAttribute("aria-expanded") === "true";
+  q.setAttribute("aria-expanded", open ? "false" : "true");
+  const a = q.nextElementSibling;
+  a.style.maxHeight = open ? "0" : (a.scrollHeight + "px");
+}));
+
+// ---- Init ----
+loadFromURL();
+renderSalary();
+renderMTD();
+renderDividend();
+renderSole();
+requestAnimationFrame(() => moveIndicator($("tab-salary")));
+window.addEventListener("resize", () => {
+  const active = tabs.find(t => t.getAttribute("aria-selected") === "true") || tabs[0];
+  moveIndicator(active);
+});
+selfTest();
+</script>
+
+<script src="./JavaScript/script.js"></script>
+</body>
+</html>

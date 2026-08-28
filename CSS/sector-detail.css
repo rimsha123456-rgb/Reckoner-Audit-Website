@@ -1,0 +1,691 @@
+/* ==========================================================================
+   Sector detail pages (Manufacturing, Healthcare, Financial Institutions, ...)
+   Shared with CSS/style.css (tokens, fonts) and CSS/service-hub.css
+   (.hub-hero, .hub-shell, .hub-kicker, .hub-btn) for the hero + header/footer.
+   This file only supplies the sections unique to a sector page. Content is
+   data-driven per page — this file must not assume specific sector copy.
+   ========================================================================== */
+
+/* This page's heading is longer than the shared hero's default 760px/64px
+   sizing was tuned for, so widen it and trim the font slightly to keep
+   the intended two-line break intact instead of wrapping mid-phrase. */
+@media(min-width:901px) {
+    .hub-hero__content h1 {
+        max-width:1060px;
+        font-size:clamp(44px,4.2vw,58px);
+    }
+}
+
+.sector-section-head {
+    max-width:680px;
+}
+
+.sector-section-head.is-centred {
+    margin-inline:auto;
+    text-align:center;
+}
+
+.sector-section-head h2 {
+    margin:16px 0 0;
+    font-size:clamp(32px,3.2vw,48px);
+    line-height:1.1;
+    letter-spacing:-.03em;
+}
+
+.sector-section-head p {
+    margin:18px 0 0;
+    color:#555;
+    font-size:15.5px;
+    line-height:1.75;
+}
+
+/* ---------- 3. Services (left editorial intro + premium cards) ---------- */
+
+.sector-services {
+    padding:120px 0;
+    background:#fff;
+}
+
+.sector-services__layout {
+    display:flex;
+    align-items:flex-start;
+    gap:56px;
+}
+
+.sector-services__intro {
+    flex:0 0 27%;
+    max-width:320px;
+    padding-top:10px;
+}
+
+.sector-services__intro h2 {
+    margin:0;
+    font-size:clamp(30px,2.6vw,40px);
+    line-height:1.18;
+    letter-spacing:-.02em;
+}
+
+.sector-services__intro-text {
+    margin:18px 0 0;
+    color:#555;
+    font-size:15px;
+    line-height:1.7;
+}
+
+.sector-services__line {
+    display:block;
+    width:44px;
+    height:2px;
+    margin-top:26px;
+    background:linear-gradient(90deg,var(--red),var(--orange));
+}
+
+.sector-services__grid {
+    flex:1;
+    min-width:0;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:26px;
+    align-items:stretch;
+}
+
+.sector-service-card {
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+.sector-service-card__num {
+    position:absolute;
+    z-index:3;
+    top:-16px;
+    left:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--red));
+    color:#fff;
+    font-size:16px;
+    font-weight:900;
+    letter-spacing:.02em;
+    box-shadow:0 10px 22px rgba(235,27,59,.28);
+    transform:translateX(-50%);
+    transition:transform .3s ease,box-shadow .3s ease;
+}
+
+.sector-service-card__media {
+    position:relative;
+    aspect-ratio:4/3.3;
+    overflow:hidden;
+    border:1px solid rgba(18,18,18,.08);
+    border-bottom:0;
+    border-radius:20px 20px 0 0;
+}
+
+.sector-service-card__media img {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .6s cubic-bezier(.22,1,.36,1);
+}
+
+.sector-service-card__body {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:30px 24px 28px;
+    border:1px solid rgba(18,18,18,.08);
+    border-top:0;
+    border-radius:0 0 20px 20px;
+    background:#141414;
+}
+
+.sector-service-card__body h3 {
+    margin:0 0 16px;
+    color:#fff;
+    font-size:19px;
+    line-height:1.25;
+    letter-spacing:.01em;
+}
+
+.sector-service-card__desc {
+    min-height:86px;
+    margin:0 0 20px;
+    color:rgba(255,255,255,.62);
+    font-size:13px;
+    line-height:1.65;
+}
+
+.sector-service-card__list {
+    margin:0;
+    padding:18px 0 0;
+    border-top:1px solid rgba(255,255,255,.1);
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.sector-service-card__list li {
+    position:relative;
+    padding-left:16px;
+    color:rgba(255,255,255,.82);
+    font-size:12.5px;
+    font-weight:600;
+    line-height:1.4;
+}
+
+.sector-service-card__list li::before {
+    content:"";
+    position:absolute;
+    top:6px;
+    left:0;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--red),var(--orange));
+}
+
+.sector-service-card__shine {
+    position:absolute;
+    z-index:2;
+    inset:0;
+    overflow:hidden;
+    border-radius:20px;
+    pointer-events:none;
+}
+
+.sector-service-card__shine::before {
+    content:"";
+    position:absolute;
+    top:-35%;
+    left:-45%;
+    width:55%;
+    height:180%;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.4) 38%,rgba(255,156,58,.55) 50%,rgba(239,23,56,.4) 62%,transparent);
+    filter:blur(22px);
+    opacity:0;
+    transform:translateX(-40%) rotate(10deg);
+    transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .35s ease;
+}
+
+@media(hover:hover) and (pointer:fine) {
+    .sector-service-card {
+        transition:transform .35s ease;
+    }
+
+    .sector-service-card:hover {
+        transform:translateY(-6px);
+    }
+
+    .sector-service-card:hover .sector-service-card__media img {
+        transform:scale(1.06);
+    }
+
+    .sector-service-card:hover .sector-service-card__num {
+        transform:translateX(-50%) scale(1.08);
+        box-shadow:0 14px 30px rgba(235,27,59,.4);
+    }
+
+    .sector-service-card:hover .sector-service-card__shine::before {
+        opacity:1;
+        transform:translateX(260%) rotate(10deg);
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .sector-service-card__shine::before {
+        transition:none;
+    }
+}
+
+/* ---------- 4. Industry landscape (horizontal production line) ---------- */
+
+.sector-landscape {
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    padding:120px 0;
+    background:#0d0d0d;
+    color:#fff;
+    text-align:center;
+}
+
+.sector-landscape::before {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:0;
+    opacity:.28;
+    pointer-events:none;
+    background-image:
+        repeating-radial-gradient(ellipse at 5% 18%,transparent 0 15px,rgba(255,80,45,.25) 16px,transparent 18px),
+        repeating-radial-gradient(ellipse at 82% 48%,transparent 0 17px,rgba(255,80,45,.2) 18px,transparent 20px);
+}
+
+.sector-landscape .sector-section-head {
+    max-width:none;
+    margin-inline:auto;
+}
+
+.sector-landscape .sector-section-head h2 {
+    color:#fff;
+    white-space:nowrap;
+}
+
+.sector-landscape .sector-section-head p {
+    color:#b3b3b3;
+}
+
+.sector-landscape__line {
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    margin-top:110px;
+    padding-top:0;
+}
+
+.sector-landscape__line::before {
+    content:"";
+    position:absolute;
+    z-index:0;
+    top:9px;
+    left:0;
+    right:0;
+    height:2px;
+    background:linear-gradient(90deg,var(--red),var(--orange));
+}
+
+.sector-landscape__marker {
+    position:relative;
+    z-index:1;
+    flex:1 1 0;
+    min-width:0;
+    padding:0 12px;
+}
+
+.sector-landscape__dot {
+    display:block;
+    width:20px;
+    height:20px;
+    margin:0 auto 28px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--red),var(--orange));
+    box-shadow:0 0 0 6px rgba(235,27,59,.16);
+}
+
+.sector-landscape__marker h3 {
+    margin:0 0 10px;
+    font-size:14.5px;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.sector-landscape__marker p {
+    max-width:180px;
+    margin:0 auto;
+    color:#a3a3a3;
+    font-size:12.5px;
+    line-height:1.6;
+}
+
+/* ---------- 5. Why choose us (media + overlay panel + accordion) ---------- */
+
+.sector-choose {
+    padding:110px 0;
+    background:#fff;
+}
+
+.sector-choose__grid {
+    display:grid;
+    grid-template-columns:minmax(0,.82fr) minmax(0,1fr);
+    gap:70px;
+    align-items:start;
+}
+
+.sector-choose__media {
+    position:relative;
+    width:100%;
+    aspect-ratio:4/5;
+    max-height:680px;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 24px 55px rgba(18,18,18,.14),0 0 40px rgba(18,18,18,.1);
+    transition:height .3s ease;
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .sector-choose__media {
+        transition:none;
+    }
+}
+
+.sector-choose__media img {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.sector-choose__content h2 {
+    margin:16px 0 0;
+    font-size:clamp(32px,3.2vw,48px);
+    line-height:1.1;
+    letter-spacing:-.03em;
+}
+
+.sector-choose__content .sector-choose__lead {
+    margin:18px 0 0;
+    color:#555;
+    font-size:15.5px;
+    line-height:1.75;
+}
+
+.sector-accordion {
+    margin-top:40px;
+}
+
+.sector-accordion__item {
+    position:relative;
+    border-bottom:1px solid rgba(18,18,18,.12);
+    transition:padding-left .25s ease;
+}
+
+.sector-accordion__item:first-child {
+    border-top:1px solid rgba(18,18,18,.12);
+}
+
+.sector-accordion__item::before {
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    width:3px;
+    background:linear-gradient(180deg,var(--red),var(--orange));
+    transform:scaleY(0);
+    transition:transform .25s ease;
+}
+
+.sector-accordion__item.is-active {
+    padding-left:16px;
+}
+
+.sector-accordion__item.is-active::before {
+    transform:scaleY(1);
+}
+
+.sector-accordion__trigger {
+    display:flex;
+    align-items:center;
+    gap:20px;
+    width:100%;
+    padding:22px 4px;
+    border:0;
+    background:none;
+    color:inherit;
+    font:inherit;
+    text-align:left;
+    cursor:pointer;
+}
+
+.sector-accordion__num {
+    flex:0 0 auto;
+    min-width:40px;
+    color:rgba(18,18,18,.28);
+    font-size:26px;
+    font-weight:900;
+    letter-spacing:-.01em;
+    transition:color .25s ease;
+}
+
+.sector-accordion__item.is-active .sector-accordion__num {
+    color:var(--red);
+}
+
+.sector-accordion__title {
+    flex:1;
+    color:var(--ink);
+    font-size:16.5px;
+    font-weight:800;
+    line-height:1.3;
+}
+
+.sector-accordion__icon {
+    position:relative;
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border:1px solid rgba(18,18,18,.28);
+    border-radius:50%;
+}
+
+.sector-accordion__icon::before,
+.sector-accordion__icon::after {
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    background:var(--ink);
+    transform:translate(-50%,-50%);
+}
+
+.sector-accordion__icon::before {
+    width:10px;
+    height:1.6px;
+}
+
+.sector-accordion__icon::after {
+    width:1.6px;
+    height:10px;
+    transition:opacity .2s ease;
+}
+
+.sector-accordion__item.is-active .sector-accordion__icon {
+    border-color:var(--red);
+}
+
+.sector-accordion__item.is-active .sector-accordion__icon::before,
+.sector-accordion__item.is-active .sector-accordion__icon::after {
+    background:var(--red);
+}
+
+.sector-accordion__item.is-active .sector-accordion__icon::after {
+    opacity:0;
+}
+
+.sector-accordion__panel {
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+}
+
+.sector-accordion__panel p {
+    max-width:480px;
+    margin:0;
+    padding:0 4px 24px;
+    color:#5c5c5c;
+    font-size:14.5px;
+    line-height:1.7;
+}
+
+.sector-accordion__item.is-active .sector-accordion__panel {
+    max-height:240px;
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .sector-accordion__panel {
+        transition:none;
+    }
+}
+
+/* ---------- 6. More than compliance (oversized typography stack) ---------- */
+
+.sector-stack {
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    padding:130px 0;
+    background:#0d0d0d;
+    color:#fff;
+    text-align:center;
+}
+
+.sector-stack::before {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:0;
+    opacity:.28;
+    pointer-events:none;
+    background-image:
+        repeating-radial-gradient(ellipse at 5% 18%,transparent 0 15px,rgba(255,80,45,.25) 16px,transparent 18px),
+        repeating-radial-gradient(ellipse at 82% 48%,transparent 0 17px,rgba(255,80,45,.2) 18px,transparent 20px);
+}
+
+.sector-stack .sector-section-head {
+    margin-inline:auto;
+}
+
+.sector-stack .sector-section-head h2 {
+    color:#fff;
+}
+
+.sector-stack .sector-section-head p {
+    color:#b9b9b9;
+}
+
+.sector-stack__words {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    margin-top:70px;
+}
+
+.sector-stack__word {
+    font-weight:900;
+    line-height:1.05;
+    letter-spacing:-.03em;
+}
+
+.sector-stack__word--1 {
+    color:rgba(255,255,255,.26);
+    font-size:clamp(32px,5.4vw,58px);
+}
+
+.sector-stack__word--2 {
+    color:rgba(255,255,255,.48);
+    font-size:clamp(36px,6vw,66px);
+}
+
+.sector-stack__word--3 {
+    color:rgba(255,255,255,.78);
+    font-size:clamp(40px,6.6vw,76px);
+}
+
+.sector-stack__word--4 {
+    background:linear-gradient(90deg,var(--red),var(--orange));
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+    font-size:clamp(50px,9vw,108px);
+}
+
+.sector-stack__arrow {
+    color:var(--orange);
+    font-size:20px;
+    opacity:.55;
+}
+
+/* ---------- 7. Other sectors (strip the shared dark .industries treatment) ---------- */
+
+#other-sectors {
+    background:#fff;
+    color:var(--ink);
+}
+
+#other-sectors::before {
+    display:none;
+}
+
+#other-sectors .section-intro {
+    color:#555;
+}
+
+#other-sectors .industry-grid h3 {
+    color:#fff;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:1080px) {
+    .sector-choose__grid {
+        grid-template-columns:1fr 1fr;
+        gap:40px;
+    }
+
+    .sector-services__layout {
+        flex-direction:column;
+        gap:38px;
+    }
+
+    .sector-services__intro {
+        flex:none;
+        max-width:none;
+    }
+}
+
+@media(max-width:900px) {
+    .sector-landscape__line {
+        flex-wrap:wrap;
+        row-gap:46px;
+        justify-content:flex-start;
+    }
+
+    .sector-landscape__line::before {
+        display:none;
+    }
+
+    .sector-landscape__marker {
+        flex:1 1 42%;
+    }
+}
+
+@media(max-width:800px) {
+    .sector-choose__grid {
+        grid-template-columns:1fr;
+    }
+
+    .sector-choose__media {
+        aspect-ratio:4/3;
+    }
+}
+
+@media(max-width:640px) {
+    .sector-services,
+    .sector-landscape,
+    .sector-choose,
+    .sector-stack {
+        padding:80px 0;
+    }
+
+    .sector-services__grid {
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:520px) {
+    .sector-landscape__marker {
+        flex:1 1 100%;
+    }
+}

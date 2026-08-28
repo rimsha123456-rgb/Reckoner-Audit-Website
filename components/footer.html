@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reckoner Audit Footer</title>
+
+    <style>
+        .site-footer,
+        .site-footer * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .site-footer {
+            width: 100%;
+            padding: 0;
+            background: #0d0d0d;
+        }
+
+        .footer-container {
+            position: relative;
+            min-height: 470px;
+            overflow: hidden;
+            border-radius: 60px 60px 0 0;
+            background-color: #0d0d0d;
+            color: #ffffff;
+        }
+
+        .footer-pattern {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.38;
+            pointer-events: none;
+            background-image:
+                repeating-radial-gradient(
+                    ellipse at 0% 50%,
+                    transparent 0,
+                    transparent 16px,
+                    rgba(255, 72, 53, 0.28) 17px,
+                    transparent 19px
+                ),
+                repeating-radial-gradient(
+                    ellipse at 100% 50%,
+                    transparent 0,
+                    transparent 16px,
+                    rgba(255, 157, 60, 0.24) 17px,
+                    transparent 19px
+                ),
+                repeating-linear-gradient(
+                    115deg,
+                    transparent 0,
+                    transparent 30px,
+                    rgba(255, 72, 53, 0.07) 31px,
+                    transparent 33px
+                );
+            background-size: 58% 130%, 58% 130%, 100% 100%;
+            background-position: left center, right center, center;
+            background-repeat: no-repeat;
+            transform: none;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 310px 115px 230px 460px;
+            gap: 0;
+            justify-content: space-between;
+            width: min(calc(100% - 40px), var(--site-content-width, 1560px));
+            max-width: none;
+            margin: 0 auto;
+            padding: 70px 0 60px;
+        }
+
+        .footer-contact {
+            width: auto;
+            max-width: 100%;
+            justify-self: start;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .footer-logo img {
+            width: 172px;
+            height: auto;
+        }
+
+        
+    
+
+        .logo-subtitle {
+            margin-top: 3px;
+            color: #ff4a3d;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .footer-description {
+            max-width: 310px;
+            margin-bottom: 42px;
+            color: #e8e8e8;
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        .footer-title {
+            margin-bottom: 18px;
+            color: #ffffff;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ffffff;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
+
+        .social-link:hover {
+            border-color: #ff493d;
+            background: #ff493d;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li:not(:last-child) {
+            margin-bottom: 12px;
+        }
+
+        .footer-navigation {
+            height: 220px;
+        }
+
+        .footer-links a {
+            color: #e8e8e8;
+            font-size: 15px;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff4a3d;
+        }
+
+        .contact-list {
+            list-style: none;
+            margin-bottom: 42px;
+        }
+
+        .contact-list li {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            color: #e8e8e8;
+            font-size: 15px;
+        }
+
+        .contact-list li:not(:last-child) {
+            margin-bottom: 24px;
+        }
+
+        .contact-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+
+        .contact-list a {
+            color: #e8e8e8;
+            text-decoration: none;
+        }
+
+        .contact-list a:hover {
+            color: #ff4a3d;
+        }
+
+        .footer-form {
+            display: none;
+            max-width: 315px;
+            height: 63px;
+            overflow: hidden;
+            border-radius: 13px;
+        }
+
+        .footer-form input {
+            width: 100%;
+            min-width: 0;
+            padding: 0 18px;
+            border: 0;
+            outline: 0;
+            background: #e2e2e2;
+            color: #111111;
+            font-size: 15px;
+        }
+
+        .footer-form button {
+            width: 82px;
+            border: 0;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 24px;
+            background: linear-gradient(90deg, #ff9a3d, #f11239);
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-form button:hover {
+            opacity: 0.88;
+        }
+
+        .footer-enquiry-form {
+            width: min(100%, 460px);
+            height: 270px;
+            display: grid;
+            align-self: start;
+            align-content: space-between;
+            justify-self: start;
+            gap: 5px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 22px;
+            background: rgba(7, 7, 7, 0.88);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+        }
+
+        .footer-enquiry-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .footer-enquiry-form label {
+            display: grid;
+            gap: 6px;
+            color: #aaa3a0;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .footer-enquiry-form input,
+        .footer-enquiry-form textarea {
+            width: 100%;
+            min-width: 0;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            outline: none;
+            border-radius: 6px;
+            background: rgba(6, 6, 6, 0.82);
+            color: #ffffff;
+            font: inherit;
+            font-size: 12px;
+        }
+
+        .footer-enquiry-form input {
+            height: 28px;
+            padding: 0 13px;
+        }
+
+        .footer-enquiry-form textarea {
+            height: 38px;
+            padding: 7px 13px;
+            resize: vertical;
+        }
+
+        .footer-enquiry-form button {
+            min-height: var(--site-button-height, 44px);
+            border: 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #f21d3d, #ff963c);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 1250px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 55px;
+            }
+
+            .footer-enquiry-form {
+                grid-column: 1 / -1;
+                height: auto;
+            }
+
+            .footer-navigation {
+                height: auto;
+            }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 55px;
+                padding: 75px 0 60px;
+            }
+
+            .footer-contact {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+
+            .footer-enquiry-form {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media screen and (max-width: 650px) {
+            .site-footer {
+                padding: 0;
+            }
+
+            .footer-container {
+                border-radius: 38px 38px 0 0;
+            }
+
+            .footer-content {
+                width: calc(100% - 28px);
+                grid-template-columns: 1fr;
+                gap: 45px;
+                padding: 60px 0 50px;
+            }
+
+            .footer-contact {
+                grid-column: auto;
+                width: 100%;
+            }
+
+            .footer-enquiry-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-enquiry-form {
+                grid-column: auto;
+                width: 100%;
+                justify-self: stretch;
+            }
+
+            .footer-description {
+                font-size: 16px;
+            }
+
+            .footer-links a,
+            .contact-list li {
+                font-size: 16px;
+            }
+
+            .footer-form {
+                max-width: 100%;
+            }
+        }
+
+        .chat-fab {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 999;
+            width: 80px;
+            height: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(90deg, var(--red, #ef1738), var(--orange, #ff9c3a));
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform .2s ease;
+            animation: chat-fab-pop 2.6s ease-in-out infinite;
+        }
+
+        .chat-fab:hover {
+            transform: translateY(-2px);
+        }
+
+        .chat-fab svg {
+            width: 42px;
+            height: 42px;
+            flex: 0 0 42px;
+            animation: chat-fab-icon-pop 2.6s ease-in-out infinite;
+        }
+
+        @keyframes chat-fab-icon-pop {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.14);
+            }
+        }
+
+        .chat-fab::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: -6px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, var(--red, #ef1738), var(--orange, #ff9c3a));
+            filter: blur(14px);
+            animation: chat-fab-glow 2.6s ease-in-out infinite;
+        }
+
+        @keyframes chat-fab-pop {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.06);
+            }
+        }
+
+        @keyframes chat-fab-glow {
+
+            0%,
+            100% {
+                opacity: .35;
+                transform: scale(.95);
+            }
+
+            50% {
+                opacity: .7;
+                transform: scale(1.15);
+            }
+        }
+
+        @media (max-width: 720px) {
+            .chat-fab {
+                right: 16px;
+                bottom: 16px;
+                width: 66px;
+                height: 66px;
+            }
+
+            .chat-fab svg {
+                width: 34px;
+                height: 34px;
+                flex: 0 0 34px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .chat-fab,
+            .chat-fab::after,
+            .chat-fab svg {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="contact_us.html#enquiry" class="chat-fab" aria-label="Chat with us">
+        <svg viewBox="0 0 48 46" aria-hidden="true" fill="currentColor">
+            <path d="M44,16.25H38.75V12A9.76,9.76,0,0,0,29,2.25H19A9.76,9.76,0,0,0,9.25,12v4.25H4A1.76,1.76,0,0,0,2.25,18v8A1.76,1.76,0,0,0,4,27.75H6.25V37A6.76,6.76,0,0,0,13,43.75h6.5a3.26,3.26,0,0,0,3,2h3a3.25,3.25,0,0,0,0-6.5h-3a3.24,3.24,0,0,0-3.22,3H13A5.26,5.26,0,0,1,7.75,37V27.75H10a.76.76,0,0,0,.75-.75V12A8.26,8.26,0,0,1,19,3.75H29A8.26,8.26,0,0,1,37.25,12V27a.76.76,0,0,0,.75.75h6A1.76,1.76,0,0,0,45.75,26V18A1.76,1.76,0,0,0,44,16.25ZM22.5,40.75h3a1.75,1.75,0,0,1,0,3.5h-3a1.75,1.75,0,0,1,0-3.5Z"/>
+            <path d="M26,7.25H22A9.76,9.76,0,0,0,12.25,17V27A9.76,9.76,0,0,0,22,36.75h4A9.76,9.76,0,0,0,35.75,27V17A9.76,9.76,0,0,0,26,7.25ZM34.25,27A8.26,8.26,0,0,1,26,35.25H22A8.26,8.26,0,0,1,13.75,27V17A8.26,8.26,0,0,1,22,8.75h4A8.26,8.26,0,0,1,34.25,17Z"/>
+            <circle cx="20" cy="19" r="2.75"/>
+            <circle cx="28" cy="19" r="2.75"/>
+            <path d="M28,26.25a.76.76,0,0,0-.75.75A2.25,2.25,0,0,1,25,29.25H23A2.25,2.25,0,0,1,20.75,27a.75.75,0,0,0-1.5,0A3.75,3.75,0,0,0,23,30.75h2A3.75,3.75,0,0,0,28.75,27,.76.76,0,0,0,28,26.25Z"/>
+        </svg>
+    </a>
+
+    <footer class="site-footer" id="contact">
+        <div class="footer-container">
+
+            <div class="footer-pattern"></div>
+
+            <div class="footer-content">
+
+                <div class="footer-about">
+                    <a href="#home" class="footer-logo">
+                         <img src="../images/logo-white.png" alt="Logo">
+
+              
+                    </a>
+
+                    <p class="footer-description">
+                        Building Trust Through Professional<br>
+                        Audit Services
+                    </p>
+
+                    <h3 class="footer-title">Stay Tuned</h3>
+
+                    <a
+                        href="#"
+                        class="social-link"
+                        aria-label="LinkedIn"
+                    >
+                        in
+                    </a>
+                </div>
+
+                <div class="footer-navigation">
+                    <h3 class="footer-title">Quick Links</h3>
+
+                    <ul class="footer-links">
+                        <li><a href="about_us.html">About Us</a></li>
+                        <li><a href="index.html#tax">Tax Card</a></li>
+                        <li><a href="insights.html">Insights</a></li>
+                        <li><a href="index.html#industries">Sectors</a></li>
+                        <li><a href="contact_us.html">Contact Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h3 class="footer-title">Contact Us</h3>
+
+                    <ul class="contact-list">
+                        <li>
+                            <span class="contact-icon">☎</span>
+                            <a href="tel:02045825584">020 4582 5584</a>
+                        </li>
+
+                        <li>
+                            <span class="contact-icon">✉</span>
+                            <a href="mailto:info@thereckoner.co.uk">
+                                Info@thereckoner.co.uk
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="footer-form">
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            aria-label="Email address"
+                            required
+                        >
+
+                        <button type="submit" aria-label="Submit email">
+                            →
+                        </button>
+                    </form>
+                </div>
+
+                <form class="footer-enquiry-form">
+                    <div class="footer-enquiry-row">
+                        <label>
+                            First Name
+                            <input type="text" name="footer-first-name" placeholder="First Name" autocomplete="given-name" required>
+                        </label>
+                        <label>
+                            Last Name
+                            <input type="text" name="footer-last-name" placeholder="Last Name" autocomplete="family-name" required>
+                        </label>
+                    </div>
+                    <div class="footer-enquiry-row">
+                        <label>
+                            Subject
+                            <input type="text" name="footer-subject" placeholder="Subject" required>
+                        </label>
+                        <label>
+                            Email
+                            <input type="email" name="footer-email" placeholder="Your Email Address" autocomplete="email" required>
+                        </label>
+                    </div>
+                    <label>
+                        Message
+                        <textarea name="footer-message" placeholder="Message" required></textarea>
+                    </label>
+                    <button type="submit">Send enquiry &nbsp; &rarr;</button>
+                </form>
+
+            </div>
+        </div>
+
+    </footer>
+
+</body>
+</html>

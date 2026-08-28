@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Hub 2026/27 &middot; Rates and Allowances | Reckoner Audit</title>
+<meta name="description" content="UK tax rates and allowances for the 2025/26 and 2026/27 tax years. Income Tax, National Insurance, dividends, Capital Gains Tax, Corporation Tax, VAT, Inheritance Tax, pensions, ISAs and more, maintained by Reckoner Audit.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./CSS/style.css">
+<link rel="stylesheet" href="./CSS/service-hub.css">
+
+<style>
+:root{
+  --rk-black:#141216;
+  --rk-red:#EC1B3B;
+  --rk-red-ink:#EB1B3B;
+  --rk-coral:#F7583F;
+  --rk-orange:#FF9D3C;
+  --rk-grad-bright:linear-gradient(120deg,#EC1B3B 0%,#F7583F 52%,#FF9D3C 100%);
+  --rk-grad:linear-gradient(135deg,#EB1B3B 0%,#F55C3C 52%,#FF9D3C 100%);
+
+  --rk-bg:#FAF6F3;
+  --rk-soft:#F5EFEA;
+  --rk-card:#FFFFFF;
+  --rk-line:#E7DED7;
+  --rk-line-2:#EFE8E2;
+  --rk-text:#1A171C;
+  --rk-muted:#6E6771;
+  --rk-dim:#675F6B;
+  --rk-good:#0F7A42;
+  --rk-hero-muted:#B8ADB1;
+
+  --rk-font-display:'DM Sans',system-ui,sans-serif;
+  --rk-font-body:'DM Sans',system-ui,sans-serif;
+
+  --rk-radius:20px;
+  --rk-radius-sm:14px;
+}
+
+.rk-taxhub-scope{font-family:var(--rk-font-body);background:var(--rk-bg);color:var(--rk-text);-webkit-font-smoothing:antialiased;line-height:1.55}
+.rk-taxhub-scope [hidden]{display:none!important}
+.rk-wrap{width:min(calc(100% - 40px),var(--site-content-width,1560px));margin:0 auto}
+.rk-taxhub-scope a{color:var(--rk-red-ink);text-decoration:none}
+.rk-taxhub-scope a:hover{text-decoration:underline}
+.rk-taxhub-scope h1,.rk-taxhub-scope h2,.rk-taxhub-scope h3,.rk-taxhub-scope h4{font-family:var(--rk-font-display);line-height:1.15;letter-spacing:-.01em}
+
+/* ---------- Hero (shared hub-hero pattern: photo + grey overlay) ---------- */
+.rk-taxhub-scope .hub-hero__content h1{font-family:var(--rk-font-display);font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.1;letter-spacing:-.02em}
+.rk-taxhub-scope .hub-hero__content h1 span{background:var(--rk-grad-bright);background-clip:text;-webkit-background-clip:text;color:transparent}
+.rk-taxhub-scope .hub-hero__lead{font-family:var(--rk-font-body);max-width:640px}
+
+/* ---------- Sticky control bar ---------- */
+.rk-catbar{position:sticky;top:0;z-index:50;background:rgba(250,246,243,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rk-line)}
+.rk-catbar-inner{display:flex;align-items:center;gap:22px;width:min(calc(100% - 40px),var(--site-content-width,1560px));margin:0 auto;padding:14px 0}
+.rk-yr{display:inline-flex;background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:999px;padding:4px;gap:3px;flex:0 0 auto}
+.rk-yr-btn{font-family:var(--rk-font-display);font-weight:600;font-size:.88rem;color:var(--rk-muted);background:none;border:0;padding:9px 20px;border-radius:999px;cursor:pointer;transition:color .18s,background .18s}
+.rk-yr-btn.rk-yr-on{background:var(--rk-grad);color:#fff;box-shadow:0 3px 10px rgba(235,27,59,.26)}
+.rk-catbar-divider{width:1px;height:28px;background:var(--rk-line);flex:0 0 auto}
+.rk-chips{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;flex:0 1 auto;min-width:0;-webkit-overflow-scrolling:touch}
+.rk-chips::-webkit-scrollbar{display:none}
+.rk-chip-nav{white-space:nowrap;font-family:var(--rk-font-display);font-weight:600;font-size:.92rem;color:var(--rk-muted);background:#fff;border:1.5px solid var(--rk-line);padding:11px 24px;border-radius:999px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.rk-chip-nav:hover{border-color:var(--rk-coral);color:var(--rk-text);text-decoration:none}
+.rk-chip-nav.rk-chip-on{background:var(--rk-grad);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(235,27,59,.22)}
+.rk-search{position:relative;flex:1;min-width:200px;max-width:520px}
+.rk-search input{width:100%;font-family:inherit;font-size:.95rem;padding:12px 16px 12px 40px;border:1.5px solid var(--rk-line);border-radius:999px;background:#fff;color:var(--rk-text)}
+.rk-search input::placeholder{color:var(--rk-dim)}
+.rk-search input:focus{outline:none;border-color:var(--rk-coral)}
+.rk-search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--rk-dim);pointer-events:none}
+
+/* ---------- Sections ---------- */
+.rk-main{padding:12px 0 40px}
+.rk-cat{scroll-margin-top:150px}
+.rk-cat-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:36px 0 20px;padding-bottom:14px;border-bottom:2px solid var(--rk-line)}
+.rk-cat-titles h2{font-size:1.5rem;display:flex;align-items:center;gap:12px}
+.rk-cat-titles h2:before{content:"";width:5px;height:22px;border-radius:3px;background:var(--rk-grad)}
+.rk-cat-titles p{font-size:.9rem;color:var(--rk-muted);margin-top:6px;margin-left:17px}
+.rk-cat-count{font-family:var(--rk-font-display);font-size:.76rem;font-weight:600;color:var(--rk-dim);white-space:nowrap;background:var(--rk-soft);border:1px solid var(--rk-line);padding:5px 12px;border-radius:999px}
+
+.rk-hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;align-items:start}
+
+.rk-hcard{background:var(--rk-card);border:1px solid var(--rk-line);border-radius:var(--rk-radius);padding:22px 22px 20px;box-shadow:0 6px 20px rgba(20,18,22,.05);transition:transform .18s ease,box-shadow .18s ease}
+.rk-hcard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(20,18,22,.1)}
+.rk-hcard-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.rk-hcard-ic{flex:0 0 auto;width:38px;height:38px;border-radius:11px;background:var(--rk-grad);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 14px rgba(235,27,59,.2)}
+.rk-hcard-head h2{font-size:1.1rem;font-weight:700}
+.rk-hcard-sub{display:block;font-family:var(--rk-font-body);font-size:.75rem;color:var(--rk-dim);font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+
+.rk-rt{width:100%;border-collapse:collapse;font-size:.9rem}
+.rk-rt td{padding:8px 0;border-bottom:1px solid var(--rk-line-2);vertical-align:top}
+.rk-rt tr:last-child td{border-bottom:0}
+.rk-rt td:first-child{color:var(--rk-muted);padding-right:12px}
+.rk-rt td.v{text-align:right;font-weight:700;color:var(--rk-text);font-family:var(--rk-font-display);white-space:nowrap;font-variant-numeric:tabular-nums}
+.rk-rt td.r{text-align:right;font-weight:700;color:var(--rk-red-ink);white-space:nowrap;font-variant-numeric:tabular-nums;padding-right:14px;width:1%}
+.rk-rt td.rng{text-align:right;color:var(--rk-muted);white-space:nowrap;font-size:.82rem;font-variant-numeric:tabular-nums;width:1%}
+.rk-hcard-note{margin-top:14px;font-size:.79rem;color:var(--rk-dim);line-height:1.5}
+.rk-hcard-note b{color:var(--rk-text)}
+.rk-yr-pill{display:inline-block;font-family:var(--rk-font-display);font-weight:600;font-size:.72rem;color:var(--rk-red-ink);background:var(--rk-soft);border:1px solid var(--rk-line);padding:2px 9px;border-radius:999px;vertical-align:middle;margin-left:2px}
+
+.rk-noresults{text-align:center;padding:50px 20px;color:var(--rk-muted)}
+.rk-noresults svg{color:var(--rk-dim);margin-bottom:12px}
+.rk-noresults b{display:block;font-family:var(--rk-font-display);font-size:1.1rem;color:var(--rk-text);margin-bottom:4px}
+
+/* ---------- Inline quick-estimate calculators ---------- */
+.rk-calc-toggle{display:flex;align-items:center;gap:8px;width:100%;margin-top:14px;padding:10px 12px;font-family:var(--rk-font-display);font-weight:600;font-size:.84rem;color:var(--rk-red-ink);background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:11px;cursor:pointer;transition:background .15s,border-color .15s}
+.rk-calc-toggle:hover{background:#efe6df;border-color:var(--rk-coral)}
+.rk-calc-toggle span{flex:1;text-align:left}
+.rk-calc-chev{transition:transform .2s}
+.rk-calc-toggle[aria-expanded="true"]{background:#efe6df;border-color:transparent;border-bottom-left-radius:0;border-bottom-right-radius:0}
+.rk-calc-toggle[aria-expanded="true"] .rk-calc-chev{transform:rotate(180deg)}
+.rk-calc{border:1px solid var(--rk-line);border-top:0;border-radius:0 0 11px 11px;padding:14px 14px 16px;background:#fcf9f6;animation:rkSlide .22s ease}
+@keyframes rkSlide{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.rk-calc-field{display:block;font-size:.78rem;font-weight:600;color:var(--rk-muted);margin-bottom:11px}
+.rk-calc-input{display:flex;align-items:center;margin-top:5px;background:#fff;border:1.5px solid var(--rk-line);border-radius:10px;overflow:hidden;transition:border-color .15s}
+.rk-calc-input:focus-within{border-color:var(--rk-coral)}
+.rk-calc-input i{font-style:normal;font-family:var(--rk-font-display);font-weight:600;color:var(--rk-dim);padding:0 2px 0 12px}
+.rk-calc-input input{flex:1;width:100%;border:0;outline:0;background:none;font-family:var(--rk-font-display);font-weight:600;font-size:1rem;color:var(--rk-text);padding:10px 12px 10px 6px}
+.rk-calc-input input::-webkit-outer-spin-button,.rk-calc-input input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.rk-calc-checks{display:flex;flex-wrap:wrap;gap:10px 16px;margin-bottom:12px}
+.rk-calc-checks label{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--rk-text);cursor:pointer}
+.rk-calc-checks input{width:15px;height:15px;accent-color:var(--rk-red-ink);cursor:pointer}
+.rk-calc-seg{display:inline-flex;background:#fff;border:1.5px solid var(--rk-line);border-radius:10px;padding:3px;gap:2px;margin-bottom:12px}
+.rk-calc-seg button{font-family:var(--rk-font-display);font-weight:600;font-size:.8rem;color:var(--rk-muted);background:none;border:0;padding:6px 14px;border-radius:8px;cursor:pointer;transition:color .15s,background .15s}
+.rk-calc-seg button.rk-seg-on{background:var(--rk-grad);color:#fff}
+.rk-calc-out{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px;padding-top:13px;border-top:1px dashed var(--rk-line)}
+.rk-calc-out span{font-size:.82rem;font-weight:600;color:var(--rk-muted);display:flex;flex-direction:column}
+.rk-calc-out span em{font-style:normal;font-size:.68rem;font-weight:500;color:var(--rk-dim);margin-top:1px}
+.rk-calc-out b{font-family:var(--rk-font-display);font-weight:700;font-size:1.5rem;color:var(--rk-red-ink);font-variant-numeric:tabular-nums;line-height:1}
+
+/* ---------- Year-switch flash ---------- */
+@keyframes rkFlash{0%{box-shadow:0 0 0 3px rgba(247,88,63,.55);border-color:var(--rk-coral)}100%{box-shadow:0 6px 20px rgba(20,18,22,.05);border-color:var(--rk-line)}}
+.rk-flash{animation:rkFlash 1.15s ease-out}
+@media (prefers-reduced-motion:reduce){.rk-calc,.rk-flash{animation:none}.rk-calc-chev{transition:none}}
+
+/* ---------- Reviewed + disclaimer ---------- */
+.rk-reviewed{width:min(calc(100% - 40px),var(--site-content-width,1560px));margin:34px auto 0;display:flex;align-items:center;gap:9px;font-size:.82rem;color:var(--rk-muted)}
+.rk-reviewed svg{flex:0 0 auto;color:var(--rk-good)}
+.rk-reviewed b{color:var(--rk-text);font-weight:700}
+.rk-disclaimer{margin:16px 0 0;padding:16px 20px;font-size:.82rem;color:var(--rk-dim);line-height:1.55;background:var(--rk-soft);border:1px solid var(--rk-line);border-radius:var(--rk-radius-sm)}
+.rk-disclaimer a{color:#EB1B3B}
+.rk-disclaimer b{color:var(--rk-text)}
+.rk-disclaimer a b{color:#EB1B3B}
+
+/* ---------- Responsive ---------- */
+@media (max-width:720px){
+  .rk-catbar-inner{flex-wrap:wrap}
+  .rk-yr{order:1}
+  .rk-catbar-divider{display:none}
+  .rk-search{order:2;margin-left:auto;width:auto;flex:1;min-width:150px}
+  .rk-chips{order:3;flex-basis:100%}
+}
+</style>
+</head>
+<body>
+
+<div id="header-container"></div>
+
+<div class="rk-taxhub-scope">
+
+<section class="hub-hero" style="background-image:url('images/UK tax rates hero.png')">
+  <div class="hub-hero__backdrop"></div>
+  <div class="hub-shell hub-hero__content">
+    <h1>UK Tax Rates and <span><br>Allowances</span></h1>
+    <p class="hub-hero__lead">The rates, thresholds and reliefs that matter, grouped and searchable. Pick a tax year, jump to a section, or open a card to run a quick estimate. Current figures for the 2025/26 and 2026/27 tax years, maintained by Reckoner Audit.</p>
+  </div>
+</section>
+
+<div class="rk-catbar">
+  <div class="rk-catbar-inner">
+    <div class="rk-yr" role="group" aria-label="Choose tax year">
+      <button class="rk-yr-btn" data-year="2025/26" aria-pressed="false">2025/26</button>
+      <button class="rk-yr-btn rk-yr-on" data-year="2026/27" aria-pressed="true">2026/27</button>
+    </div>
+    <div class="rk-catbar-divider" aria-hidden="true"></div>
+    <nav class="rk-chips" aria-label="Jump to a section">
+      <a class="rk-chip-nav" href="#cat-personal">Personal</a>
+      <a class="rk-chip-nav" href="#cat-business">Business</a>
+      <a class="rk-chip-nav" href="#cat-property">Property</a>
+      <a class="rk-chip-nav" href="#cat-savings">Savings</a>
+      <a class="rk-chip-nav" href="#cat-compliance">Compliance</a>
+    </nav>
+    <div class="rk-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" id="hub-search" placeholder="Search rates" aria-label="Search rates and allowances">
+    </div>
+  </div>
+</div>
+
+<main class="rk-main">
+  <div class="rk-wrap">
+
+    <!-- =============== PERSONAL =============== -->
+    <section class="rk-cat" id="cat-personal">
+      <div class="rk-cat-head">
+        <div class="rk-cat-titles"><h2>Personal taxes</h2><p>Income Tax, National Insurance and dividends</p></div>
+        <span class="rk-cat-count"></span>
+      </div>
+      <div class="rk-hub-grid">
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 8A2.5 2.5 0 0 0 10 9.5V16M8.5 16h5M8.5 12.5h4"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></span>
+            <div><h2>Income Tax</h2><span class="rk-hcard-sub">England, Wales &amp; N. Ireland</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Personal allowance</td><td class="v">&pound;12,570</td></tr>
+            <tr><td>Basic rate</td><td class="r">20%</td><td class="rng">to &pound;50,270</td></tr>
+            <tr><td>Higher rate</td><td class="r">40%</td><td class="rng">to &pound;125,140</td></tr>
+            <tr><td>Additional rate</td><td class="r">45%</td><td class="rng">over &pound;125,140</td></tr>
+          </table>
+          <p class="rk-hcard-note">The personal allowance falls by &pound;1 for every &pound;2 of income over &pound;100,000 and is nil at &pound;125,140. Bands and the allowance are frozen to 2030/31.</p>
+          <button class="rk-calc-toggle" data-calc="it" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h8"/></svg>
+            <span>Estimate the tax</span>
+            <svg class="rk-calc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="rk-calc" hidden>
+            <label class="rk-calc-field">Annual income
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-it" min="0" step="1000" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <div class="rk-calc-out"><span>Income Tax<em>before National Insurance</em></span><b id="co-it">&pound;0</b></div>
+          </div>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4l7 3 7-3v11"/><path d="M12 7v14"/></svg></span>
+            <div><h2>Income Tax <span class="rk-yr-pill rk-year-label">2026/27</span></h2><span class="rk-hcard-sub">Scotland</span></div>
+          </div>
+          <table class="rk-rt"><tbody id="hub-scot"></tbody></table>
+          <p class="rk-hcard-note">Scottish rates apply to earned and property income. Savings and dividends are taxed at UK rates and thresholds, wherever you live.</p>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.2-2.9 7.5-7 9-4.1-1.5-7-4.8-7-9V6z"/></svg></span>
+            <div><h2>National Insurance</h2><span class="rk-hcard-sub">2026/27 rates</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Employee (Class 1)</td><td class="r">8%</td><td class="rng">&pound;12,570 to &pound;50,270</td></tr>
+            <tr><td>Employee above upper limit</td><td class="r">2%</td><td class="rng">over &pound;50,270</td></tr>
+            <tr><td>Employer (secondary)</td><td class="r">15%</td><td class="rng">over &pound;5,000</td></tr>
+            <tr><td>Class 4 (self employed)</td><td class="r">6%</td><td class="rng">&pound;12,570 to &pound;50,270</td></tr>
+            <tr><td>Class 4 above upper limit</td><td class="r">2%</td><td class="rng">over &pound;50,270</td></tr>
+            <tr><td>Class 2 (voluntary)</td><td class="v"><span id="hub-class2">&pound;3.65</span>/wk</td></tr>
+          </table>
+          <p class="rk-hcard-note">Employee and employer thresholds are frozen to 2030/31. Class 2 is voluntary for most, since profits above the small profits threshold give a National Insurance credit.</p>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"/><path d="M13.5 10.5a5 5 0 1 1-3-3"/></svg></span>
+            <div><h2>Dividends <span class="rk-yr-pill rk-year-label">2026/27</span></h2><span class="rk-hcard-sub">On top of other income</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Dividend allowance</td><td class="v">&pound;500</td></tr>
+            <tr><td>Basic rate band</td><td class="r"><span id="hub-div-basic">10.75%</span></td></tr>
+            <tr><td>Higher rate band</td><td class="r"><span id="hub-div-higher">35.75%</span></td></tr>
+            <tr><td>Additional rate band</td><td class="r">39.35%</td></tr>
+          </table>
+          <p class="rk-hcard-note">Dividend rates are the same across the UK, including Scotland. The basic and higher rates each rose by 2 percentage points from 6 April 2026.</p>
+          <button class="rk-calc-toggle" data-calc="div" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h8"/></svg>
+            <span>Estimate the tax</span>
+            <svg class="rk-calc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="rk-calc" hidden>
+            <label class="rk-calc-field">Other income (salary and so on)
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-div-other" min="0" step="1000" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <label class="rk-calc-field">Dividends received
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-div-amt" min="0" step="500" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <div class="rk-calc-out"><span>Dividend tax<em class="rk-year-label">2026/27</em></span><b id="co-div">&pound;0</b></div>
+          </div>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7S9 2 6.5 3.5 9 7 12 7zM12 7s3-5 5.5-3.5S15 7 12 7z"/></svg></span>
+            <div><h2>Allowances and reliefs</h2><span class="rk-hcard-sub">Individuals</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Marriage allowance</td><td class="v">&pound;1,260</td></tr>
+            <tr><td>Blind person's allowance</td><td class="v">&pound;3,130</td></tr>
+            <tr><td>Personal savings allowance (basic)</td><td class="v">&pound;1,000</td></tr>
+            <tr><td>Personal savings allowance (higher)</td><td class="v">&pound;500</td></tr>
+            <tr><td>Starting rate for savings</td><td class="v">&pound;5,000</td></tr>
+            <tr><td>Trading allowance</td><td class="v">&pound;1,000</td></tr>
+            <tr><td>Property allowance</td><td class="v">&pound;1,000</td></tr>
+            <tr><td>Rent a room relief</td><td class="v">&pound;7,500</td></tr>
+          </table>
+          <p class="rk-hcard-note">The personal savings allowance is nil for additional rate taxpayers. The blind person's allowance for 2026/27 is provisional pending confirmation.</p>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- =============== BUSINESS =============== -->
+    <section class="rk-cat" id="cat-business">
+      <div class="rk-cat-head">
+        <div class="rk-cat-titles"><h2>Business taxes</h2><p>Corporation Tax, VAT and Making Tax Digital</p></div>
+        <span class="rk-cat-count"></span>
+      </div>
+      <div class="rk-hub-grid">
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6l8-3v18M12 21V9l7 3v9M2 21h20M7 8v.01M7 12v.01M16 13v.01M16 16v.01"/></svg></span>
+            <div><h2>Corporation Tax</h2><span class="rk-hcard-sub">Financial year 2026</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Small profits rate</td><td class="r">19%</td><td class="rng">to &pound;50,000</td></tr>
+            <tr><td>Marginal relief band</td><td class="r">26.5%</td><td class="rng">&pound;50,000 to &pound;250,000</td></tr>
+            <tr><td>Main rate</td><td class="r">25%</td><td class="rng">over &pound;250,000</td></tr>
+          </table>
+          <p class="rk-hcard-note">The 26.5% figure is the effective marginal rate on profits between the limits. Both limits are reduced for short periods and where there are associated companies.</p>
+          <button class="rk-calc-toggle" data-calc="ct" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h8"/></svg>
+            <span>Estimate the tax</span>
+            <svg class="rk-calc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="rk-calc" hidden>
+            <label class="rk-calc-field">Taxable profit
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-ct" min="0" step="1000" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <div class="rk-calc-out"><span>Corporation Tax<em id="co-ct-rate">effective rate 19%</em></span><b id="co-ct">&pound;0</b></div>
+          </div>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14a1 1 0 0 1 1 1v17l-3-2-3 2-3-2-3 2-3-2 1-16z"/><path d="M9 9l6 6M9.5 9.5v.01M14.5 14.5v.01"/></svg></span>
+            <div><h2>VAT</h2><span class="rk-hcard-sub">Thresholds and rates</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Standard rate</td><td class="v">20%</td></tr>
+            <tr><td>Reduced rate</td><td class="v">5%</td></tr>
+            <tr><td>Zero rate</td><td class="v">0%</td></tr>
+            <tr><td>Registration threshold</td><td class="v">&pound;90,000</td></tr>
+            <tr><td>Deregistration threshold</td><td class="v">&pound;88,000</td></tr>
+          </table>
+          <p class="rk-hcard-note">Registration is required once taxable turnover in any 12 months passes &pound;90,000, or where it is expected to in the next 30 days.</p>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+            <div><h2>Making Tax Digital</h2><span class="rk-hcard-sub">Income Tax phases</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Qualifying income over &pound;50,000</td><td class="v">Apr 2026</td></tr>
+            <tr><td>Qualifying income over &pound;30,000</td><td class="v">Apr 2027</td></tr>
+            <tr><td>Qualifying income over &pound;20,000</td><td class="v">Apr 2028</td></tr>
+          </table>
+          <p class="rk-hcard-note">Qualifying income is gross self employment plus property, before expenses. Partnerships and LLPs are outside the current phases.</p>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- =============== PROPERTY & CAPITAL =============== -->
+    <section class="rk-cat" id="cat-property">
+      <div class="rk-cat-head">
+        <div class="rk-cat-titles"><h2>Property and capital</h2><p>Capital Gains Tax, Stamp Duty and Inheritance Tax</p></div>
+        <span class="rk-cat-count"></span>
+      </div>
+      <div class="rk-hub-grid">
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span>
+            <div><h2>Capital Gains Tax <span class="rk-yr-pill rk-year-label">2026/27</span></h2><span class="rk-hcard-sub">On chargeable gains</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Annual exempt amount</td><td class="v">&pound;3,000</td></tr>
+            <tr><td>Trusts</td><td class="v">&pound;1,500</td></tr>
+            <tr><td>Basic rate band</td><td class="r">18%</td></tr>
+            <tr><td>Higher and additional</td><td class="r">24%</td></tr>
+            <tr><td>Business Asset Disposal Relief</td><td class="r"><span id="hub-badr">18%</span></td></tr>
+          </table>
+          <p class="rk-hcard-note">Business Asset Disposal Relief has a &pound;1 million lifetime limit. Residential property gains must be reported and paid within 60 days of completion.</p>
+          <button class="rk-calc-toggle" data-calc="cgt" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h8"/></svg>
+            <span>Estimate the tax</span>
+            <svg class="rk-calc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="rk-calc" hidden>
+            <label class="rk-calc-field">Total gain
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-cgt" min="0" step="1000" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <div class="rk-calc-seg" id="ci-cgt-band" role="group" aria-label="Your tax band">
+              <button type="button" class="rk-seg-on" data-band="basic">Basic rate</button>
+              <button type="button" data-band="higher">Higher rate</button>
+            </div>
+            <div class="rk-calc-out"><span>Capital Gains Tax<em>after the &pound;3,000 exemption</em></span><b id="co-cgt">&pound;0</b></div>
+          </div>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M8 9V6a4 4 0 0 1 8 0v3M12 13v3"/></svg></span>
+            <div><h2>Stamp Duty (SDLT)</h2><span class="rk-hcard-sub">England &amp; N. Ireland</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Up to &pound;125,000</td><td class="r">0%</td></tr>
+            <tr><td>&pound;125,001 to &pound;250,000</td><td class="r">2%</td></tr>
+            <tr><td>&pound;250,001 to &pound;925,000</td><td class="r">5%</td></tr>
+            <tr><td>&pound;925,001 to &pound;1.5m</td><td class="r">10%</td></tr>
+            <tr><td>Over &pound;1.5m</td><td class="r">12%</td></tr>
+            <tr><td>Additional property surcharge</td><td class="r">5%</td></tr>
+          </table>
+          <p class="rk-hcard-note">First time buyers pay nothing up to &pound;300,000, with relief on purchases up to &pound;500,000. Scotland (LBTT) and Wales (LTT) set their own rates.</p>
+          <button class="rk-calc-toggle" data-calc="sdlt" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h8"/></svg>
+            <span>Estimate the tax</span>
+            <svg class="rk-calc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="rk-calc" hidden>
+            <label class="rk-calc-field">Purchase price
+              <span class="rk-calc-input"><i>&pound;</i><input type="number" id="ci-sdlt" min="0" step="5000" inputmode="numeric" placeholder="0"></span>
+            </label>
+            <div class="rk-calc-checks">
+              <label><input type="checkbox" id="ci-sdlt-ftb"> First time buyer</label>
+              <label><input type="checkbox" id="ci-sdlt-add"> Additional property</label>
+            </div>
+            <div class="rk-calc-out"><span>Stamp Duty</span><b id="co-sdlt">&pound;0</b></div>
+          </div>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg></span>
+            <div><h2>Inheritance Tax</h2><span class="rk-hcard-sub">On death</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Nil rate band</td><td class="v">&pound;325,000</td></tr>
+            <tr><td>Residence nil rate band</td><td class="v">&pound;175,000</td></tr>
+            <tr><td>Standard rate</td><td class="r">40%</td></tr>
+            <tr><td>Reduced rate</td><td class="r">36%</td></tr>
+          </table>
+          <p class="rk-hcard-note">The reduced rate applies where at least 10% of the net estate passes to charity. The residence band tapers away above a &pound;2 million estate. Thresholds are frozen to 2030. From April 2027 unused pension funds fall within the estate.</p>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- =============== SAVINGS & PENSIONS =============== -->
+    <section class="rk-cat" id="cat-savings">
+      <div class="rk-cat-head">
+        <div class="rk-cat-titles"><h2>Savings and pensions</h2><p>Pension allowances and ISA limits</p></div>
+        <span class="rk-cat-count"></span>
+      </div>
+      <div class="rk-hub-grid">
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a7 5 0 0 1 14 0v3a7 5 0 0 1-14 0z"/><path d="M18 9l2-1M8 6.5l1-1.5h4M6 15v2M16 15v2"/></svg></span>
+            <div><h2>Pensions</h2><span class="rk-hcard-sub">Allowances</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Annual allowance</td><td class="v">&pound;60,000</td></tr>
+            <tr><td>Minimum tapered allowance</td><td class="v">&pound;10,000</td></tr>
+            <tr><td>Money purchase allowance</td><td class="v">&pound;10,000</td></tr>
+            <tr><td>Tax free lump sum</td><td class="v">&pound;268,275</td></tr>
+          </table>
+          <p class="rk-hcard-note">The annual allowance tapers by &pound;1 for every &pound;2 of adjusted income over &pound;260,000, down to &pound;10,000. The lifetime allowance was abolished from April 2024.</p>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M16 12h.01M2 10h20"/></svg></span>
+            <div><h2>ISAs</h2><span class="rk-hcard-sub">Annual subscription</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Overall ISA allowance</td><td class="v">&pound;20,000</td></tr>
+            <tr><td>Junior ISA</td><td class="v">&pound;9,000</td></tr>
+            <tr><td>Lifetime ISA</td><td class="v">&pound;4,000</td></tr>
+          </table>
+          <p class="rk-hcard-note">The Lifetime ISA sits within the &pound;20,000 overall limit and attracts a 25% government bonus. From April 2027 the cash ISA limit reduces to &pound;12,000 for savers under 65.</p>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- =============== COMPLIANCE & DATES =============== -->
+    <section class="rk-cat" id="cat-compliance">
+      <div class="rk-cat-head">
+        <div class="rk-cat-titles"><h2>Compliance and dates</h2><p>Student loans and key filing deadlines</p></div>
+        <span class="rk-cat-count"></span>
+      </div>
+      <div class="rk-hub-grid">
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5M22 10v6"/></svg></span>
+            <div><h2>Student loans <span class="rk-yr-pill rk-year-label">2026/27</span></h2><span class="rk-hcard-sub">Repayment thresholds</span></div>
+          </div>
+          <table class="rk-rt"><tbody id="hub-sl"></tbody></table>
+          <p class="rk-hcard-note">Repayments are the stated percentage of income above the annual threshold. A postgraduate loan is repaid alongside any other plan.</p>
+        </section>
+
+        <section class="rk-hcard">
+          <div class="rk-hcard-head">
+            <span class="rk-hcard-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
+            <div><h2>Key dates</h2><span class="rk-hcard-sub">Filing and payment</span></div>
+          </div>
+          <table class="rk-rt">
+            <tr><td>Self Assessment online and payment</td><td class="v">31 Jan</td></tr>
+            <tr><td>Payments on account</td><td class="v">31 Jan &amp; 31 Jul</td></tr>
+            <tr><td>Register for Self Assessment</td><td class="v">5 Oct</td></tr>
+            <tr><td>Corporation Tax payment</td><td class="v">9m 1d</td></tr>
+            <tr><td>Company accounts (private)</td><td class="v">9 months</td></tr>
+            <tr><td>CT600 filing</td><td class="v">12 months</td></tr>
+            <tr><td>VAT return and payment</td><td class="v">1m 7d</td></tr>
+            <tr><td>P11D and P11D(b)</td><td class="v">6 Jul</td></tr>
+            <tr><td>Employer PAYE (electronic)</td><td class="v">22nd</td></tr>
+          </table>
+          <p class="rk-hcard-note">Corporation Tax and VAT deadlines are measured from the end of the relevant period. Accounts deadlines run from the accounting reference date.</p>
+        </section>
+
+      </div>
+    </section>
+
+    <div class="rk-noresults" id="hub-noresults" hidden>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <b>No rates match your search</b>
+      <span>Try a different word, such as VAT, dividend or pension.</span>
+    </div>
+
+  </div>
+
+  <div class="rk-reviewed">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span><b>Reviewed July 2026</b> against HMRC, gov.scot and the Student Loans Company. Many thresholds are frozen to 2030/31.</span>
+  </div>
+
+  <div class="rk-wrap">
+    <div class="rk-disclaimer">
+      <b>Please note.</b> These figures are a general reference and do not replace advice for your circumstances. Rates can change at a Budget and some 2026/27 figures remain provisional. For help applying any of these to your own position, please <a href="#contact"><b>contact Reckoner Audit</b></a>.
+    </div>
+  </div>
+</main>
+
+</div>
+
+<div id="footer-container"></div>
+
+<script>
+const HUB = {
+  "2025/26": {
+    scot: [
+      ["Starter rate","19%","£12,571 to £15,397"],
+      ["Basic rate","20%","£15,398 to £27,491"],
+      ["Intermediate rate","21%","£27,492 to £43,662"],
+      ["Higher rate","42%","£43,663 to £75,000"],
+      ["Advanced rate","45%","£75,001 to £125,140"],
+      ["Top rate","48%","over £125,140"]
+    ],
+    sl: [
+      ["Plan 1","9%","over £26,065"],
+      ["Plan 2","9%","over £28,470"],
+      ["Plan 4 (Scotland)","9%","over £32,745"],
+      ["Plan 5","9%","over £25,000"],
+      ["Postgraduate","6%","over £21,000"]
+    ],
+    divBasic:"8.75%", divHigher:"33.75%", badr:"14%", class2:"£3.50"
+  },
+  "2026/27": {
+    scot: [
+      ["Starter rate","19%","£12,571 to £16,537"],
+      ["Basic rate","20%","£16,538 to £29,526"],
+      ["Intermediate rate","21%","£29,527 to £43,662"],
+      ["Higher rate","42%","£43,663 to £75,000"],
+      ["Advanced rate","45%","£75,001 to £125,140"],
+      ["Top rate","48%","over £125,140"]
+    ],
+    sl: [
+      ["Plan 1","9%","over £26,900"],
+      ["Plan 2","9%","over £29,385"],
+      ["Plan 4 (Scotland)","9%","over £33,795"],
+      ["Plan 5","9%","over £25,000"],
+      ["Postgraduate","6%","over £21,000"]
+    ],
+    divBasic:"10.75%", divHigher:"35.75%", badr:"18%", class2:"£3.65"
+  }
+};
+
+const $ = id => document.getElementById(id);
+const gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
+let currentYear = "2026/27";
+let cgtBand = "basic";
+
+function bandRows(rows){
+  return rows.map(r => '<tr><td>' + r[0] + '</td><td class="r">' + r[1] + '</td><td class="rng">' + r[2] + '</td></tr>').join("");
+}
+
+/* ---- Calculator engines (rates verified) ---- */
+const CALC = {
+  div: {
+    "2025/26": { allowance:500, basic:0.0875, higher:0.3375, add:0.3935 },
+    "2026/27": { allowance:500, basic:0.1075, higher:0.3575, add:0.3935 }
+  }
+};
+function calcIT(gross){
+  const pa = gross > 100000 ? Math.max(0, 12570 - (gross - 100000) / 2) : 12570;
+  const t = Math.max(0, gross - pa);
+  let tax = Math.min(t, 37700) * 0.20;
+  tax += Math.max(0, Math.min(t, 125140) - 37700) * 0.40;
+  tax += Math.max(0, t - 125140) * 0.45;
+  return tax;
+}
+function divSeg(a, b, c){
+  const seg = [[0,37700,c.basic],[37700,125140,c.higher],[125140,Infinity,c.add]];
+  let t = 0;
+  for (let i = 0; i < seg.length; i++){
+    const lo = Math.max(a, seg[i][0]), hi = Math.min(b, seg[i][1]);
+    if (hi > lo) t += (hi - lo) * seg[i][2];
+  }
+  return t;
+}
+function calcDiv(other, div){
+  const c = CALC.div[currentYear];
+  const total = other + div;
+  const pa = total > 100000 ? Math.max(0, 12570 - (total - 100000) / 2) : 12570;
+  const otherTaxable = Math.max(0, other - pa);
+  const paLeft = Math.max(0, pa - other);
+  const divAfterPA = Math.max(0, div - paLeft);
+  const start = otherTaxable, end = start + divAfterPA;
+  const allowance = Math.min(c.allowance, divAfterPA);
+  return divSeg(start, end, c) - divSeg(start, start + allowance, c);
+}
+function calcCT(p){
+  if (p <= 50000) return p * 0.19;
+  if (p >= 250000) return p * 0.25;
+  return p * 0.25 - (250000 - p) * (3 / 200);
+}
+function calcSDLT(price, ftb, add){
+  let tax = 0;
+  if (ftb && price <= 500000){
+    tax = Math.max(0, Math.min(price, 500000) - 300000) * 0.05;
+  } else {
+    const bands = [[125000,0],[250000,0.02],[925000,0.05],[1500000,0.10],[Infinity,0.12]];
+    let prev = 0;
+    for (let i = 0; i < bands.length; i++){
+      if (price > prev){ tax += (Math.min(price, bands[i][0]) - prev) * bands[i][1]; prev = bands[i][0]; }
+      else break;
+    }
+  }
+  if (add) tax += price * 0.05;
+  return tax;
+}
+function calcCGT(gain, higher){ return Math.max(0, gain - 3000) * (higher ? 0.24 : 0.18); }
+
+function num(id){ const el = $(id); if (!el) return 0; const v = parseFloat(el.value); return (isFinite(v) && v > 0) ? v : 0; }
+
+function updateCalcs(){
+  if ($("co-it")) $("co-it").textContent = gbp(calcIT(num("ci-it")));
+  if ($("co-div")) $("co-div").textContent = gbp(calcDiv(num("ci-div-other"), num("ci-div-amt")));
+  if ($("co-ct")){
+    const p = num("ci-ct"), t = calcCT(p);
+    $("co-ct").textContent = gbp(t);
+    $("co-ct-rate").textContent = p > 0
+      ? "effective rate " + (t / p * 100).toFixed(1).replace(/\.0$/, "") + "%"
+      : "effective rate 19%";
+  }
+  if ($("co-sdlt")){
+    $("co-sdlt").textContent = gbp(calcSDLT(num("ci-sdlt"), $("ci-sdlt-ftb").checked, $("ci-sdlt-add").checked));
+  }
+  if ($("co-cgt")){
+    $("co-cgt").textContent = gbp(calcCGT(num("ci-cgt"), cgtBand === "higher"));
+  }
+}
+
+/* ---- Year rendering + change flash ---- */
+function flash(el){ if (!el) return; el.classList.remove("rk-flash"); void el.offsetWidth; el.classList.add("rk-flash"); }
+function flashChanged(){
+  const ids = ["hub-scot","hub-sl","hub-div-basic","hub-badr","hub-class2"];
+  const seen = [];
+  ids.forEach(id => {
+    const node = $(id), card = node && node.closest(".rk-hcard");
+    if (card && seen.indexOf(card) === -1){ seen.push(card); flash(card); }
+  });
+}
+function renderHub(year, animate){
+  currentYear = year;
+  const d = HUB[year];
+  $("hub-scot").innerHTML = bandRows(d.scot);
+  $("hub-sl").innerHTML = bandRows(d.sl);
+  $("hub-div-basic").textContent = d.divBasic;
+  $("hub-div-higher").textContent = d.divHigher;
+  $("hub-badr").textContent = d.badr;
+  $("hub-class2").textContent = d.class2;
+  document.querySelectorAll(".rk-year-label").forEach(el => el.textContent = year);
+  document.querySelectorAll(".rk-yr-btn").forEach(b => {
+    const on = b.dataset.year === year;
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.classList.toggle("rk-yr-on", on);
+  });
+  updateCalcs();
+  if (animate) flashChanged();
+}
+document.querySelectorAll(".rk-yr-btn").forEach(b =>
+  b.addEventListener("click", () => renderHub(b.dataset.year, true)));
+
+/* ---- Calculator interactions ---- */
+document.querySelectorAll(".rk-calc-toggle").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const panel = btn.nextElementSibling;
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", open ? "false" : "true");
+    panel.hidden = open;
+    if (!open){ const inp = panel.querySelector("input[type=number]"); if (inp) inp.focus(); }
+  });
+});
+document.querySelectorAll(".rk-calc input").forEach(inp => {
+  inp.addEventListener("input", updateCalcs);
+  inp.addEventListener("change", updateCalcs);
+});
+const cgtSeg = $("ci-cgt-band");
+if (cgtSeg){
+  cgtSeg.querySelectorAll("button").forEach(b => {
+    b.addEventListener("click", () => {
+      cgtBand = b.dataset.band;
+      cgtSeg.querySelectorAll("button").forEach(x => x.classList.toggle("rk-seg-on", x === b));
+      updateCalcs();
+    });
+  });
+}
+
+/* ---- Section counts + live search ---- */
+const cats = Array.from(document.querySelectorAll(".rk-cat"));
+const searchInput = $("hub-search");
+const noResults = $("hub-noresults");
+function updateCounts(){
+  cats.forEach(cat => {
+    const vis = cat.querySelectorAll(".rk-hcard:not([hidden])").length;
+    const el = cat.querySelector(".rk-cat-count");
+    if (el) el.textContent = vis + (vis === 1 ? " topic" : " topics");
+  });
+}
+function runFilter(){
+  const q = searchInput.value.trim().toLowerCase();
+  let any = false;
+  cats.forEach(cat => {
+    let anyIn = false;
+    cat.querySelectorAll(".rk-hcard").forEach(card => {
+      const match = q === "" || card.textContent.toLowerCase().indexOf(q) !== -1;
+      card.hidden = !match;
+      if (match) anyIn = true;
+    });
+    cat.hidden = !anyIn;
+    if (anyIn) any = true;
+  });
+  noResults.hidden = any;
+  updateCounts();
+}
+searchInput.addEventListener("input", runFilter);
+
+/* ---- Scrollspy for the category chips ---- */
+const chips = Array.from(document.querySelectorAll(".rk-chip-nav"));
+const chipFor = {};
+chips.forEach(c => { chipFor[c.getAttribute("href").slice(1)] = c; });
+if ("IntersectionObserver" in window){
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        chips.forEach(c => c.classList.remove("rk-chip-on"));
+        const c = chipFor[e.target.id];
+        if (c) c.classList.add("rk-chip-on");
+      }
+    });
+  }, { rootMargin: "-150px 0px -60% 0px", threshold: 0 });
+  cats.forEach(s => spy.observe(s));
+}
+
+/* ---- Init ---- */
+renderHub("2026/27", false);
+updateCounts();
+</script>
+
+<script src="./JavaScript/script.js"></script>
+</body>
+</html>

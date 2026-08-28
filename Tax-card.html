@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UK Tax Card 2025/26 | Reckoner Audit</title>
+  <meta name="description" content="UK Tax Card 2025/26 (6 April 2025 to 5 April 2026): key income tax bands, National Insurance, dividend rates, capital gains tax, allowances and deadlines.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./CSS/style.css">
+  <link rel="stylesheet" href="./CSS/service-hub.css">
+
+  <style>
+    .taxcard-scope, .taxcard-scope * { box-sizing: border-box; }
+    .taxcard-scope{
+      --red:#EB1B3B;
+      --orange:#ff6a00;
+      --ink:#111;
+      --muted:#4b5563;
+      --line:rgba(17,17,17,0.12);
+      --paper:#fff;
+      --bg:#f6f7fb;
+
+      font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.45;
+      letter-spacing:normal;
+    }
+    .taxcard-scope a { color: inherit; text-decoration: none; }
+    .taxcard-scope p { margin: 0 0 12px 0; }
+    .taxcard-scope ul { margin: 10px 0 0 0; padding-left: 18px; }
+    .taxcard-scope li { margin: 6px 0; }
+
+    .taxcard-shell { padding: 40px 0 50px; }
+    .taxcard-container{ width:min(calc(100% - 40px),var(--site-content-width,1560px)); margin:0 auto; }
+
+    .taxcard-grid{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 992px){
+      .taxcard-grid{ grid-template-columns: 1fr; }
+    }
+
+    .taxcard-toc{
+      position: sticky;
+      top: 18px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 46px rgba(0,0,0,0.06);
+    }
+    .taxcard-toc h3{
+      font-size: 14px;
+      font-weight: 900;
+      margin: 0 0 8px 0;
+    }
+    .taxcard-toc a{
+      display:block;
+      padding: 9px 10px;
+      border-radius: 12px;
+      font-weight: 750;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .taxcard-toc a:hover{ background: rgba(255,106,0,0.10); }
+    .taxcard-toc a.active{ background: rgba(235,27,59,0.10); color: var(--red); }
+
+    .taxcard-section{ margin-bottom: 16px; }
+    .taxcard-section-head h2{
+      margin:0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--red);
+    }
+    .taxcard-rule{
+      height:2px;
+      width:100%;
+      background: linear-gradient(90deg, #EB1B3B 0%, #F55C3C 8%, #FF9D3C 20%, rgba(255,157,60,0) 100%);
+      border-radius: 40px;
+      margin-top: 8px;
+    }
+
+    .taxcard-card{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 16px 46px rgba(0,0,0,0.06);
+      margin-top: 10px;
+    }
+    .taxcard-h3{
+      margin:0 0 10px 0;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--red);
+    }
+    .taxcard-muted{ color: var(--muted); font-weight: 650; }
+
+    .taxcard-table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing:0;
+      margin:0;
+      font-size: 14px;
+    }
+    .taxcard-table th, .taxcard-table td{
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(17,17,17,0.10);
+      vertical-align: middle;
+      background: transparent;
+      text-align:left;
+    }
+    .taxcard-table th{
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      font-weight: 900;
+    }
+    .taxcard-table .text-end{ text-align:right; }
+    .taxcard-table tr:last-child td{ border-bottom:0; }
+    .taxcard-value{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 12px;
+      background: #FDE8EB;
+      font-weight: 900;
+    }
+    .taxcard-divider{
+      height:1px;
+      background: rgba(17,17,17,0.10);
+      margin: 14px 0;
+    }
+    .taxcard-callout{
+      margin-top: 10px;
+      background: rgba(235,27,59,0.06);
+      border: 1px solid rgba(235,27,59,0.18);
+      border-radius: 18px;
+      padding: 14px;
+      font-weight: 900;
+    }
+    .taxcard-footer-note{
+      margin-top: 14px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #F65C3C;
+      font-weight: 750;
+      border-top: 1px solid rgba(17,17,17,0.10);
+      padding-top: 10px;
+    }
+    .table-responsive{ overflow-x:auto; }
+
+    /* Extra breathing room in the hero text block */
+    .hub-hero__content .hub-kicker{ margin-bottom: 18px; }
+    .hub-hero__content h1{ margin-top: 0; margin-bottom: 22px; }
+    .hub-hero__lead{ margin-top: 0; margin-bottom: 32px; }
+
+    /* Print CTA matches the site header's Contact Us button */
+    .taxcard-print-btn{
+      margin-top: 6px;
+      min-width: 150px;
+      min-height: var(--site-button-height, 44px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 28px;
+      color: #ffffff;
+      font-family: "DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      background: linear-gradient(90deg, #2b0f08 0%, #000000 100%);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .taxcard-print-btn:hover{ transform: translateY(-2px); }
+    .taxcard-print-btn .arrow{ font-size: 0; font-weight: 300; line-height: 1; }
+    .taxcard-print-btn .arrow::before{ content: "\2192"; font-size: 25px; }
+
+    @media print{
+      .taxcard-toc, .hub-hero{ display:none; }
+      .taxcard-scope{ background:#fff; }
+      .taxcard-shell{ padding-top:0; }
+      .taxcard-card{ box-shadow:none; }
+      .taxcard-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="header-container"></div>
+
+  <section class="hub-hero" style="background-image:url('images/corptax-vat.png')">
+    <div class="hub-hero__backdrop"></div>
+    <div class="hub-shell hub-hero__content">
+      <h1>UK Finance Act <br><span>2025 Tax Card</span></h1>
+      <p class="hub-hero__lead">(Tax year April 1st, 2025 - March 31st, 2026) &mdash; key income tax bands, National Insurance, dividend rates, capital gains tax, allowances and deadlines, all in one place.</p>
+      <button type="button" class="taxcard-print-btn" onclick="window.print()">
+        Print this page
+        <span class="arrow">&rarr;</span>
+      </button>
+    </div>
+  </section>
+
+  <main class="taxcard-scope">
+    <section class="taxcard-shell">
+      <div class="taxcard-container">
+
+        <div class="taxcard-grid">
+          <aside>
+            <nav class="taxcard-toc">
+              <h3>Table of Contents</h3>
+              <a href="#income-tax">Income Tax</a>
+              <a href="#hicbc">High Income Child Benefit Charge (HICBC)</a>
+              <a href="#corp-tax">Corporation Tax</a>
+              <a href="#cgt">Capital Gains Tax</a>
+              <a href="#nic">National Insurance Contributions</a>
+              <a href="#cap-allow">Main Capital Allowances</a>
+              <a href="#vehicle">Vehicle Benefits</a>
+              <a href="#mileage">Tax-Free Mileage Allowances</a>
+              <a href="#vat">Value Added Tax</a>
+              <a href="#frs">Flat Rate Scheme (FRS)</a>
+              <a href="#iht">Inheritance Tax</a>
+              <a href="#gifts">Reduced Tax Charge on Gifts Within 7 Years Before Death</a>
+              <a href="#dates">Key Dates and Deadlines</a>
+            </nav>
+          </aside>
+
+          <section>
+
+            <!-- INCOME TAX -->
+            <div id="income-tax" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Income Tax</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Allowances</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>Allowances</th>
+                        <th class="text-end">2025/26</th>
+                        <th class="text-end">2024/25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Personal Allowance (PA)</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;12,570</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;12,570</span></td>
+                      </tr>
+                      <tr>
+                        <td>Marriage Allowance</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,260</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,260</span></td>
+                      </tr>
+                      <tr>
+                        <td>Blind Person's Allowance</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;3,130</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;3,070</span></td>
+                      </tr>
+                      <tr>
+                        <td>Rent-a-room relief*</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;7,500</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;7,500</span></td>
+                      </tr>
+                      <tr>
+                        <td>Trading income allowance*</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000</span></td>
+                      </tr>
+                      <tr>
+                        <td>Property income allowance*</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <ul>
+                  <li><strong>Personal Allowance</strong> is withdrawn at &pound;1 for every &pound;2 by which "adjusted income" exceeds &pound;100,000. There is no allowance given above &pound;125,140.</li>
+                  <li><strong>Marriage Allowance</strong> The part of the PA that is transferable to a spouse or civil partner who is not a higher or additional rate taxpayer.</li>
+                  <li>* If gross income exceeds this, the limit may be deducted instead of actual expenses.</li>
+                </ul>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Rate Bands</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>Rate bands</th>
+                        <th class="text-end">2025/26</th>
+                        <th class="text-end">2024/25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Basic Rate Band (BRB)</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1 - &pound;37,700</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1 - &pound;37,700</span></td>
+                      </tr>
+                      <tr>
+                        <td>Higher Rate Band (HRB)</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;37,701 &ndash; &pound;125,140</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;37,701 &ndash; &pound;125,140</span></td>
+                      </tr>
+                      <tr>
+                        <td>Additional rate</td>
+                        <td class="text-end"><span class="taxcard-value">over &pound;125,140</span></td>
+                        <td class="text-end"><span class="taxcard-value">over &pound;125,140</span></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">
+                          <div class="taxcard-muted" style="margin-top:10px;">
+                            Personal Savings Allowance (PSA):
+                            Basic rate taxpayer <strong>&pound;1,000</strong> &middot;
+                            Higher rate taxpayer <strong>&pound;500</strong>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Dividend Allowance (DA)</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;500</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Tax Rates</div>
+                <p class="taxcard-muted">Rates differ for General/Savings/Dividend income</p>
+
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>2025/26</th>
+                        <th class="text-end">General Income</th>
+                        <th class="text-end">Savings Income</th>
+                        <th class="text-end">Dividends Income</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Basic rate %</td>
+                        <td class="text-end"><span class="taxcard-value">20%</span></td>
+                        <td class="text-end"><span class="taxcard-value">20%</span></td>
+                        <td class="text-end"><span class="taxcard-value">8.75%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Higher rate %</td>
+                        <td class="text-end"><span class="taxcard-value">40%</span></td>
+                        <td class="text-end"><span class="taxcard-value">40%</span></td>
+                        <td class="text-end"><span class="taxcard-value">33.75%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Additional rate %</td>
+                        <td class="text-end"><span class="taxcard-value">45%</span></td>
+                        <td class="text-end"><span class="taxcard-value">45%</span></td>
+                        <td class="text-end"><span class="taxcard-value">39.35%</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <p><strong>BRB and additional rate threshold</strong> are increased by personal pension contributions (up to permitted limit) and Gift Aid donations.</p>
+                <p><strong>General income</strong> (salary, pensions, business profits, rent) usually uses personal allowance, basic rate and higher rate bands before <strong>savings income</strong> (mainly interest).</p>
+                <p>Where savings income falls in the first <strong>&pound;5,000</strong> of the BRB, it is taxed at nil rather than 20%.</p>
+                <p>The <strong>PSA</strong> taxes interest at nil, where it would otherwise be taxable at 20% or 40%.</p>
+                <p><strong>Dividends</strong> are normally taxed as the "top slice" of income. The <strong>DA</strong> taxes the first <strong>&pound;500</strong> of dividend income at nil, rather than the rate that would otherwise apply.</p>
+              </div>
+            </div>
+
+            <!-- HICBC -->
+            <div id="hicbc" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>High Income Child Benefit Charge (HICBC)</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+              <div class="taxcard-callout">
+                1% of child benefit for each &pound;200 of adjusted net income between &pound;60,000 and &pound;80,000.
+              </div>
+            </div>
+
+            <!-- CORPORATION TAX -->
+            <div id="corp-tax" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Corporation Tax</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">Year to 31.3.2026</th>
+                        <th class="text-end">31.3.2025</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Main rate (profits above &pound;250,000)</td>
+                        <td class="text-end"><span class="taxcard-value">25%</span></td>
+                        <td class="text-end"><span class="taxcard-value">25%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Small profits rate (profits up to &pound;50,000)</td>
+                        <td class="text-end"><span class="taxcard-value">19%</span></td>
+                        <td class="text-end"><span class="taxcard-value">19%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Marginal relief band (MRB)</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;50k &ndash; &pound;250k</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;50k &ndash; &pound;250k</span></td>
+                      </tr>
+                      <tr>
+                        <td>Fraction in MRB (effective marginal rate)</td>
+                        <td class="text-end"><span class="taxcard-value">3/200 (26.5%)</span></td>
+                        <td class="text-end"><span class="taxcard-value">3/200 (26.5%)</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- CGT -->
+            <div id="cgt" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Capital Gains Tax</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr>
+                        <td>Lower rate</td>
+                        <td class="text-end"><span class="taxcard-value">18%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Higher rate</td>
+                        <td class="text-end"><span class="taxcard-value">24%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Annual exempt amount</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;3,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Business asset disposal relief</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr>
+                        <td>Lifetime limit</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;1,000,000</span></td>
+                      </tr>
+                      <tr>
+                        <td>Rate of tax</td>
+                        <td class="text-end"><span class="taxcard-value">14%</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- NIC -->
+            <div id="nic" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>National Insurance Contributions</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr><td colspan="2"><strong>Class 1 Employee</strong></td></tr>
+                      <tr><td>&pound;1 - &pound;12,570 per year</td><td class="text-end"><span class="taxcard-value">Nil</span></td></tr>
+                      <tr><td>&pound;12,571 - &pound;50,270 per year</td><td class="text-end"><span class="taxcard-value">8%</span></td></tr>
+                      <tr><td>&pound;50,271 and above per year</td><td class="text-end"><span class="taxcard-value">2%</span></td></tr>
+
+                      <tr><td colspan="2"><strong>Class 1 Employer</strong></td></tr>
+                      <tr><td>&pound;1 - &pound;5,000 per year</td><td class="text-end"><span class="taxcard-value">Nil</span></td></tr>
+                      <tr><td>&pound;5,001 and above per year</td><td class="text-end"><span class="taxcard-value">15%</span></td></tr>
+                      <tr><td>Employment allowance</td><td class="text-end"><span class="taxcard-value">&pound;10,500</span></td></tr>
+
+                      <tr><td colspan="2"><strong>Class 1A</strong></td></tr>
+                      <tr><td>Rate</td><td class="text-end"><span class="taxcard-value">15%</span></td></tr>
+
+                      <tr><td colspan="2"><strong>Class 4</strong></td></tr>
+                      <tr><td>&pound;1 - &pound;12,570 per year</td><td class="text-end"><span class="taxcard-value">Nil</span></td></tr>
+                      <tr><td>&pound;12,571 - &pound;50,270 per year</td><td class="text-end"><span class="taxcard-value">6%</span></td></tr>
+                      <tr><td>&pound;50,271 and above per year</td><td class="text-end"><span class="taxcard-value">2%</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+                <p class="taxcard-muted" style="margin:0;">
+                  Where weekly or monthly calculations are required, the Class 1 limits shown above should be divided by 52 (weekly) or 12 (monthly) as applicable.
+                </p>
+              </div>
+            </div>
+
+            <!-- CAPITAL ALLOWANCES -->
+            <div id="cap-allow" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Main Capital Allowances</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Plant and machinery allowances</div>
+
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">Year to 31.3.26</th>
+                        <th class="text-end">Year to 31.3.25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td colspan="3"><strong>Plant and Machinery</strong></td></tr>
+                      <tr>
+                        <td>Main Pool</td>
+                        <td class="text-end"><span class="taxcard-value">18%</span></td>
+                        <td class="text-end"><span class="taxcard-value">18%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Special Rate Pool</td>
+                        <td class="text-end"><span class="taxcard-value">6%</span></td>
+                        <td class="text-end"><span class="taxcard-value">6%</span></td>
+                      </tr>
+
+                      <tr><td colspan="3"><strong>Annual Investment Allowance (AIA)</strong></td></tr>
+                      <tr>
+                        <td>Expenditure up to &pound;1m</td>
+                        <td class="text-end"><span class="taxcard-value">100%</span></td>
+                        <td class="text-end"><span class="taxcard-value">100%</span></td>
+                      </tr>
+
+                      <tr><td colspan="3"><strong>Enhanced capital allowances for companies</strong></td></tr>
+                      <tr>
+                        <td>Main Pool first year allowance</td>
+                        <td class="text-end"><span class="taxcard-value">100%</span></td>
+                        <td class="text-end"><span class="taxcard-value">100%</span></td>
+                      </tr>
+                      <tr>
+                        <td>Special Rate Pool first year allowance</td>
+                        <td class="text-end"><span class="taxcard-value">50%</span></td>
+                        <td class="text-end"><span class="taxcard-value">50%</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Motor cars purchased</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">CO2 (g/km)</th>
+                        <th class="text-end">Allowance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>New cars only</td>
+                        <td class="text-end"><span class="taxcard-value">Nil</span></td>
+                        <td class="text-end"><span class="taxcard-value">100%</span></td>
+                      </tr>
+                      <tr>
+                        <td>In general pool</td>
+                        <td class="text-end"><span class="taxcard-value">up to 50</span></td>
+                        <td class="text-end"><span class="taxcard-value">18%</span></td>
+                      </tr>
+                      <tr>
+                        <td>In special rate pool</td>
+                        <td class="text-end"><span class="taxcard-value">above 50</span></td>
+                        <td class="text-end"><span class="taxcard-value">6%</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Structures And Buildings Allowance</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr>
+                        <td>Fixed deduction per annum</td>
+                        <td class="text-end"><span class="taxcard-value">3%</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- VEHICLE BENEFITS -->
+            <div id="vehicle" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Vehicle Benefits</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Cars</div>
+                <p class="taxcard-muted">Taxable benefit: List price of car multiplied by chargeable percentage.</p>
+
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>CO2 g/km</th>
+                        <th>Electric Range miles</th>
+                        <th class="text-end">2025/26</th>
+                        <th class="text-end">2024/25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>0</td><td>N/A</td><td class="text-end"><span class="taxcard-value">3</span></td><td class="text-end"><span class="taxcard-value">2</span></td></tr>
+                      <tr><td>1-50</td><td>&gt;130</td><td class="text-end"><span class="taxcard-value">3</span></td><td class="text-end"><span class="taxcard-value">2</span></td></tr>
+                      <tr><td>1-50</td><td>70 &ndash; 129</td><td class="text-end"><span class="taxcard-value">6</span></td><td class="text-end"><span class="taxcard-value">5</span></td></tr>
+                      <tr><td>1-50</td><td>40 &ndash; 69</td><td class="text-end"><span class="taxcard-value">9</span></td><td class="text-end"><span class="taxcard-value">8</span></td></tr>
+                      <tr><td>1-50</td><td>30 &ndash; 39</td><td class="text-end"><span class="taxcard-value">13</span></td><td class="text-end"><span class="taxcard-value">12</span></td></tr>
+                      <tr><td>1-50</td><td>&lt;30</td><td class="text-end"><span class="taxcard-value">15</span></td><td class="text-end"><span class="taxcard-value">14</span></td></tr>
+                      <tr><td>51-54</td><td>N/A</td><td class="text-end"><span class="taxcard-value">16</span></td><td class="text-end"><span class="taxcard-value">15</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <ul>
+                  <li>Then a further 1% for each 5g/km CO2 emissions, up to a maximum of 37%.</li>
+                  <li>Diesel cars that are not RDE2 standard suffer a 4% supplement on the above figures but are still capped at 37%.</li>
+                </ul>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Vans</div>
+                <p style="margin:0;">
+                  Chargeable value of <strong>&pound;4,020</strong> (2024/25: <strong>&pound;3,960</strong>) if private use is more than home-to-work.
+                  Zero-emission vans charged at <strong>&pound;Nil</strong> (2024/25: <strong>&pound;Nil</strong>).
+                </p>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Fuel</div>
+                <p style="margin-bottom:8px;">Employer provides fuel for private motoring in an employer-owned:</p>
+                <ul>
+                  <li><strong>Car:</strong> CO2-based percentage from above table multiplied by <strong>&pound;28,200</strong> (2024/25: <strong>&pound;27,800</strong>).</li>
+                  <li><strong>Van:</strong> <strong>&pound;769</strong> (2024/25: <strong>&pound;757</strong>).</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- MILEAGE -->
+            <div id="mileage" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Tax-Free Mileage Allowances</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>Employee's own transport</th>
+                        <th class="text-end">per business mile</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Cars first 10,000 miles</td><td class="text-end"><span class="taxcard-value">45p</span></td></tr>
+                      <tr><td>Cars over 10,000 miles</td><td class="text-end"><span class="taxcard-value">25p</span></td></tr>
+                      <tr><td>Business passengers</td><td class="text-end"><span class="taxcard-value">5p</span></td></tr>
+                      <tr><td>Motorcycles</td><td class="text-end"><span class="taxcard-value">24p</span></td></tr>
+                      <tr><td>Bicycles</td><td class="text-end"><span class="taxcard-value">20p</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- VAT -->
+            <div id="vat" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Value Added Tax</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <p style="margin-bottom:10px;">
+                  Standard rate (1/6 of VAT-inclusive price) <strong><span class="taxcard-value">20%</span></strong>
+                </p>
+
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">From 1.4.2024</th>
+                        <th class="text-end">Pre 1.4.2024</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Registration level &ndash; Taxable turnover</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;90,000</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;85,000</span></td>
+                      </tr>
+                      <tr>
+                        <td>Deregistration level &ndash; Taxable turnover</td>
+                        <td class="text-end"><span class="taxcard-value">&pound;88,000</span></td>
+                        <td class="text-end"><span class="taxcard-value">&pound;83,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- FRS -->
+            <div id="frs" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Flat Rate Scheme (FRS)</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr>
+                        <td>Annual taxable turnover to enter scheme</td>
+                        <td class="text-end"><span class="taxcard-value">Up to &pound;150,000</span></td>
+                      </tr>
+                      <tr>
+                        <td>Must leave scheme if annual gross turnover</td>
+                        <td class="text-end"><span class="taxcard-value">Exceeds &pound;230,000</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <p style="margin:0;">
+                  If using FRS, the VAT paid by the business is a fixed percentage (based on business category) of "FRS turnover" rather than the net of output tax over input tax. Input tax is usually not recoverable.
+                </p>
+              </div>
+            </div>
+
+            <!-- IHT -->
+            <div id="iht" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Inheritance Tax</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">2025/26</th>
+                        <th class="text-end">2024/25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Nil rate band (NRB)</td><td class="text-end"><span class="taxcard-value">&pound;325,000</span></td><td class="text-end"><span class="taxcard-value">&pound;325,000</span></td></tr>
+                      <tr><td>NRB Residential enhancement (RNRB)</td><td class="text-end"><span class="taxcard-value">&pound;175,000</span></td><td class="text-end"><span class="taxcard-value">&pound;175,000</span></td></tr>
+                      <tr><td>Tax rate on death</td><td class="text-end"><span class="taxcard-value">40%</span></td><td class="text-end"><span class="taxcard-value">40%</span></td></tr>
+                      <tr><td>Tax rate on lifetime transfers to most trusts</td><td class="text-end"><span class="taxcard-value">20%</span></td><td class="text-end"><span class="taxcard-value">20%</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <p style="margin:0;">
+                  100% Business Property Relief (BPR) for all shareholdings in qualifying unquoted trading companies, qualifying unincorporated trading businesses and certain farmland/buildings.
+                </p>
+              </div>
+            </div>
+
+            <!-- GIFTS -->
+            <div id="gifts" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Reduced Tax Charge on Gifts Within 7 Years Before Death</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th>Years before death</th>
+                        <th class="text-end">0-3</th>
+                        <th class="text-end">3-4</th>
+                        <th class="text-end">4-5</th>
+                        <th class="text-end">5-6</th>
+                        <th class="text-end">6-7</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>% of full death tax charge payable</td>
+                        <td class="text-end"><span class="taxcard-value">100</span></td>
+                        <td class="text-end"><span class="taxcard-value">80</span></td>
+                        <td class="text-end"><span class="taxcard-value">60</span></td>
+                        <td class="text-end"><span class="taxcard-value">40</span></td>
+                        <td class="text-end"><span class="taxcard-value">20</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <p style="margin:0;">
+                  Annual exemptions for lifetime gifts include <strong>&pound;3,000</strong> per donor and <strong>&pound;250</strong> per recipient.
+                </p>
+              </div>
+            </div>
+
+            <!-- KEY DATES -->
+            <div id="dates" class="taxcard-section">
+              <div class="taxcard-section-head">
+                <h2>Key Dates and Deadlines</h2>
+                <div class="taxcard-rule"></div>
+              </div>
+
+              <div class="taxcard-card">
+                <div class="taxcard-h3">Payment dates - Self assessment</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-end">2025/26</th>
+                        <th class="text-end">2024/25</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>1st payment on account (online)</td><td class="text-end"><span class="taxcard-value">31 January 2026</span></td><td class="text-end"><span class="taxcard-value">2025</span></td></tr>
+                      <tr><td>2nd payment on account</td><td class="text-end"><span class="taxcard-value">31 July 2026</span></td><td class="text-end"><span class="taxcard-value">2025</span></td></tr>
+                      <tr><td>Balancing payment</td><td class="text-end"><span class="taxcard-value">31 January 2027</span></td><td class="text-end"><span class="taxcard-value">2026</span></td></tr>
+                      <tr><td>Capital Gains Tax*</td><td class="text-end"><span class="taxcard-value">31 January 2026</span></td><td class="text-end"><span class="taxcard-value">2025</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <div class="taxcard-h3">Other payment dates</div>
+                <div class="table-responsive">
+                  <table class="taxcard-table">
+                    <tbody>
+                      <tr><td>Class 1A NIC</td><td class="text-end"><span class="taxcard-value">19 July 2026</span></td><td class="text-end"><span class="taxcard-value">2025</span></td></tr>
+                      <tr><td>Issuing annual P60s to employees</td><td class="text-end"><span class="taxcard-value">31 May 2027</span></td><td class="text-end"><span class="taxcard-value">2026</span></td></tr>
+                      <tr><td>Self Assessment return deadline (paper/postal)</td><td class="text-end"><span class="taxcard-value">31 Oct 2025</span></td><td class="text-end"><span class="taxcard-value">2024</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="taxcard-divider"></div>
+
+                <p>Corporation tax is due 9 months and 1 day from the end of the accounting period, unless a "large" company paying by quarterly instalments.</p>
+                <p style="margin:0;">* For 24/25 tax year, taxpayers must report and pay any CGT within 60 days of the completion date of the disposal.</p>
+
+                <div class="taxcard-footer-note">
+                  <span><strong>RECKONER AUDIT</strong></span>
+                  <span>UK Finance Act 2025 Tax Card (2025/26)</span>
+                </div>
+              </div>
+            </div>
+
+          </section>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script>
+    const tocLinks = document.querySelectorAll('.taxcard-toc a');
+    const sections = [...tocLinks]
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const onScroll = () => {
+      let current = sections[0];
+      for (const s of sections) {
+        const top = s.getBoundingClientRect().top;
+        if (top <= 200) current = s;
+      }
+      tocLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector('.taxcard-toc a[href="#' + current.id + '"]');
+      if (active) active.classList.add('active');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+
+  <script src="./JavaScript/script.js"></script>
+</body>
+</html>
