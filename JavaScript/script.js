@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await loadComponent("components/footer.html", "footer-container");
     initialiseFooterForm();
+    initialiseChatbot();
     initialiseContactForm();
     initialiseContactBranches();
     initialiseServiceCarousel();
@@ -723,6 +724,150 @@ function initialiseActiveNav() {
 
     navItems.forEach(function (item) {
         item.classList.toggle("nav-active", item === target);
+    });
+}
+
+function initialiseChatbot() {
+    const CHAT_EMAIL = "info@thereckoner.co.uk";
+    // Sign up free at https://formspree.io, verify info@thereckoner.co.uk as the
+    // recipient, then replace this with your real endpoint (https://formspree.io/f/xxxxxxx)
+    // to have messages delivered to the inbox automatically.
+    const FORM_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID";
+
+    const toggle = document.getElementById("chatbotToggle");
+    const closeButton = document.getElementById("chatbotClose");
+    const panel = document.getElementById("chatbotPanel");
+    const messages = document.getElementById("chatbotMessages");
+    const placeholder = document.getElementById("chatbotPlaceholder");
+    const form = document.getElementById("chatbotForm");
+    const nameInput = document.getElementById("chatbotName");
+    const emailInput = document.getElementById("chatbotEmail");
+    const messageInput = document.getElementById("chatbotInput");
+
+    if (!toggle || !panel || !messages || !form || !nameInput || !emailInput || !messageInput) {
+        return;
+    }
+
+    function addMessage(text, sender) {
+        if (placeholder) {
+            placeholder.remove();
+        }
+
+        const bubble = document.createElement("div");
+        bubble.className = `chatbot-msg chatbot-msg--${sender}`;
+        bubble.textContent = text;
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function openPanel() {
+        panel.hidden = false;
+        toggle.setAttribute("aria-expanded", "true");
+        nameInput.focus();
+    }
+
+    function closePanel() {
+        panel.hidden = true;
+        toggle.setAttribute("aria-expanded", "false");
+    }
+
+    toggle.addEventListener("click", function () {
+        if (panel.hidden) {
+            openPanel();
+        } else {
+            closePanel();
+        }
+    });
+
+    if (closeButton) {
+        closeButton.addEventListener("click", closePanel);
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+
+        if (!name || !email || !message) {
+            form.reportValidity();
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            emailInput.focus();
+            form.reportValidity();
+            return;
+        }
+
+        addMessage(message, "user");
+
+        const subject = `Website chatbot enquiry from ${name}`;
+
+        if (FORM_ENDPOINT.includes("REPLACE_WITH_YOUR_FORM_ID")) {
+            const body =
+                `Name: ${name}\n` +
+                `Email: ${email}\n\n` +
+                `Message:\n${message}\n\n` +
+                `Sent via the Reckoner Audit website chatbot.`;
+
+            window.location.href =
+                `mailto:${CHAT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            addMessage(
+                `Thanks! I've opened your email app with this ready to send to ${CHAT_EMAIL} — just hit send there and our team will get back to you within one working day.`,
+                "bot"
+            );
+
+            messageInput.value = "";
+            messageInput.focus();
+            return;
+        }
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending…";
+
+        fetch(FORM_ENDPOINT, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body: new URLSearchParams({
+                name: name,
+                email: email,
+                message: message,
+                _subject: subject
+            })
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    addMessage(
+                        "Thanks! Your message has been sent to our team — we'll get back to you within one working day.",
+                        "bot"
+                    );
+                    messageInput.value = "";
+                } else {
+                    addMessage(
+                        `Sorry, something went wrong sending your message. Please try again or email us directly at ${CHAT_EMAIL}.`,
+                        "bot"
+                    );
+                }
+            })
+            .catch(function () {
+                addMessage(
+                    `Sorry, something went wrong sending your message. Please try again or email us directly at ${CHAT_EMAIL}.`,
+                    "bot"
+                );
+            })
+            .finally(function () {
+                submitButton.disabled = false;
+                submitButton.textContent = "Send";
+                messageInput.focus();
+            });
     });
 }
 

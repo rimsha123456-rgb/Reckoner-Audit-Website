@@ -477,20 +477,237 @@
                 animation: none;
             }
         }
+
+        .chatbot-widget {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 999;
+        }
+
+        .chatbot-widget .chat-fab {
+            position: static;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .chat-fab__icon--close {
+            display: none;
+        }
+
+        .chatbot-widget .chat-fab[aria-expanded="true"] .chat-fab__icon--open {
+            display: none;
+        }
+
+        .chatbot-widget .chat-fab[aria-expanded="true"] .chat-fab__icon--close {
+            display: block;
+            width: 26px;
+            height: 26px;
+            animation: none;
+        }
+
+        .chatbot-panel {
+            position: absolute;
+            right: 0;
+            bottom: calc(100% + 16px);
+            width: 380px;
+            max-width: calc(100vw - 48px);
+            max-height: min(560px, calc(100vh - 140px));
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .chatbot-panel[hidden] {
+            display: none;
+        }
+
+        .chatbot-panel__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 20px;
+            background: linear-gradient(90deg, var(--red, #ef1738), var(--orange, #ff9c3a));
+            color: #fff;
+            flex: 0 0 auto;
+        }
+
+        .chatbot-panel__header strong {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .chatbot-panel__close {
+            flex: 0 0 auto;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 0;
+            background: #fff;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .chatbot-panel__close svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .chatbot-panel__messages {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f4f4f4;
+            min-height: 260px;
+        }
+
+        .chatbot-panel__placeholder {
+            margin: auto;
+            color: #9a9a9a;
+            font-size: 13px;
+        }
+
+        .chatbot-msg {
+            max-width: 85%;
+            padding: 9px 13px;
+            border-radius: 14px;
+            font-size: 13.5px;
+            line-height: 1.45;
+            white-space: pre-line;
+        }
+
+        .chatbot-msg--bot {
+            align-self: flex-start;
+            background: #fff;
+            color: #1a1a1a;
+            border: 1px solid #ececec;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chatbot-msg--user {
+            align-self: flex-end;
+            background: linear-gradient(90deg, var(--red, #ef1738), var(--orange, #ff9c3a));
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-panel__form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            border-top: 1px solid #ececec;
+            flex: 0 0 auto;
+        }
+
+        .chatbot-panel__row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-panel__form input {
+            flex: 1 1 0;
+            min-width: 0;
+            border: 1px solid #e4e4e4;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .chatbot-panel__form input:focus {
+            border-color: var(--red, #ef1738);
+        }
+
+        .chatbot-panel__row--message input {
+            flex: 1 1 auto;
+        }
+
+        .chatbot-panel__row--message button {
+            flex: 0 0 auto;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 22px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--red, #ef1738), var(--orange, #ff9c3a));
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 720px) {
+            .chatbot-widget {
+                right: 16px;
+                bottom: 16px;
+            }
+
+            .chatbot-panel {
+                width: min(380px, calc(100vw - 32px));
+            }
+
+            .chatbot-panel__row {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <a href="contact_us.html#enquiry" class="chat-fab" aria-label="Chat with us">
-        <svg viewBox="0 0 48 46" aria-hidden="true" fill="currentColor">
-            <path d="M44,16.25H38.75V12A9.76,9.76,0,0,0,29,2.25H19A9.76,9.76,0,0,0,9.25,12v4.25H4A1.76,1.76,0,0,0,2.25,18v8A1.76,1.76,0,0,0,4,27.75H6.25V37A6.76,6.76,0,0,0,13,43.75h6.5a3.26,3.26,0,0,0,3,2h3a3.25,3.25,0,0,0,0-6.5h-3a3.24,3.24,0,0,0-3.22,3H13A5.26,5.26,0,0,1,7.75,37V27.75H10a.76.76,0,0,0,.75-.75V12A8.26,8.26,0,0,1,19,3.75H29A8.26,8.26,0,0,1,37.25,12V27a.76.76,0,0,0,.75.75h6A1.76,1.76,0,0,0,45.75,26V18A1.76,1.76,0,0,0,44,16.25ZM22.5,40.75h3a1.75,1.75,0,0,1,0,3.5h-3a1.75,1.75,0,0,1,0-3.5Z"/>
-            <path d="M26,7.25H22A9.76,9.76,0,0,0,12.25,17V27A9.76,9.76,0,0,0,22,36.75h4A9.76,9.76,0,0,0,35.75,27V17A9.76,9.76,0,0,0,26,7.25ZM34.25,27A8.26,8.26,0,0,1,26,35.25H22A8.26,8.26,0,0,1,13.75,27V17A8.26,8.26,0,0,1,22,8.75h4A8.26,8.26,0,0,1,34.25,17Z"/>
-            <circle cx="20" cy="19" r="2.75"/>
-            <circle cx="28" cy="19" r="2.75"/>
-            <path d="M28,26.25a.76.76,0,0,0-.75.75A2.25,2.25,0,0,1,25,29.25H23A2.25,2.25,0,0,1,20.75,27a.75.75,0,0,0-1.5,0A3.75,3.75,0,0,0,23,30.75h2A3.75,3.75,0,0,0,28.75,27,.76.76,0,0,0,28,26.25Z"/>
-        </svg>
-    </a>
+    <div class="chatbot-widget">
+        <button type="button" id="chatbotToggle" class="chat-fab" aria-label="Chat with us" aria-haspopup="dialog" aria-expanded="false" aria-controls="chatbotPanel">
+            <svg class="chat-fab__icon chat-fab__icon--open" viewBox="0 0 48 46" aria-hidden="true" fill="currentColor">
+                <path d="M44,16.25H38.75V12A9.76,9.76,0,0,0,29,2.25H19A9.76,9.76,0,0,0,9.25,12v4.25H4A1.76,1.76,0,0,0,2.25,18v8A1.76,1.76,0,0,0,4,27.75H6.25V37A6.76,6.76,0,0,0,13,43.75h6.5a3.26,3.26,0,0,0,3,2h3a3.25,3.25,0,0,0,0-6.5h-3a3.24,3.24,0,0,0-3.22,3H13A5.26,5.26,0,0,1,7.75,37V27.75H10a.76.76,0,0,0,.75-.75V12A8.26,8.26,0,0,1,19,3.75H29A8.26,8.26,0,0,1,37.25,12V27a.76.76,0,0,0,.75.75h6A1.76,1.76,0,0,0,45.75,26V18A1.76,1.76,0,0,0,44,16.25ZM22.5,40.75h3a1.75,1.75,0,0,1,0,3.5h-3a1.75,1.75,0,0,1,0-3.5Z"/>
+                <path d="M26,7.25H22A9.76,9.76,0,0,0,12.25,17V27A9.76,9.76,0,0,0,22,36.75h4A9.76,9.76,0,0,0,35.75,27V17A9.76,9.76,0,0,0,26,7.25ZM34.25,27A8.26,8.26,0,0,1,26,35.25H22A8.26,8.26,0,0,1,13.75,27V17A8.26,8.26,0,0,1,22,8.75h4A8.26,8.26,0,0,1,34.25,17Z"/>
+                <circle cx="20" cy="19" r="2.75"/>
+                <circle cx="28" cy="19" r="2.75"/>
+                <path d="M28,26.25a.76.76,0,0,0-.75.75A2.25,2.25,0,0,1,25,29.25H23A2.25,2.25,0,0,1,20.75,27a.75.75,0,0,0-1.5,0A3.75,3.75,0,0,0,23,30.75h2A3.75,3.75,0,0,0,28.75,27,.76.76,0,0,0,28,26.25Z"/>
+            </svg>
+            <svg class="chat-fab__icon chat-fab__icon--close" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <path d="M6 6l12 12M18 6 6 18"/>
+            </svg>
+        </button>
+
+        <div class="chatbot-panel" id="chatbotPanel" role="dialog" aria-label="Reckoner Audit chat assistant" hidden>
+            <div class="chatbot-panel__header">
+                <strong>Chat With Us - 100% Human</strong>
+                <button type="button" id="chatbotClose" class="chatbot-panel__close" aria-label="Close chat">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                        <path d="M6 6l12 12M18 6 6 18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="chatbot-panel__messages" id="chatbotMessages" aria-live="polite">
+                <p class="chatbot-panel__placeholder" id="chatbotPlaceholder">No messages yet.</p>
+            </div>
+
+            <form class="chatbot-panel__form" id="chatbotForm" novalidate>
+                <div class="chatbot-panel__row">
+                    <input type="text" id="chatbotName" placeholder="Your name" autocomplete="name" required>
+                    <input type="email" id="chatbotEmail" placeholder="Your email" autocomplete="email" required>
+                </div>
+                <div class="chatbot-panel__row chatbot-panel__row--message">
+                    <input type="text" id="chatbotInput" placeholder="Type your message" autocomplete="off" required>
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer class="site-footer" id="contact">
         <div class="footer-container">
