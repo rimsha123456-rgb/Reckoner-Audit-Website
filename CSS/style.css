@@ -2974,37 +2974,74 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
     transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1);
 }
 
-.motion-ready .hero-copy h1,
-.motion-ready .hero-copy p,
-.motion-ready .hero-actions {
-    opacity:0;
-    transform:translateY(28px);
-    filter:blur(4px);
-    transition:
-        opacity .8s ease,
-        transform .8s cubic-bezier(.22,1,.36,1),
-        filter .8s ease;
+.page-entered .hero-header {
+    opacity:1;
+    transform:translateY(0);
 }
 
-.page-entered .hero-header,
-.page-entered .hero-copy h1,
-.page-entered .hero-copy p,
-.page-entered .hero-actions {
+/* Kinetic hero typography, shared across every page's hero section.
+   initialiseHeroKinetic() (script.js) splits each hero <h1> into one
+   .hero-kinetic-line per visual line and gives kickers/leads/actions a
+   .hero-fade-item class, each carrying its own --line-delay so the whole
+   hero cascades in on page load: label, then heading line by line, then
+   copy, then buttons. */
+.hero-kinetic-line {
+    display:block;
+    overflow:hidden;
+}
+
+.hero-kinetic-line__inner {
+    display:inline-block;
+    opacity:0;
+    transform:translateY(34px);
+    filter:blur(6px);
+    transition:
+        opacity 1.05s ease var(--line-delay,0s),
+        transform 1.05s cubic-bezier(.22,1,.36,1) var(--line-delay,0s),
+        filter 1.05s ease var(--line-delay,0s);
+    will-change:transform,opacity,filter;
+}
+
+.page-entered .hero-kinetic-line__inner {
     opacity:1;
     transform:translateY(0);
     filter:blur(0);
 }
 
-.page-entered .hero-copy h1 {
-    transition-delay:.12s;
+/* These two wrapper spans are plain <span> elements, so the site's
+   "h1 span" gradient-accent rules (e.g. .hub-hero__content h1 span) match
+   them too and would turn the whole heading into gradient text instead of
+   just the original accent span nested inside. Force them back to normal
+   heading color without touching those accent rules. */
+.hero-kinetic-line,
+.hero-kinetic-line__inner {
+    background:none !important;
+    -webkit-background-clip:initial !important;
+    background-clip:initial !important;
+    color:inherit !important;
 }
 
-.page-entered .hero-copy p {
-    transition-delay:.28s;
+.hero-fade-item {
+    opacity:0;
+    transform:translateY(18px);
+    transition:
+        opacity 1s ease var(--line-delay,0s),
+        transform 1s cubic-bezier(.22,1,.36,1) var(--line-delay,0s);
 }
 
-.page-entered .hero-actions {
-    transition-delay:.42s;
+.page-entered .hero-fade-item {
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .hero-kinetic-line__inner,
+    .hero-fade-item {
+        opacity:1;
+        transform:none;
+        filter:none;
+        transition:none;
+    }
 }
 
 .motion-ready .reveal-item {
@@ -3233,22 +3270,22 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
     transition:width .12s linear;
 }
 
+/* Soft parallax: initialiseHeroParallax() (script.js) nudges these custom
+   properties on mousemove so the hero photo drifts a few pixels behind the
+   copy. Each selector keeps its own base anchor (center vs. right/center)
+   and only adds the offset on top of it. !important is required here:
+   service-hub.css and contact.css load after this file and each set their
+   own background-position on .hub-hero/.contact-hero at equal specificity,
+   which would otherwise win the cascade and silently cancel the parallax. */
 .hero {
-    background-position:calc(50% + var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px));
-    transition:background-position .5s cubic-bezier(.22,1,.36,1);
+    background-position:calc(50% + var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px)) !important;
+    transition:background-position .6s cubic-bezier(.22,1,.36,1);
 }
 
-.motion-ready .hero-copy h1 {
-    clip-path:inset(0 0 100% 0);
-    transition:
-        opacity .8s ease,
-        transform .8s cubic-bezier(.22,1,.36,1),
-        filter .8s ease,
-        clip-path .9s cubic-bezier(.22,1,.36,1);
-}
-
-.page-entered .hero-copy h1 {
-    clip-path:inset(0 0 0% 0);
+.hub-hero,
+.contact-hero {
+    background-position:calc(100% + var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px)) !important;
+    transition:background-position .6s cubic-bezier(.22,1,.36,1);
 }
 
 #about .home-about__visual>img {
@@ -3302,12 +3339,10 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
         transition:none;
     }
 
-    .hero {
+    .hero,
+    .hub-hero,
+    .contact-hero {
         transition:none;
-    }
-
-    .motion-ready .hero-copy h1 {
-        clip-path:none;
     }
 
     #about .home-about__visual>img {

@@ -967,10 +967,18 @@
     width:48%;
     height:100%;
     background:url("../images/specialist-services.png") center/cover no-repeat;
+    background-position:calc(50% + var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px));
+    transition:background-position .6s cubic-bezier(.22,1,.36,1);
     opacity:.48;
     -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.5) 24%,#000 100%);
     mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.5) 24%,#000 100%);
     pointer-events:none;
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .services-page-body .services-hero::after {
+        transition:none;
+    }
 }
 
 .services-page-body .services-hero__inner {

@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     initialiseLogoCarousel();
     initialiseAccordions();
     initialiseChooseMedia();
+    initialiseHeroKinetic();
     initialisePageAnimations();
+    initialiseHeroParallax();
 });
 
 function initialiseContactBranches() {
@@ -108,7 +110,6 @@ function initialisePageAnimations() {
         ".insight-grid article",
         ".accreditations",
         ".footer-content > *",
-        ".hub-hero__content > *",
         ".hub-callout__panel > *",
         ".hub-other__card",
         ".hub-value__statement > *",
@@ -207,6 +208,178 @@ function initialisePageAnimations() {
 
     document.querySelectorAll(".stats strong").forEach(function (stat) {
         statObserver.observe(stat);
+    });
+}
+
+/**
+ * Kinetic hero typography, applied to the homepage, sector/service hub
+ * pages (e.g. property.html), the contact page and services.html/
+ * sectors.html. Intentionally excluded from about_us.html.
+ * Splits each hero's <h1> into one .hero-kinetic-line per visual line
+ * (respecting existing <br> breaks) so lines reveal in sequence with a
+ * blur-to-clear cascade, then staggers the kicker/lead/buttons around it:
+ * label first, heading line by line, copy, then buttons.
+ */
+function initialiseHeroKinetic() {
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reduceMotion) {
+        return;
+    }
+
+    const heroRoots = document.querySelectorAll(
+        ".hero-copy, .hub-hero__content, .contact-hero__copy, .services-hero__copy, .detail-hero > .hub-shell, .article-header > .hub-shell"
+    );
+
+    heroRoots.forEach(function (root) {
+        if (root.dataset.heroKineticReady === "true") {
+            return;
+        }
+
+        root.dataset.heroKineticReady = "true";
+
+        const heading = root.querySelector("h1");
+        const before = [];
+        const after = [];
+        let passedHeading = false;
+
+        Array.from(root.children).forEach(function (child) {
+            if (child === heading) {
+                passedHeading = true;
+                return;
+            }
+
+            (passedHeading ? after : before).push(child);
+        });
+
+        before.forEach(function (child, index) {
+            child.classList.add("hero-fade-item");
+            child.style.setProperty("--line-delay", `${(index * 0.14).toFixed(2)}s`);
+        });
+
+        const lineStep = 0.18;
+        const lineBase = 0.08;
+        const lineCount = heading ? splitHeroHeadingLines(heading, lineBase, lineStep) : 0;
+        const headingDuration = lineCount
+            ? lineBase + (lineCount - 1) * lineStep + 0.9
+            : lineBase;
+
+        after.forEach(function (child, index) {
+            child.classList.add("hero-fade-item");
+            child.style.setProperty(
+                "--line-delay",
+                `${(headingDuration + index * 0.18).toFixed(2)}s`
+            );
+        });
+    });
+}
+
+/**
+ * Moves each existing child node of `heading` into its own
+ * .hero-kinetic-line > .hero-kinetic-line__inner, splitting on <br>
+ * elements. Nodes are relocated (not cloned), so this only rearranges the
+ * heading's existing text/markup rather than rewriting it. Returns the
+ * number of lines produced.
+ */
+function splitHeroHeadingLines(heading, lineBase, lineStep) {
+    const sourceNodes = Array.from(heading.childNodes);
+    const lines = [];
+    let currentNodes = [];
+
+    function flushLine() {
+        const hasContent = currentNodes.some(function (node) {
+            return node.nodeType === 1 || (node.textContent || "").trim() !== "";
+        });
+
+        if (hasContent) {
+            lines.push(currentNodes);
+        }
+
+        currentNodes = [];
+    }
+
+    sourceNodes.forEach(function (node) {
+        if (node.nodeName === "BR") {
+            flushLine();
+        } else {
+            currentNodes.push(node);
+        }
+    });
+    flushLine();
+
+    if (!lines.length) {
+        return 0;
+    }
+
+    heading.classList.add("hero-kinetic");
+
+    const fragment = document.createDocumentFragment();
+
+    lines.forEach(function (lineNodes, index) {
+        const lineSpan = document.createElement("span");
+        lineSpan.className = "hero-kinetic-line";
+
+        const innerSpan = document.createElement("span");
+        innerSpan.className = "hero-kinetic-line__inner";
+        innerSpan.style.setProperty(
+            "--line-delay",
+            `${(lineBase + index * lineStep).toFixed(2)}s`
+        );
+
+        lineNodes.forEach(function (node) {
+            innerSpan.appendChild(node);
+        });
+
+        lineSpan.appendChild(innerSpan);
+        fragment.appendChild(lineSpan);
+    });
+
+    Array.from(heading.childNodes).forEach(function (node) {
+        heading.removeChild(node);
+    });
+
+    heading.appendChild(fragment);
+
+    return lines.length;
+}
+
+/**
+ * Subtle mouse-driven parallax for hero background photos: nudges
+ * --hero-parallax-x/-y (consumed by .hero/.hub-hero/.contact-hero/
+ * .services-hero background-position in style.css/services.css) toward
+ * the cursor.
+ */
+function initialiseHeroParallax() {
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    if (reduceMotion || !canHover) {
+        return;
+    }
+
+    const heroes = document.querySelectorAll(
+        ".hero, .hub-hero, .contact-hero, .services-hero, .is-tax-modern .detail-hero"
+    );
+    const maxOffset = 24;
+
+    heroes.forEach(function (hero) {
+        hero.addEventListener("mousemove", function (event) {
+            const rect = hero.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+            const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+
+            hero.style.setProperty("--hero-parallax-x", `${(x * maxOffset).toFixed(1)}px`);
+            hero.style.setProperty("--hero-parallax-y", `${(y * maxOffset * 0.6).toFixed(1)}px`);
+        });
+
+        hero.addEventListener("mouseleave", function () {
+            hero.style.setProperty("--hero-parallax-x", "0px");
+            hero.style.setProperty("--hero-parallax-y", "0px");
+        });
     });
 }
 

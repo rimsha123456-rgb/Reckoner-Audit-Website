@@ -20,10 +20,14 @@
             inset:0;
             z-index:-2;
             background-image:url('images/ecommerce-accounting-hero.png');
-            background-position:right center;
+            background-position:calc(100% - var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px));
             background-size:cover;
             background-repeat:no-repeat;
             transform:scaleX(-1);
+            transition:background-position .6s cubic-bezier(.22,1,.36,1);
+        }
+        @media(prefers-reduced-motion:reduce) {
+            #ecommerceHero::before { transition:none; }
         }
     </style>
 </head>

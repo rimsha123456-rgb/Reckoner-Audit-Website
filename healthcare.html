@@ -20,9 +20,13 @@
             inset:0;
             z-index:-2;
            background-image:url('images/healthcare-hero.jpg');
-            background-position:right top;
+            background-position:calc(100% + var(--hero-parallax-x,0px)) calc(0% + var(--hero-parallax-y,0px));
             background-size:cover;
             background-repeat:no-repeat;
+            transition:background-position .6s cubic-bezier(.22,1,.36,1);
+        }
+        @media(prefers-reduced-motion:reduce) {
+            #healthcareHero::before { transition:none; }
         }
     </style>
 </head>

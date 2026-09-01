@@ -1537,10 +1537,17 @@
     align-items:center;
     padding:190px 0 110px;
     background-color:#c4c4c4;
-    background-position:center;
+    background-position:calc(50% + var(--hero-parallax-x,0px)) calc(50% + var(--hero-parallax-y,0px));
     background-size:cover;
     background-repeat:no-repeat;
     color:var(--tax-text);
+    transition:background-position .6s cubic-bezier(.22,1,.36,1);
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .is-tax-modern .detail-hero {
+        transition:none;
+    }
 }
 
 .is-tax-modern .detail-hero::before,
