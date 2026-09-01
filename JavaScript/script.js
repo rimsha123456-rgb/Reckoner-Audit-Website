@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     initialiseHeroKinetic();
     initialisePageAnimations();
     initialiseHeroParallax();
+    initialiseAboutReveal();
+    initialiseAboutParallax();
 });
 
 function initialiseContactBranches() {
@@ -98,11 +100,9 @@ function initialisePageAnimations() {
     const revealSelectors = [
         ".stats > div",
         ".services .section-title",
-        ".service-card",
         ".about .split > *",
         ".industries h2",
         ".industries .section-intro",
-        ".industry-grid article",
         ".faq-layout > div:first-child",
         ".faq-item",
         ".insights .section-title",
@@ -145,7 +145,7 @@ function initialisePageAnimations() {
     });
 
     document.querySelectorAll(".sector-service-card").forEach(function (card, index) {
-        card.style.setProperty("--reveal-delay", `${index * 180}ms`);
+        card.style.setProperty("--reveal-delay", `${index * 250}ms`);
     });
 
     const aboutImage = document.querySelector(".about img");
@@ -261,7 +261,7 @@ function initialiseHeroKinetic() {
 
         const lineStep = 0.18;
         const lineBase = 0.08;
-        const lineCount = heading ? splitHeroHeadingLines(heading, lineBase, lineStep) : 0;
+        const lineCount = heading ? splitHeadingLines(heading, lineBase, lineStep, "hero-kinetic") : 0;
         const headingDuration = lineCount
             ? lineBase + (lineCount - 1) * lineStep + 0.9
             : lineBase;
@@ -278,12 +278,14 @@ function initialiseHeroKinetic() {
 
 /**
  * Moves each existing child node of `heading` into its own
- * .hero-kinetic-line > .hero-kinetic-line__inner, splitting on <br>
+ * <classPrefix>-line > <classPrefix>-line__inner, splitting on <br>
  * elements. Nodes are relocated (not cloned), so this only rearranges the
  * heading's existing text/markup rather than rewriting it. Returns the
- * number of lines produced.
+ * number of lines produced. Shared by the hero kinetic heading and the
+ * homepage About section heading (each with its own CSS timing under its
+ * own class prefix).
  */
-function splitHeroHeadingLines(heading, lineBase, lineStep) {
+function splitHeadingLines(heading, lineBase, lineStep, classPrefix) {
     const sourceNodes = Array.from(heading.childNodes);
     const lines = [];
     let currentNodes = [];
@@ -313,16 +315,16 @@ function splitHeroHeadingLines(heading, lineBase, lineStep) {
         return 0;
     }
 
-    heading.classList.add("hero-kinetic");
+    heading.classList.add(`${classPrefix}-heading`);
 
     const fragment = document.createDocumentFragment();
 
     lines.forEach(function (lineNodes, index) {
         const lineSpan = document.createElement("span");
-        lineSpan.className = "hero-kinetic-line";
+        lineSpan.className = `${classPrefix}-line`;
 
         const innerSpan = document.createElement("span");
-        innerSpan.className = "hero-kinetic-line__inner";
+        innerSpan.className = `${classPrefix}-line__inner`;
         innerSpan.style.setProperty(
             "--line-delay",
             `${(lineBase + index * lineStep).toFixed(2)}s`
@@ -381,6 +383,111 @@ function initialiseHeroParallax() {
             hero.style.setProperty("--hero-parallax-y", "0px");
         });
     });
+}
+
+/**
+ * "About Reckoner Audit" — scroll-triggered entrance sequence. Shared by
+ * the homepage's #about section and about_us.html's #about-reckoner
+ * section (identical markup, styled via the :is(#about, #about-reckoner)
+ * selectors in style.css). Splits the heading into .about-kinetic-line
+ * spans (same technique as the hero heading, respecting existing <br>
+ * breaks), then watches the section with an IntersectionObserver: the
+ * moment it enters the viewport it adds .home-about--revealed once,
+ * which fires the whole label → heading → visual → paragraph →
+ * checklist cascade via CSS transition-delays. A short time after that
+ * cascade finishes, .home-about--settled swaps the visual's transition
+ * back to a fast one so the parallax in initialiseAboutParallax() stays
+ * responsive.
+ */
+function initialiseAboutReveal() {
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const section = document.querySelector("#about, #about-reckoner");
+
+    if (reduceMotion || !section) {
+        return;
+    }
+
+    const heading = section.querySelector(".home-about__title");
+
+    if (heading && section.dataset.aboutKineticReady !== "true") {
+        section.dataset.aboutKineticReady = "true";
+        splitHeadingLines(heading, 0.15, 0.15, "about-kinetic");
+    }
+
+    function settle() {
+        section.classList.add("home-about--revealed");
+
+        window.setTimeout(function () {
+            section.classList.add("home-about--settled");
+        }, 1750);
+    }
+
+    if (!("IntersectionObserver" in window)) {
+        settle();
+        return;
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            settle();
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold:0.25
+    });
+
+    observer.observe(section);
+}
+
+/**
+ * Very subtle scroll parallax for the About section (homepage #about or
+ * about_us.html's #about-reckoner): nudges --about-parallax (the visual
+ * image) and --about-parallax-bg (the soft glow behind it, at a slower
+ * rate for depth) as the section moves through the viewport.
+ */
+function initialiseAboutParallax() {
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const section = document.querySelector("#about, #about-reckoner");
+
+    if (reduceMotion || !section) {
+        return;
+    }
+
+    const maxOffset = 16;
+    let ticking = false;
+
+    function update() {
+        const rect = section.getBoundingClientRect();
+        const viewportHalf = window.innerHeight / 2;
+        const sectionCentre = rect.top + rect.height / 2;
+        const range = viewportHalf + rect.height / 2;
+        const progress = range > 0
+            ? Math.max(-1, Math.min(1, (viewportHalf - sectionCentre) / range))
+            : 0;
+
+        section.style.setProperty("--about-parallax", `${(progress * maxOffset).toFixed(1)}px`);
+        section.style.setProperty("--about-parallax-bg", `${(progress * maxOffset * 0.4).toFixed(1)}px`);
+        ticking = false;
+    }
+
+    window.addEventListener("scroll", function () {
+        if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+        }
+    }, {
+        passive:true
+    });
+
+    update();
 }
 
 function initialiseContactForm() {
@@ -469,191 +576,274 @@ function initialiseLogoCarousel() {
 }
 
 function initialiseServiceCarousel() {
-    initialiseSlowCarousel({
+    initialiseInfiniteCarousel({
         trackSelector:".services-grid",
         carouselSelector:".services-carousel",
         cardSelector:".service-card",
         previousSelector:".service-arrow-left",
         nextSelector:".service-arrow-right",
-        fallbackAmount:313,
-        speed:15
+        speed:34
     });
 }
 
 function initialiseIndustryCarousel() {
-    initialiseSlowCarousel({
+    initialiseInfiniteCarousel({
         trackSelector:".industry-grid",
         carouselSelector:".industry-carousel",
         cardSelector:"article",
         previousSelector:".industry-arrow-left",
         nextSelector:".industry-arrow-right",
-        fallbackAmount:305,
-        speed:15
+        speed:34
     });
 }
 
-function initialiseSlowCarousel(options) {
-    const track = document.querySelector(options.trackSelector);
+/**
+ * Infinite, center-focused carousel shared by the "Our Services" and
+ * "Industries We Serve" rows. Cards drift continuously right-to-left;
+ * whichever card is nearest the viewport centre is scaled up/brightened
+ * while the rest settle back down. The track is looped seamlessly by
+ * cloning the original card set a few times and wrapping the scroll
+ * offset every one-set period — because every clone in a given "slot"
+ * is visually identical, the wrap can't be seen. Supports pointer/touch
+ * dragging with light momentum, pauses on hover/drag, resumes shortly
+ * after interaction, and pops whichever card is hovered.
+ */
+function initialiseInfiniteCarousel(options) {
+    const viewport = document.querySelector(options.trackSelector);
     const carousel = document.querySelector(options.carouselSelector);
     const previousButton = document.querySelector(options.previousSelector);
     const nextButton = document.querySelector(options.nextSelector);
-    const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-    let direction = 1;
-    let lastFrameTime = 0;
-    let isHovered = false;
-    let isFocused = false;
-    let isInteracting = false;
-    let autoPosition = 0;
-    let manualPauseUntil = performance.now() + 650;
 
-    if (!track || !carousel || !previousButton || !nextButton) {
+    if (!viewport || !carousel) {
         return;
     }
 
-    autoPosition = track.scrollLeft;
+    const originalCards = Array.from(viewport.children).filter(function (child) {
+        return child.matches(options.cardSelector);
+    });
 
-    function getScrollAmount() {
-        const firstCard = track.querySelector(options.cardSelector);
-        const trackStyles = window.getComputedStyle(track);
-        const gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
-
-        return firstCard ? firstCard.offsetWidth + gap : options.fallbackAmount;
+    if (!originalCards.length) {
+        return;
     }
 
-    function getMaximumScroll() {
-        return Math.max(track.scrollWidth - track.clientWidth, 0);
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const originalCount = originalCards.length;
+    const repeats = 4;
+    const allCards = originalCards.slice();
+
+    for (let copy = 1; copy < repeats; copy += 1) {
+        originalCards.forEach(function (card) {
+            const clone = card.cloneNode(true);
+
+            clone.setAttribute("aria-hidden", "true");
+            viewport.appendChild(clone);
+            allCards.push(clone);
+        });
     }
 
-    function updateArrowState() {
-        const maximumScroll = getMaximumScroll();
+    const hoverProgress = allCards.map(function () {
+        return 0;
+    });
+    let hoveredIndex = -1;
 
-        previousButton.disabled = track.scrollLeft <= 1;
-        nextButton.disabled = track.scrollLeft >= maximumScroll - 1;
+    allCards.forEach(function (card, index) {
+        card.addEventListener("mouseenter", function () {
+            hoveredIndex = index;
+        });
+        card.addEventListener("mouseleave", function () {
+            if (hoveredIndex === index) {
+                hoveredIndex = -1;
+            }
+        });
+    });
+
+    let step = options.fallbackStep || 280;
+    let period = step * originalCount;
+    let viewportCenter = viewport.clientWidth / 2;
+
+    function measure() {
+        const cardRect = originalCards[0].getBoundingClientRect();
+        const gridStyles = window.getComputedStyle(viewport);
+        const gap = parseFloat(gridStyles.getPropertyValue("--card-gap")) || 20;
+
+        step = cardRect.width + gap;
+        period = step * originalCount;
+        viewportCenter = viewport.clientWidth / 2;
     }
 
-    function updateActiveServiceCard() {
-        if (options.trackSelector !== ".services-grid") {
+    measure();
+    window.addEventListener("resize", measure);
+
+    function wrapValue(value, mod) {
+        return ((value % mod) + mod) % mod;
+    }
+
+    let offset = originalCount * step - viewportCenter + step / 2;
+    let targetOffset = offset;
+    let isHovering = false;
+    let isDragging = false;
+    let dragPointerId = null;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let lastMoveX = 0;
+    let lastMoveTime = 0;
+    let flingVelocity = 0;
+    let resumeAt = 0;
+    let lastFrameTime = 0;
+    const autoSpeed = options.speed || 34;
+
+    function pauseAutoScroll(duration) {
+        resumeAt = performance.now() + (duration || 1400);
+    }
+
+    function render() {
+        const wrapped = wrapValue(offset, period);
+
+        allCards.forEach(function (card, index) {
+            const x = index * step - wrapped;
+            const centreX = x + step / 2;
+            const distance = centreX - viewportCenter;
+            const normalised = Math.min(Math.abs(distance) / (step * 1.05), 1);
+            const eased = normalised * normalised * (3 - 2 * normalised);
+            const hoverTarget = index === hoveredIndex ? 1 : 0;
+
+            hoverProgress[index] += (hoverTarget - hoverProgress[index]) * 0.22;
+
+            const hover = hoverProgress[index];
+            const baseScale = 1.08 - eased * (1.08 - 0.85);
+            const scale = baseScale + hover * 0.08;
+            const opacity = Math.min(1, 1 - eased * 0.32 + hover * 0.32);
+            const lift = eased * 6 - hover * 4;
+
+            card.style.transform =
+                `translate3d(${x.toFixed(1)}px, calc(-50% + ${lift.toFixed(1)}px), 0) scale(${scale.toFixed(3)})`;
+            card.style.opacity = opacity.toFixed(3);
+            card.style.zIndex = String(200 - Math.round(eased * 100) + Math.round(hover * 50));
+        });
+    }
+
+    function frame(now) {
+        if (!lastFrameTime) {
+            lastFrameTime = now;
+        }
+
+        const dt = Math.min(now - lastFrameTime, 40);
+
+        lastFrameTime = now;
+
+        if (Math.abs(flingVelocity) > 0.002 && !isDragging) {
+            targetOffset += flingVelocity * dt;
+            flingVelocity *= 0.92;
+
+            if (Math.abs(flingVelocity) <= 0.002) {
+                flingVelocity = 0;
+            }
+        } else {
+            const isPaused =
+                reduceMotion || isHovering || isDragging || now < resumeAt;
+
+            if (!isPaused) {
+                targetOffset += autoSpeed * (dt / 1000);
+            }
+        }
+
+        if (isDragging || reduceMotion) {
+            offset = targetOffset;
+        } else {
+            offset += (targetOffset - offset) * 0.14;
+        }
+
+        render();
+        requestAnimationFrame(frame);
+    }
+
+    function onPointerDown(event) {
+        if (event.pointerType === "mouse" && event.button !== 0) {
             return;
         }
 
-        const trackCenter = track.getBoundingClientRect().left + track.clientWidth / 2;
-        let closestCard = null;
-        let closestDistance = Infinity;
-
-        track.querySelectorAll(options.cardSelector).forEach(function (card) {
-            const cardRect = card.getBoundingClientRect();
-            const distance = Math.abs(cardRect.left + cardRect.width / 2 - trackCenter);
-
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closestCard = card;
-            }
-        });
-
-        track.querySelectorAll(options.cardSelector).forEach(function (card) {
-            card.classList.toggle("is-active", card === closestCard);
-        });
+        isDragging = true;
+        dragPointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragStartOffset = offset;
+        lastMoveX = event.clientX;
+        lastMoveTime = performance.now();
+        flingVelocity = 0;
+        viewport.classList.add("is-dragging");
+        viewport.setPointerCapture(event.pointerId);
     }
 
-    function pauseAfterInteraction(duration) {
-        manualPauseUntil = performance.now() + (duration || 2400);
-    }
-
-    function moveByCard(moveDirection) {
-        pauseAfterInteraction();
-        track.scrollBy({
-            left:moveDirection * getScrollAmount(),
-            behavior:"smooth"
-        });
-    }
-
-    function autoScroll(currentTime) {
-        const maximumScroll = getMaximumScroll();
-        const frameDuration = Math.min(currentTime - lastFrameTime, 34);
-        const isPaused =
-            reduceMotion ||
-            isHovered ||
-            isFocused ||
-            isInteracting ||
-            currentTime < manualPauseUntil ||
-            maximumScroll <= 1;
-
-        if (!isPaused && lastFrameTime) {
-            autoPosition += direction * options.speed * (frameDuration / 1000);
-
-            if (autoPosition >= maximumScroll) {
-                autoPosition = maximumScroll;
-                direction = -1;
-            } else if (autoPosition <= 0) {
-                autoPosition = 0;
-                direction = 1;
-            }
-
-            track.scrollLeft = autoPosition;
-        } else {
-            autoPosition = track.scrollLeft;
+    function onPointerMove(event) {
+        if (!isDragging || event.pointerId !== dragPointerId) {
+            return;
         }
 
-        lastFrameTime = currentTime;
-        window.requestAnimationFrame(autoScroll);
-    }
+        const delta = event.clientX - dragStartX;
 
-    previousButton.addEventListener("click", function () {
-        moveByCard(-1);
-    });
-    nextButton.addEventListener("click", function () {
-        moveByCard(1);
-    });
-    track.addEventListener("scroll", updateArrowState, {
-        passive:true
-    });
-    track.addEventListener("scroll", updateActiveServiceCard, {
-        passive:true
-    });
-    carousel.addEventListener("mouseenter", function () {
-        isHovered = true;
-    });
-    carousel.addEventListener("mouseleave", function () {
-        isHovered = false;
-        pauseAfterInteraction(900);
-    });
-    carousel.addEventListener("focusin", function () {
-        isFocused = true;
-    });
-    carousel.addEventListener("focusout", function () {
-        isFocused = false;
-        pauseAfterInteraction(900);
-    });
-    track.addEventListener("pointerdown", function () {
-        isInteracting = true;
-    }, {
-        passive:true
-    });
-    window.addEventListener("pointerup", function () {
-        if (isInteracting) {
-            isInteracting = false;
-            pauseAfterInteraction();
+        offset = dragStartOffset - delta;
+        targetOffset = offset;
+
+        const now = performance.now();
+        const dt = now - lastMoveTime;
+
+        if (dt > 0) {
+            flingVelocity = -((event.clientX - lastMoveX) / dt);
         }
-    }, {
-        passive:true
-    });
-    track.addEventListener("wheel", function () {
-        pauseAfterInteraction();
-    }, {
-        passive:true
-    });
-    window.addEventListener("resize", updateArrowState);
-    window.addEventListener("resize", updateActiveServiceCard);
 
-    updateArrowState();
-    updateActiveServiceCard();
-
-    if (!reduceMotion) {
-        window.requestAnimationFrame(autoScroll);
+        lastMoveX = event.clientX;
+        lastMoveTime = now;
     }
+
+    function endDrag(event) {
+        if (!isDragging || (event && event.pointerId !== dragPointerId)) {
+            return;
+        }
+
+        isDragging = false;
+        dragPointerId = null;
+        viewport.classList.remove("is-dragging");
+        pauseAutoScroll(1200);
+    }
+
+    viewport.addEventListener("pointerdown", onPointerDown);
+    viewport.addEventListener("pointermove", onPointerMove);
+    viewport.addEventListener("pointerup", endDrag);
+    viewport.addEventListener("pointercancel", endDrag);
+    viewport.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+    });
+
+    viewport.addEventListener("mouseenter", function () {
+        isHovering = true;
+    });
+
+    viewport.addEventListener("mouseleave", function () {
+        isHovering = false;
+        pauseAutoScroll(500);
+    });
+
+    if (previousButton) {
+        previousButton.addEventListener("click", function () {
+            flingVelocity = 0;
+            targetOffset -= step;
+            pauseAutoScroll(1600);
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener("click", function () {
+            flingVelocity = 0;
+            targetOffset += step;
+            pauseAutoScroll(1600);
+        });
+    }
+
+    render();
+    requestAnimationFrame(frame);
 }
+
 
 async function loadComponent(componentPath, containerId) {
     const container = document.getElementById(containerId);
