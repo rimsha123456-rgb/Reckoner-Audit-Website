@@ -1153,6 +1153,10 @@
     .detail-sidebar {
         position:static;
     }
+
+    .detail-article-card {
+        padding:36px 30px;
+    }
 }
 
 @media(max-width:640px) {
@@ -1542,6 +1546,13 @@
     background-repeat:no-repeat;
     color:var(--tax-text);
     transition:background-position .6s cubic-bezier(.22,1,.36,1);
+}
+
+@media(max-width:960px) {
+    .is-tax-modern .detail-hero {
+        min-height:600px;
+        padding:170px 0 100px;
+    }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -2026,6 +2037,10 @@
     }
 
     .is-tax-modern .rk-stairs-plot {
-        height:170px;
+        height:230px;
+    }
+
+    .is-tax-modern .rk-stair span {
+        font-size:.6rem;
     }
 }

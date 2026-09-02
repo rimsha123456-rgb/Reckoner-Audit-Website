@@ -54,6 +54,11 @@ function initialiseChooseMedia() {
     }
 
     function syncHeight() {
+        if (window.innerWidth <= 800) {
+            media.style.height = "";
+            return;
+        }
+
         media.style.height = `${Math.min(content.offsetHeight, 680)}px`;
     }
 

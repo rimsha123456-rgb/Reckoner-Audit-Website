@@ -646,7 +646,17 @@
     }
 }
 
+@media(max-width:1080px) {
+    .sector-services__grid {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+}
+
 @media(max-width:900px) {
+    .sector-landscape .sector-section-head h2 {
+        white-space:normal;
+    }
+
     .sector-landscape__line {
         flex-wrap:wrap;
         row-gap:46px;

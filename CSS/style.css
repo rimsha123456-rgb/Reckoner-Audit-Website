@@ -611,7 +611,7 @@ a {
     }
 
 .hero h1 {
-        font: size 56px;
+        font-size:52px
     }
 
     .stats {
@@ -648,7 +648,7 @@ a {
     }
 
     .scroll-badge {
-        bottom:0;
+        bottom:120px;
         width:96px;
         height:96px;
         border-width:6px;
@@ -687,7 +687,9 @@ a {
     }
 
 .hero {
-        height:720px;
+        height:auto;
+        min-height:950px;
+        padding:150px 0 180px;
         background-position:66% center
     }
 
@@ -697,7 +699,7 @@ a {
 
 .hero-copy {
         width:100%;
-        margin-top:-80px
+        margin-top:0
     }
 
 .hero h1 {
@@ -722,11 +724,11 @@ a {
     }
 
 .scroll-badge {
-        bottom:-38px
+        bottom:20px
     }
 
 .services {
-        padding-top:235px
+        padding-top:170px
     }
 
 .services-grid,.industry-grid,.insight-grid {
@@ -2166,7 +2168,7 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
 }
 
 .faq-item.active .faq-answer {
-    max-height:170px;
+    max-height:600px;
     padding:0 20px 20px;
 }
 
@@ -2328,11 +2330,40 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
     }
 
     .hero h1 {
-        font: size 56px;
+        font-size:52px;
     }
 
     .hero-actions {
         margin-top:32px;
+    }
+
+    .stats {
+        grid-template-columns:repeat(2,1fr);
+        height:auto;
+        bottom:-85px;
+        padding:70px 16px 16px;
+        gap:24px 50px;
+        border-radius:20px;
+        overflow:hidden;
+        background:linear-gradient(180deg,#eb1b3b 0%,#f55c3c 50%,#ff9d3c 100%);
+        -webkit-mask-image:radial-gradient(circle 46px at 50% 0,transparent 99%,#000 100%);
+        mask-image:radial-gradient(circle 46px at 50% 0,transparent 99%,#000 100%);
+    }
+
+    .stats>div {
+        padding:12px 22px;
+    }
+
+    .stats>div:nth-child(2) {
+        border:0;
+    }
+
+    .stats strong {
+        font-size:36px;
+    }
+
+    .stats span {
+        font-size:14px;
     }
 
     .services {
@@ -2342,6 +2373,11 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
     .industry-grid,
     .insight-grid {
         grid-template-columns:repeat(2,1fr);
+    }
+
+    .faq-layout {
+        grid-template-columns:1fr;
+        gap:40px;
     }
 
     .about,
@@ -2371,7 +2407,23 @@ body:not(.about-page-body):not(.services-page-body) .about .home-about__visual>i
     }
 
     .hero h1 {
-        font: size 56px;
+        font-size:38px;
+    }
+
+    .scroll-badge {
+        display:none;
+    }
+
+    .stats {
+        bottom:-90px;
+        grid-template-columns:1fr 1fr;
+        padding:24px 16px;
+        -webkit-mask-image:none;
+        mask-image:none;
+    }
+
+    .stats strong {
+        font-size:28px;
     }
 
     .section-title,
