@@ -1088,6 +1088,10 @@ function initialiseActiveNav() {
         currentFile = "index.html";
     }
 
+    if (["job-details.html", "job-application.html"].includes(currentFile)) {
+        currentFile = "careers.html";
+    }
+
     function fileOf(href) {
         return decodeURIComponent(
             href.split("#")[0].split("?")[0].split("/").pop()

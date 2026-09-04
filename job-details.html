@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View an open position at Reckoner Audit, including responsibilities, requirements and benefits.">
+    <title>Job Details | Careers | Reckoner Audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/service-hub.css">
+    <link rel="stylesheet" href="./CSS/careers.css">
+</head>
+<body class="careers-page career-detail-page">
+    <div id="header-container"></div>
+
+    <main data-job-detail>
+        <section class="hub-hero career-standard-hero career-standard-hero--detail" style="background-image:url('images/audit-services.jpg')">
+            <div class="hub-hero__backdrop"></div>
+            <div class="hub-shell hub-hero__content">
+                <a class="career-back-link career-back-link--dark" href="careers.html#open-positions"><span aria-hidden="true">←</span> Back to open positions</a>
+                <p class="hub-kicker" data-job-department></p>
+                <h1>Your Next Role<br><span data-job-title>Job Details</span></h1>
+                <p class="hub-hero__lead">Explore the responsibilities, experience and opportunities that come with this position.</p>
+                <div class="hub-hero__actions">
+                    <a class="hub-btn hub-btn--dark" data-apply-link href="job-application.html">Apply now <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="career-role-overview">
+            <div class="career-shell">
+                <div class="career-role-meta" data-job-meta></div>
+                <div class="career-role-layout">
+                    <article class="career-role-content">
+                        <section>
+                            <h2>About the Role</h2>
+                            <p class="career-role-lead" data-job-summary></p>
+                        </section>
+                        <section>
+                            <h2>Key Responsibilities</h2>
+                            <ul class="career-check-list" data-responsibilities></ul>
+                        </section>
+                        <section>
+                            <h2>Requirements</h2>
+                            <ul class="career-check-list" data-requirements></ul>
+                        </section>
+                        <section>
+                            <h2>Qualifications</h2>
+                            <ul class="career-check-list" data-qualifications></ul>
+                        </section>
+                    </article>
+
+                    <aside class="career-apply-card">
+                        <p>Interested in this role?</p>
+                        <h2>Take the next step in your career.</h2>
+                        <div class="career-apply-card__deadline"><span>Application deadline</span><strong data-job-deadline></strong></div>
+                        <a class="career-button career-button--dark" data-apply-link href="job-application.html">Apply now <span aria-hidden="true">→</span></a>
+                        <small>Your application typically takes 8–10 minutes.</small>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section class="career-benefits-section">
+            <div class="career-shell">
+                <div class="career-section-heading">
+                    <div><p class="career-eyebrow">Your experience</p><h2>What We <span>Offer</span></h2></div>
+                    <p>Build your expertise in an environment shaped by high standards, meaningful support and shared success.</p>
+                </div>
+                <div class="career-benefit-grid" data-benefits></div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="footer-container"></div>
+    <script src="./JavaScript/script.js"></script>
+    <script src="./JavaScript/careers-data.js"></script>
+    <script src="./JavaScript/careers.js"></script>
+</body>
+</html>

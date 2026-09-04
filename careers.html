@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore careers in audit, assurance, tax and advisory at Reckoner Audit and find your next opportunity.">
+    <title>Careers &amp; Open Positions | Reckoner Audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/service-hub.css">
+    <link rel="stylesheet" href="./CSS/careers.css">
+</head>
+<body class="careers-page">
+    <div id="header-container"></div>
+
+    <main>
+        <section class="hub-hero career-standard-hero" style="background-image:url('images/business-services-hero.jpg')">
+            <div class="hub-hero__backdrop"></div>
+            <div class="hub-shell hub-hero__content">
+                <p class="hub-kicker">Careers</p>
+                <h1>Build Your Career<br><span>With Us</span></h1>
+                <p class="hub-hero__lead">Join our team and grow your career in audit, assurance, tax and advisory while working alongside experienced professionals.</p>
+                <div class="hub-hero__actions">
+                    <a class="hub-btn hub-btn--dark" href="#open-positions">View open positions <span aria-hidden="true">↓</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="career-openings" id="open-positions">
+            <div class="career-shell">
+                <div class="career-section-heading">
+                    <div>
+                        <p class="career-eyebrow">Open positions</p>
+                        <h2>Explore Career <span>Opportunities</span></h2>
+                        <p>Discover opportunities to grow, learn and make an impact with our team.</p>
+                    </div>
+                    <p class="career-opening-count" data-job-count aria-live="polite"></p>
+                </div>
+
+                <div class="career-filter-panel" aria-label="Filter open positions">
+                    <label class="career-search">
+                        <span>Search by job title</span>
+                        <span class="career-search__control">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                            <input type="search" data-job-search placeholder="e.g. Senior Auditor">
+                        </span>
+                    </label>
+                    <label><span>Department</span><select data-filter-department><option value="">All departments</option><option>Audit &amp; Assurance</option><option>Tax &amp; Advisory</option><option>Finance &amp; Accounts</option></select></label>
+                    <label><span>Location</span><select data-filter-location><option value="">All locations</option></select></label>
+                    <label><span>Job type</span><select data-filter-type><option value="">All job types</option><option>Full-time</option><option>Internship</option></select></label>
+                    <label><span>Experience level</span><select data-filter-level><option value="">All levels</option><option>Entry Level</option><option>Mid Level</option><option>Senior Level</option></select></label>
+                    <button class="career-filter-reset" type="button" data-filter-reset>Reset filters</button>
+                </div>
+
+                <div class="career-job-grid" data-job-list></div>
+                <div class="career-empty" data-jobs-empty hidden>
+                    <span aria-hidden="true">⌕</span>
+                    <h3>No positions match your search</h3>
+                    <p>Try adjusting or resetting your filters to see other opportunities.</p>
+                    <button type="button" data-filter-reset>Reset filters</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="footer-container"></div>
+    <script src="./JavaScript/script.js"></script>
+    <script src="./JavaScript/careers-data.js"></script>
+    <script src="./JavaScript/careers.js"></script>
+</body>
+</html>

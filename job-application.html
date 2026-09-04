@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apply for an open position at Reckoner Audit.">
+    <title>Apply for a Position | Reckoner Audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/service-hub.css">
+    <link rel="stylesheet" href="./CSS/careers.css">
+</head>
+<body class="careers-page career-application-page">
+    <div id="header-container"></div>
+
+    <main>
+        <section class="hub-hero career-standard-hero career-standard-hero--application" data-application-hero style="background-image:url('images/job-application-hero.png')">
+            <div class="hub-hero__backdrop"></div>
+            <div class="hub-shell hub-hero__content">
+                <p class="hub-kicker">Careers at Reckoner</p>
+                <h1>Apply for this<br><span>Position</span></h1>
+                <p class="hub-hero__lead">Share your experience and ambitions with us. Our recruitment team looks forward to learning more about you.</p>
+                <div class="hub-hero__actions">
+                    <a class="hub-btn hub-btn--dark" href="#application-form">Start application <span aria-hidden="true">↓</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="career-application" id="application-form" data-application-panel>
+            <div class="career-shell career-application__heading">
+                <a class="career-back-link career-back-link--dark" data-back-to-job href="careers.html"><span aria-hidden="true">←</span> Back to job details</a>
+                <h1>Tell Us About <span>Yourself</span></h1>
+                <p>Complete the form below. Required fields are marked with an asterisk (*).</p>
+            </div>
+
+            <form class="career-form career-shell" data-application-form novalidate>
+                <input type="hidden" name="position">
+
+                <fieldset class="career-form-section">
+                    <legend><span>01</span><strong>Your Details</strong></legend>
+                    <div class="career-form-grid">
+                        <label class="career-field"><span>First Name *</span><input type="text" name="fullName" autocomplete="given-name" placeholder="Your first name" required><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Last Name *</span><input type="text" name="lastName" autocomplete="family-name" placeholder="Your last name" required><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Email Address *</span><input type="email" name="email" autocomplete="email" placeholder="name@example.com" required><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Phone Number *</span><input type="tel" name="phone" autocomplete="tel" placeholder="+92 300 0000000" required><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>LinkedIn / Portfolio</span><input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>City / Location</span><input type="text" name="city" autocomplete="address-level2" placeholder="Your current city"><small class="career-field__error"></small></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="career-form-section">
+                    <legend><span>02</span><strong>Professional Experience</strong></legend>
+                    <div class="career-form-grid">
+                        <label class="career-field"><span>Total Professional Experience *</span><select name="totalExperience" required><option value="">Select experience</option><option>Less than 1 year</option><option>1–2 years</option><option>2–4 years</option><option>5–7 years</option><option>8+ years</option></select><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Current Job Role</span><input type="text" name="currentRole" placeholder="Your current title"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Current Company</span><input type="text" name="currentCompany" placeholder="Company name"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Current Employment Status</span><select name="employmentStatus"><option value="">Select status</option><option>Employed</option><option>Self-employed</option><option>Student</option><option>Not currently employed</option></select><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Previous Experience</span><input type="text" name="previousExperience" placeholder="Most relevant previous role"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Notice Period</span><select name="noticePeriod"><option value="">Select notice period</option><option>Available immediately</option><option>2 weeks</option><option>1 month</option><option>2 months</option><option>3 months or more</option></select><small class="career-field__error"></small></label>
+                    </div>
+                    <div class="career-form-subsection" data-audit-fields>
+                        <h3>Audit Experience</h3>
+                        <div class="career-form-grid">
+                            <label class="career-field"><span>Current Professional Qualification</span><select name="currentProfessionalQualification"><option value="">Select qualification</option><option>ACCA</option><option>CA</option><option>ACA</option><option>CIMA</option><option>Other</option><option>Not currently enrolled</option></select><small class="career-field__error"></small></label>
+                            <label class="career-field"><span>Professional Qualification Status</span><select name="professionalStatus"><option value="">Select status</option><option>Qualified</option><option>Part-qualified</option><option>Finalist</option><option>Student</option><option>Not applicable</option></select><small class="career-field__error"></small></label>
+                            <label class="career-field career-field--wide"><span>Relevant Audit Experience</span><textarea name="auditExperience" rows="4" placeholder="Briefly describe the audit engagements, sectors and responsibilities most relevant to this role."></textarea><small class="career-field__error"></small></label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="career-form-section">
+                    <legend><span>03</span><strong>Education &amp; Qualifications</strong></legend>
+                    <div class="career-form-grid">
+                        <label class="career-field"><span>Highest Qualification *</span><select name="highestQualification" required><option value="">Select qualification</option><option>Intermediate / A Levels</option><option>Bachelor’s Degree</option><option>Master’s Degree</option><option>Professional Qualification</option><option>Other</option></select><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Degree / Program</span><input type="text" name="degree" placeholder="e.g. BSc Accounting & Finance"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Institute / University</span><input type="text" name="institute" placeholder="Institution name"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Graduation Year</span><input type="number" name="graduationYear" min="1970" max="2035" inputmode="numeric" placeholder="2024"><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Professional Qualification</span><select name="qualification"><option value="">Select qualification</option><option>ACCA</option><option>CA</option><option>ACA</option><option>CIMA</option><option>Other</option><option>None</option></select><small class="career-field__error"></small></label>
+                        <label class="career-field"><span>Qualification Details</span><input type="text" name="qualificationDetails" placeholder="Status, level or membership"><small class="career-field__error"></small></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="career-form-section career-form-section--application">
+                    <legend><span>04</span><strong>Cover Letter &amp; CV</strong></legend>
+                    <div class="career-form-grid">
+                        <label class="career-upload career-field--wide">
+                            <span>CV / Resume Upload *</span>
+                            <span class="career-upload__box">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 14v5h14v-5"/></svg>
+                                <strong data-file-name>Choose a PDF, DOC or DOCX</strong>
+                                <small>Maximum file size: 10 MB</small>
+                                <em data-file-state></em>
+                            </span>
+                            <input type="file" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+                            <small class="career-field__error"></small>
+                        </label>
+                        <label class="career-field career-field--wide career-cover-letter"><span>Cover Letter</span><textarea name="coverLetter" rows="7" placeholder="Tell us why this opportunity interests you and what you would bring to the role."></textarea><small class="career-field__error"></small></label>
+                        <label class="career-field career-field--wide"><span>Additional Information</span><textarea name="additionalInformation" rows="4" placeholder="Share anything else you would like our recruitment team to know."></textarea><small class="career-field__error"></small></label>
+                    </div>
+                    <label class="career-consent"><input type="checkbox" name="confirmation" required><span>I confirm that the information provided is accurate. *</span><small class="career-field__error"></small></label>
+                </fieldset>
+
+                <div class="career-form-submit">
+                    <div><span>Privacy notice</span><p>We will use your information only to assess and manage your application.</p></div>
+                    <button class="career-button career-button--dark" type="submit">Submit application <span aria-hidden="true">→</span></button>
+                    <p class="career-form-status" data-form-status aria-live="polite"></p>
+                </div>
+            </form>
+        </section>
+
+        <section class="career-success" data-application-success tabindex="-1" hidden>
+            <div class="career-success__mark" aria-hidden="true"><span>✓</span></div>
+            <p class="career-eyebrow">Application received</p>
+            <h1>Application Submitted <span>Successfully</span></h1>
+            <p>Thank you for your interest in joining our team. We have received your application for <strong data-success-job></strong> and our recruitment team will review your profile. If your experience and qualifications match our requirements, we will be in touch.</p>
+            <a class="career-button career-button--dark" href="careers.html#open-positions">Back to careers <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+    <script src="./JavaScript/script.js"></script>
+    <script src="./JavaScript/careers-data.js"></script>
+    <script src="./JavaScript/careers.js"></script>
+</body>
+</html>
